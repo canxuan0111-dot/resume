@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OpenClaw vs ReAct vs 多 Agent 编排 | 图文总结</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.75;
+      color: #243447;
+      background: linear-gradient(135deg, #0f172a 0%, #1d4ed8 100%);
+      min-height: 100vh;
+      padding: 32px 16px;
+    }
+    .wrap {
+      max-width: 920px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,.28);
+    }
+    .hero {
+      background: linear-gradient(135deg, #111827 0%, #1e3a8a 100%);
+      color: #fff;
+      padding: 52px 36px;
+      text-align: center;
+    }
+    .hero .emoji { font-size: 52px; margin-bottom: 14px; }
+    .hero h1 { font-size: 2rem; margin-bottom: 10px; }
+    .hero p { opacity: .92; }
+    .content { padding: 42px 32px; }
+    h2 {
+      font-size: 1.45rem;
+      color: #0f172a;
+      margin: 34px 0 18px;
+      border-left: 5px solid #2563eb;
+      padding-left: 12px;
+    }
+    h3 { font-size: 1.15rem; margin: 22px 0 10px; color: #1e293b; }
+    p { margin-bottom: 12px; color: #334155; }
+    .card {
+      background: linear-gradient(135deg, #eff6ff 0%, #e0e7ff 100%);
+      border: 1px solid #bfdbfe;
+      border-radius: 14px;
+      padding: 18px 18px;
+      margin: 14px 0;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+      margin: 16px 0;
+    }
+    .mini {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .mini .title { font-weight: 700; margin-bottom: 8px; color: #0f172a; }
+    pre {
+      background: #0b1020;
+      color: #dbeafe;
+      border-radius: 12px;
+      padding: 16px;
+      overflow: auto;
+      font-size: .9rem;
+      line-height: 1.55;
+      margin: 14px 0;
+    }
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+      font-size: .95rem;
+    }
+    .table th, .table td {
+      border: 1px solid #e2e8f0;
+      padding: 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+    .table th { background: #eff6ff; color: #1e3a8a; }
+    .quote {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      color: #f8fafc;
+      border-radius: 14px;
+      padding: 22px;
+      margin-top: 22px;
+      font-size: 1rem;
+    }
+    .footer {
+      background: #f8fafc;
+      text-align: center;
+      color: #64748b;
+      font-size: .9rem;
+      padding: 24px;
+    }
+    @media (max-width: 640px) {
+      .hero { padding: 38px 20px; }
+      .hero h1 { font-size: 1.5rem; }
+      .content { padding: 30px 18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <div class="emoji">🧭</div>
+      <h1>OpenClaw vs ReAct vs 多 Agent 编排</h1>
+      <p>一页搞懂：思维范式、工程系统、协作模式的边界与关系</p>
+    </header>
+
+    <main class="content">
+      <h2>① 三层架构图（先建立全局视角）</h2>
+      <pre>┌──────────────────────────────────────────────────────────────┐
+│                    业务目标层（要完成什么）                   │
+│   求职信息追踪 / 学习提醒 / 自动总结 / 客服流程 / 数据处理      │
+└──────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌──────────────────────────────────────────────────────────────┐
+│                Agent 决策层（怎么想、怎么决定）               │
+│                      ReAct / Plan-Act / CoT                  │
+│   Thought → Action(tool) → Observation → Thought ...         │
+└──────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌──────────────────────────────────────────────────────────────┐
+│           Agent 运行系统层（OpenClaw 工程底座）               │
+│ Sessions | Tools | Cron | Messaging | Subagents | Memory     │
+│ Gateway  | Channel Routing | Background Jobs | Isolation      │
+└──────────────────────────────────────────────────────────────┘</pre>
+
+      <div class="card"><strong>一句话：</strong>ReAct 是“怎么思考”，OpenClaw 是“怎么长期稳定运行并协作”。</div>
+
+      <h2>② 组件拆解：OpenClaw 到底包含什么？</h2>
+      <div class="grid">
+        <div class="mini"><div class="title">🧠 会话与模型层</div>Session 上下文、模型选择、推理强度、主会话与隔离会话。</div>
+        <div class="mini"><div class="title">🛠️ 工具执行层</div>文件读写、Shell、浏览器自动化、消息、系统控制等。</div>
+        <div class="mini"><div class="title">🧩 编排层</div>子 Agent 调度、跨会话通信、后台任务、状态回传。</div>
+        <div class="mini"><div class="title">⏰ 调度层</div>Cron 定时触发 + Heartbeat 周期检查。</div>
+        <div class="mini"><div class="title">📬 渠道路由层</div>Telegram / WhatsApp / Discord 等统一消息入口出口。</div>
+        <div class="mini"><div class="title">📚 记忆层</div>短期上下文 + 文件化长期记忆（可持续迭代）。</div>
+      </div>
+
+      <h2>③ ReAct 和 OpenClaw 的核心区别</h2>
+      <table class="table">
+        <thead>
+          <tr><th>维度</th><th>ReAct</th><th>OpenClaw</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>定位</td><td>推理/行动范式</td><td>Agent 工程化运行系统</td></tr>
+          <tr><td>关注点</td><td>单轮决策质量</td><td>全链路稳定执行与协作</td></tr>
+          <tr><td>时间尺度</td><td>短链路、当前任务</td><td>长期运行、异步回传</td></tr>
+          <tr><td>多 Agent</td><td>不定义</td><td>原生支持子 Agent 编排</td></tr>
+          <tr><td>定时任务</td><td>不自带</td><td>Cron/Heartbeat 原生</td></tr>
+          <tr><td>消息路由</td><td>不定义</td><td>多渠道统一路由</td></tr>
+        </tbody>
+      </table>
+
+      <h2>④ 二者关系：不是替代，而是嵌套</h2>
+      <pre>用户提出任务
+  ↓
+OpenClaw Session 接收并维护上下文
+  ↓
+当前轮由 LLM 采用 ReAct 进行决策
+  ↓
+Action: 调用工具（读文件/浏览器/执行命令）
+  ↓
+Observation: 获取结果并继续推理
+  ↓
+需要拆分时：spawn 子 Agent 并行处理
+  ↓
+结果汇总后通过消息渠道回传
+  ↓
+关键信息写入长期记忆</pre>
+
+      <h2>⑤ 场景例子（面试高频）</h2>
+      <div class="card">
+        <strong>场景：</strong>“每天 9:00 提醒学习 + 自动总结昨天进度”<br/>
+        - 仅 ReAct：只能帮助决定“下一步调用哪个工具”。<br/>
+        - 用 OpenClaw：可定时触发、读取进度、总结、发送消息、写回记忆，形成完整自动化闭环。
+      </div>
+
+      <div class="quote">
+        <strong>30 秒面试答法：</strong><br/>
+        ReAct 是 Agent 的决策范式，强调 Thought-Action-Observation 循环；
+        OpenClaw 是工程化运行平台，提供会话、工具、调度、子 Agent 协作与消息路由。
+        两者不是替代关系，而是分层协同：ReAct 负责“智能决策”，OpenClaw 负责“生产落地”。
+      </div>
+    </main>
+
+    <footer class="footer">
+      由 Archie 整理 · 适合直接用于学习笔记 / 面试表达 / 项目文档
+    </footer>
+  </div>
+</body>
+</html>

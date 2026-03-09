@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>full｜T级互动完整复盘（视觉设计版）</title>
+  <style>
+    :root {
+      --bg: #f4f6fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --sub: #6b7280;
+      --line: #e5e7eb;
+      --brand: #2563eb;
+      --brand-weak: #eff6ff;
+      --ok: #065f46;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: radial-gradient(1000px 500px at 90% -20%, #dbeafe 0%, var(--bg) 55%);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft Yahei", sans-serif;
+      line-height: 1.75;
+    }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 28px 20px 80px; }
+    .hero, .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; }
+    .hero { padding: 24px; margin-bottom: 14px; }
+    .card { padding: 20px; margin-bottom: 14px; }
+    h1 { margin: 0 0 8px; font-size: 32px; }
+    h2 { margin: 0 0 12px; font-size: 24px; }
+    h3 { margin: 12px 0 8px; font-size: 18px; }
+    .sub { color: var(--sub); }
+    .toc a {
+      display: inline-block;
+      margin: 6px 10px 0 0;
+      padding: 6px 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: var(--text);
+      text-decoration: none;
+      background: #fff;
+    }
+    .toc a:hover { border-color: var(--brand); color: var(--brand); }
+    .meta { display: grid; grid-template-columns: 120px 1fr; gap: 6px 12px; }
+    .meta div:nth-child(odd) { color: var(--sub); }
+    .pill { display: inline-block; font-size: 12px; border: 1px solid #bfdbfe; color: #1d4ed8; background: #eff6ff; border-radius: 999px; padding: 2px 10px; margin-right: 6px; }
+
+    ul { margin: 8px 0 0 20px; }
+
+    .project-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .gallery figure { margin: 0; background: #f9fafb; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+    .gallery img { width: 100%; display: block; aspect-ratio: 16/10; object-fit: cover; }
+    .gallery figcaption { font-size: 12px; color: var(--sub); padding: 6px 8px; }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .kpi {
+      border: 1px solid #dbeafe;
+      background: var(--brand-weak);
+      border-radius: 10px;
+      padding: 10px;
+    }
+    .kpi b { display: block; color: #1e3a8a; font-size: 13px; margin-bottom: 4px; }
+    .kpi span { font-size: 14px; color: #1f2937; }
+
+    .evi {
+      margin-top: 12px;
+      border-left: 3px solid var(--brand);
+      background: #f8fbff;
+      padding: 10px 12px;
+      font-size: 14px;
+      color: #374151;
+    }
+
+    .result-note {
+      margin-top: 8px;
+      font-size: 13px;
+      color: var(--ok);
+    }
+
+    @media (max-width: 900px) {
+      .kpi-grid { grid-template-columns: 1fr 1fr; }
+      .gallery { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .kpi-grid { grid-template-columns: 1fr; }
+      .meta { grid-template-columns: 84px 1fr; }
+    }
+  </style>
+</head>
+<body>
+<main class="wrap">
+  <section class="hero">
+    <h1>T级互动完整复盘（full）</h1>
+    <p class="sub">视觉设计版｜在原 full 信息不删减基础上，完成排版、配色、字体、卡片、插图位增强</p>
+    <div class="meta">
+      <div>项目范围</div><div>热爱穿行记（双11）｜热爱奇旅（618）｜炸年兽（年货节）</div>
+      <div>口径状态</div><div>不含“我要当老板”；618统一为“热爱奇旅”</div>
+      <div>方法基线</div><div>目标拆解 + 游戏化机制 + 埋点验证 + 复盘迭代</div>
+    </div>
+  </section>
+
+  <section class="card toc">
+    <h2>目录</h2>
+    <a href="#overview">总览</a>
+    <a href="#p1">热爱穿行记</a>
+    <a href="#p2">热爱奇旅</a>
+    <a href="#p3">炸年兽</a>
+    <a href="#method">跨项目方法论</a>
+  </section>
+
+  <section class="card" id="overview">
+    <h2>总览：三次项目共同解决的问题</h2>
+    <ul>
+      <li>在大促高流量场景下，提升参与深度与复访粘性，而非一次性点击。</li>
+      <li>将设计动作映射到可验证指标（参与UV、分享UV、复访、DAU等）。</li>
+      <li>沉淀可复制框架：策略设计 → 交互/视觉落地 → 埋点验证 → 迭代复盘。</li>
+    </ul>
+    <div class="gallery" style="margin-top:14px;">
+      <figure>
+        <img src="./assets/summary-指标.png" alt="指标截图" />
+        <figcaption>资料截图：三次大促关键指标与职责口径</figcaption>
+      </figure>
+      <figure>
+        <img src="./assets/p2-奇旅-图2.png" alt="互动场景截图" />
+        <figcaption>资料截图：互动场景与玩法呈现示意</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="card" id="p1">
+    <div class="project-head">
+      <h2>项目一｜热爱穿行记（双11）</h2>
+      <div><span class="pill">古风穿越</span><span class="pill">长线粘性</span></div>
+    </div>
+
+    <h3>背景与目标</h3>
+    <ul>
+      <li>目标：提升累计参与UV、分享UV、活动长线粘性。</li>
+      <li>挑战：长周期活动中，如何让用户持续回来而不是一次性流失。</li>
+    </ul>
+
+    <h3>策略设计</h3>
+    <ul>
+      <li>以“古风穿越”主题建立叙事记忆点（不是炸年兽），增强故事驱动参与。</li>
+      <li>搭建游戏化核心循环：任务获取资源 → 抽奖/推进进度 → 解锁新内容 → 再投入。</li>
+      <li>强化主操作反馈：自增长、抽奖、穿越等节点即时反馈，提升行为确定感。</li>
+      <li>通过角色状态与任务触发机制提升复访/裂变相关行为（召回、回流、持续玩）。</li>
+      <li>设置阶段目标与进度感（章节/朝代/里程碑），降低中途流失。</li>
+    </ul>
+
+    <h3>执行重点</h3>
+    <ul>
+      <li>把玩法、交互、视觉并线推进，减少链路断层。</li>
+      <li>围绕关键行为节点持续优化反馈，增强“继续玩”的动机。</li>
+    </ul>
+
+    <h3>数据结果（已从提取文本识别）</h3>
+    <div class="kpi-grid">
+      <div class="kpi"><b>累计分享UV</b><span>2866w（同比 +13.3%）</span></div>
+      <div class="kpi"><b>签到总人数</b><span>同比 +173%（环比 +168%）</span></div>
+      <div class="kpi"><b>满23天签到用户</b><span>同比 +167.3%（环比 +32.1%）</span></div>
+      <div class="kpi"><b>用户反馈</b><span>穿越主题与角色互动意愿较强</span></div>
+    </div>
+    <p class="result-note">说明：上述来自“热爱穿行记复盘”相关段落与汇报提取文本，建议你最终再按业务口径做一次核对。</p>
+
+    <div class="gallery">
+      <figure>
+        <img src="./assets/p1-穿行记-古风.jpeg" alt="热爱穿行记古风素材" />
+        <figcaption>穿行记素材：古风穿越视觉元素</figcaption>
+      </figure>
+      <figure>
+        <img src="./assets/p1-穿行记-数据.jpeg" alt="热爱穿行记数据素材" />
+        <figcaption>穿行记素材：阶段数据与策略结果页</figcaption>
+      </figure>
+    </div>
+
+    <div class="evi">证据（内部）：热爱穿行记-汇报部分、2022穿越、热爱穿行记策略系列图片/视频OCR、周报“热爱穿行记复盘”段落。</div>
+  </section>
+
+  <section class="card" id="p2">
+    <div class="project-head">
+      <h2>项目二｜热爱奇旅（618）</h2>
+      <div><span class="pill">权重拆解</span><span class="pill">可验证增长</span></div>
+    </div>
+
+    <h3>背景与目标</h3>
+    <ul>
+      <li>目标：提升参与规模与互动粘性，并建立可量化验证路径。</li>
+      <li>挑战：设计价值容易“可感知但难量化”。</li>
+    </ul>
+
+    <h3>策略设计</h3>
+    <ul>
+      <li>拆解参与/任务/发起/分享四条主路径，建立权重框架。</li>
+      <li>将游戏化机制映射到各路径：任务阶梯、阶段奖励、可视进度、峰值反馈。</li>
+      <li>结合变量奖励与关键时段触发，提升短中期活跃与回访。</li>
+      <li>策略动作与埋点方案同步推进，保障后续可验证。</li>
+      <li>复盘时强调“数据回看驱动下一轮优化”。</li>
+    </ul>
+
+    <h3>数据结果（已从提取文本识别）</h3>
+    <div class="kpi-grid">
+      <div class="kpi"><b>日均DAU</b><span>1172.5w（同比 +65%）</span></div>
+      <div class="kpi"><b>累计参与UV</b><span>8350w（同比 +89%）</span></div>
+      <div class="kpi"><b>次日复访率</b><span>61.4%（同比 +4.8%）</span></div>
+      <div class="kpi"><b>分享UV</b><span>101.7w（同比 +63%）</span></div>
+    </div>
+    <div class="kpi-grid" style="margin-top:10px;">
+      <div class="kpi"><b>人均参与次数</b><span>44次（同比 +31次）</span></div>
+      <div class="kpi"><b>人均分享次数</b><span>7.45（同比 +1.84次）</span></div>
+      <div class="kpi"><b>分享率</b><span>同比 +5%（阶段复盘页）</span></div>
+      <div class="kpi"><b>核心结论</b><span>指标权重+埋点机制可稳定复用</span></div>
+    </div>
+
+    <div class="gallery">
+      <figure>
+        <img src="./assets/p2-奇旅-图.jpg" alt="热爱奇旅素材图1" />
+        <figcaption>奇旅素材：玩法与内容承载画面</figcaption>
+      </figure>
+      <figure>
+        <img src="./assets/p2-奇旅-图2.png" alt="热爱奇旅素材图2" />
+        <figcaption>奇旅素材：互动业务场景截图</figcaption>
+      </figure>
+    </div>
+
+    <div class="evi">证据（内部）：618T级互动业务侧汇报、2022年底组内复盘摘录、周报“热爱奇旅”段落。</div>
+  </section>
+
+  <section class="card" id="p3">
+    <div class="project-head">
+      <h2>项目三｜炸年兽（年货节）</h2>
+      <div><span class="pill">稳态交付</span><span class="pill">下沉增量</span></div>
+    </div>
+
+    <h3>背景与目标</h3>
+    <ul>
+      <li>目标：资源与周期受限下，维稳大盘并探索下沉增量。</li>
+      <li>挑战：上线稳定性、体验质量、增长探索三者并行。</li>
+    </ul>
+
+    <h3>策略设计</h3>
+    <ul>
+      <li>复用成熟内核 + 主题升级，缩短方案落地路径。</li>
+      <li>下沉化改造：触点简化、利益感知强化、裂变/小游戏组合。</li>
+      <li>加入游戏化留存机制：签到节奏、阶段挑战、任务后置引导与回流触点。</li>
+      <li>通过社交协作/助力与轻竞争机制，提升传播与二次进入动机。</li>
+      <li>通过策略-埋点-复盘闭环，持续校准方向。</li>
+    </ul>
+
+    <h3>数据结果（已从提取文本识别）</h3>
+    <div class="kpi-grid">
+      <div class="kpi"><b>日均DAU</b><span>1753.4w（同比21年年货节 +136.3%）</span></div>
+      <div class="kpi"><b>环比双11</b><span>+1.44%</span></div>
+      <div class="kpi"><b>次日复访率</b><span>70.12%（同比21年炸年兽 +10%）</span></div>
+      <div class="kpi"><b>人均参与次数</b><span>29.79次</span></div>
+    </div>
+    <div class="kpi-grid" style="margin-top:10px;">
+      <div class="kpi"><b>人均抽奖次数</b><span>同比 +40%</span></div>
+      <div class="kpi"><b>人均参与次数</b><span>同比 +57%（核心操作优化段）</span></div>
+      <div class="kpi"><b>引流店铺/会场UV</b><span>同比 +9.8%</span></div>
+      <div class="kpi"><b>新手引导留存率</b><span>72%（环比 +7.2%）</span></div>
+    </div>
+
+    <div class="gallery">
+      <figure>
+        <img src="./assets/p3-炸年兽-图.png" alt="炸年兽素材" />
+        <figcaption>炸年兽素材：互动业务场景</figcaption>
+      </figure>
+      <figure>
+        <img src="./assets/summary-指标.png" alt="炸年兽指标素材" />
+        <figcaption>炸年兽素材：关键指标口径截图</figcaption>
+      </figure>
+    </div>
+
+    <div class="evi">证据（内部）：周报“年货节T级互动-炸年兽”策略与复盘段落、组内年货节指标页提取文本。</div>
+  </section>
+
+  <section class="card" id="method">
+    <h2>跨项目方法论沉淀（含游戏化设计）</h2>
+    <ul>
+      <li><strong>目标拆解：</strong>业务目标拆到行为指标，设计动作有锚点。</li>
+      <li><strong>游戏循环：</strong>目标—行动—反馈—奖励—再行动，建立持续参与闭环。</li>
+      <li><strong>反馈分层：</strong>基础反馈/强反馈/峰值反馈组合拉动参与与复访。</li>
+      <li><strong>进度与挑战：</strong>通过进度可视化与阶段挑战降低流失，提升完成动机。</li>
+      <li><strong>社交驱动：</strong>助力、分享、组队等轻社交机制放大传播与回流。</li>
+      <li><strong>证据闭环：</strong>先设计可验证，再复盘可复用。</li>
+      <li><strong>协同推进：</strong>策略、交互、视觉、研发并线协同。</li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>

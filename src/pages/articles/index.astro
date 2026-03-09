@@ -1,0 +1,150 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const articles = [
+  {
+    slug: 'agent-architecture',
+    title: 'Agent 产品架构工程化深度落地指南',
+    subtitle: '从"概率性幻觉"到"确定性交付"：一套面向复杂业务流程的智能体设计方法论。',
+    date: '2026-03',
+    readTime: '15 min',
+    tags: ['Agent 架构', '工程化', '产品设计'],
+  },
+  {
+    slug: 'openclaw-vs-react',
+    title: 'OpenClaw vs ReAct vs 多 Agent 编排',
+    subtitle: '三种主流 Agent 框架的横向对比：适用场景、核心差异与选型建议。',
+    date: '2026-01',
+    readTime: '10 min',
+    tags: ['框架对比', 'ReAct', '多 Agent'],
+  },
+  {
+    slug: 'agent-intro',
+    title: 'Agent 入门：新变化与新认知',
+    subtitle: '图文并茂梳理 Agent 的核心概念、能力边界与产品经理视角下的新认知。',
+    date: '2025-12',
+    readTime: '5 min',
+    tags: ['Agent 入门', '认知框架'],
+  },
+];
+---
+
+<Layout title="文章">
+  <main>
+    <section class="section" style="padding-top: 140px;">
+      <p class="section-label reveal">文章</p>
+      <h1 class="section-headline reveal reveal-delay-1">AI 产品<br>方法论与思考。</h1>
+      <p class="section-sub reveal reveal-delay-2">
+        来自一线产品实践的经验沉淀，分享 AI 产品设计与架构决策背后的思考。
+      </p>
+
+      <div class="articles-list">
+        {articles.map((a, i) => (
+          <a class={`article-card reveal reveal-delay-${i + 2}`} href={`/articles/${a.slug}`}>
+            <div class="article-main">
+              <div class="article-meta">
+                <span>{a.date}</span>
+                <span class="dot">·</span>
+                <span>{a.readTime}</span>
+              </div>
+              <div class="article-title">{a.title}</div>
+              <div class="article-subtitle">{a.subtitle}</div>
+              <div class="article-tags">
+                {a.tags.map(t => <span class="atag">{t}</span>)}
+              </div>
+            </div>
+            <div class="article-arrow">→</div>
+          </a>
+        ))}
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .articles-list {
+    margin-top: 56px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .article-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px 32px;
+    text-decoration: none;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    transition: all .3s cubic-bezier(.25,.46,.45,.94);
+  }
+
+  .article-card:hover {
+    border-color: var(--border-mid);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.07);
+    transform: translateY(-2px);
+  }
+
+  .article-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    min-width: 0;
+  }
+
+  .article-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 500;
+    letter-spacing: .2px;
+  }
+
+  .dot { opacity: .4; }
+
+  .article-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -.02em;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  .article-subtitle {
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  .article-tags { display: flex; gap: 7px; flex-wrap: wrap; }
+
+  .atag {
+    background: var(--accent-bg);
+    color: var(--accent);
+    border: 1px solid var(--accent-border);
+    border-radius: 6px;
+    padding: 3px 10px;
+    font-size: 11.5px;
+    font-weight: 500;
+  }
+
+  .article-arrow {
+    font-size: 18px;
+    color: var(--muted);
+    flex-shrink: 0;
+    margin-top: 4px;
+    transition: transform .25s, color .25s;
+  }
+
+  .article-card:hover .article-arrow {
+    transform: translateX(4px);
+    color: var(--text);
+  }
+</style>

@@ -1,0 +1,192 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const projects = [
+  {
+    slug: 'ai-ad-assistant',
+    title: 'AI 轻松投',
+    subtitle: '小红书广告投放一站式 AI 平台',
+    desc: '针对小红书电商腰部商家，以 Multi-Agent 架构将投放工作流标准化、自动化，覆盖素材生成、投放诊断、效果回填全链路。',
+    tags: ['Multi-Agent', 'RAG', '多模态 AIGC', 'Next.js', 'Supabase'],
+    metrics: ['效率提升 3×', '准确率 98.6%', '年收入 252 万'],
+    accentColor: '#0062ff',
+  },
+  {
+    slug: 'jd-promo',
+    title: '京东大促互动产品',
+    subtitle: '平台级千万 DAU 大促互动增长产品',
+    desc: '主导年货节 / 618 / 双 11 平台级互动产品全链路设计，建立完整指标体系，协调多团队并行交付，驱动平台用户增长。',
+    tags: ['增长产品', '游戏化机制', 'AB 测试', '数据驱动', '跨团队协作'],
+    metrics: ['日均 UV 1712 万', 'UV 同比 +46%', '成本降 30%'],
+    accentColor: '#00a854',
+  },
+];
+---
+
+<Layout title="项目">
+  <main>
+    <section class="section" style="padding-top: 140px;">
+      <p class="section-label reveal">项目展示</p>
+      <h1 class="section-headline reveal reveal-delay-1">从 0 到 1，<br>完整产品案例。</h1>
+      <p class="section-sub reveal reveal-delay-2">
+        涵盖 AI 产品设计、技术架构、商业化落地的完整项目记录。
+      </p>
+
+      <div class="projects-list">
+        {projects.map((p, i) => (
+          <a
+            class={`project-card reveal reveal-delay-${i + 2}`}
+            href={`/projects/${p.slug}`}
+            style={`--c: ${p.accentColor}`}
+          >
+            <div class="project-card-left">
+              <div class="project-accent-bar"></div>
+              <div class="project-body">
+                <div class="project-title">{p.title}</div>
+                <div class="project-subtitle">{p.subtitle}</div>
+                <p class="project-desc">{p.desc}</p>
+                <div class="project-tags">
+                  {p.tags.map(t => <span class="ptag">{t}</span>)}
+                </div>
+              </div>
+            </div>
+            <div class="project-card-right">
+              <div class="project-metrics">
+                {p.metrics.map(m => <div class="pmetric">{m}</div>)}
+              </div>
+              <div class="project-cta">
+                查看详情 →
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .projects-list {
+    margin-top: 56px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .project-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    display: flex;
+    text-decoration: none;
+    transition: all .3s cubic-bezier(.25,.46,.45,.94);
+  }
+
+  .project-card:hover {
+    border-color: var(--border-mid);
+    box-shadow: 0 16px 56px rgba(0,0,0,0.09);
+    transform: translateY(-3px);
+  }
+
+  .project-card-left {
+    flex: 1;
+    display: flex;
+    min-width: 0;
+  }
+
+  .project-accent-bar {
+    width: 3px;
+    background: var(--c);
+    flex-shrink: 0;
+    opacity: .7;
+    transition: opacity .3s;
+  }
+
+  .project-card:hover .project-accent-bar { opacity: 1; }
+
+  .project-body {
+    padding: 32px 32px 32px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  .project-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -.02em;
+  }
+
+  .project-subtitle {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--c);
+    letter-spacing: -.1px;
+  }
+
+  .project-desc {
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 560px;
+  }
+
+  .project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+
+  .ptag {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 3px 10px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .project-card-right {
+    width: 200px;
+    flex-shrink: 0;
+    border-left: 1px solid var(--border);
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: var(--surface);
+  }
+
+  .project-metrics {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .pmetric {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--green);
+    background: var(--green-bg);
+    border: 1px solid var(--green-border);
+    border-radius: 8px;
+    padding: 5px 10px;
+    text-align: center;
+  }
+
+  .project-cta {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    transition: color .2s;
+    text-align: right;
+  }
+
+  .project-card:hover .project-cta { color: var(--text); }
+
+  @media (max-width: 700px) {
+    .project-card { flex-direction: column; }
+    .project-card-right { width: 100%; border-left: none; border-top: 1px solid var(--border); flex-direction: row; align-items: center; }
+    .project-metrics { flex-direction: row; flex-wrap: wrap; }
+  }
+</style>

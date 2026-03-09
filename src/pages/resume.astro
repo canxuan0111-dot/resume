@@ -1,0 +1,439 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="简历">
+  <main>
+
+    <!-- Stats -->
+    <section id="stats">
+      <div class="section" style="padding-top: 140px; padding-bottom: 80px;">
+        <p class="section-label reveal">一些数字</p>
+        <div class="stats-grid">
+          <div class="stat-item reveal reveal-delay-1">
+            <div class="stat-number accent" data-target="7">0</div>
+            <div class="stat-label">年工作经验</div>
+          </div>
+          <div class="stat-item reveal reveal-delay-2">
+            <div class="stat-number" data-target="252">0</div>
+            <div class="stat-label">万年收入（AI 项目）</div>
+          </div>
+          <div class="stat-item reveal reveal-delay-3">
+            <div class="stat-number green" data-suffix="万+" data-target="1712">0</div>
+            <div class="stat-label">日均 UV 峰值</div>
+          </div>
+          <div class="stat-item reveal reveal-delay-4">
+            <div class="stat-number purple" data-suffix="%" data-target="98">0</div>
+            <div class="stat-label">AI 素材准确率</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- About -->
+    <section id="about">
+      <div class="section">
+        <p class="section-label reveal">职业概述</p>
+        <h2 class="section-headline reveal reveal-delay-1">用 AI 重构产品，<br>从技术到商业化。</h2>
+        <p class="section-sub reveal reveal-delay-2">
+          7 年产品经理经验，专注 AI 产品从 0 到 1 全链路落地。深度理解 LLM、Multi-Agent、RAG、多模态 AIGC 等技术的产品化应用。成功主导商家 AI 投放助手，驱动内容生产效率提升 3 倍、素材生成准确率 98.6%，年收入 252 万，客户留存 85%+。荷兰工业设计工程硕士，体验设计 × 产品双背景。
+        </p>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Skills -->
+    <section id="skills" style="background: var(--bg-alt);">
+      <div class="section">
+        <p class="section-label reveal">核心能力</p>
+        <h2 class="section-headline reveal reveal-delay-1">技术 × 设计 × 商业<br>的全栈产品思维。</h2>
+
+        <div class="skills-wrap">
+          <div class="skill-card reveal reveal-delay-1">
+            <div class="skill-icon">🤖</div>
+            <div class="skill-name">AI 技术理解与产品化</div>
+            <div class="skill-tags">
+              <span class="stag">LLM / Agent / RAG</span>
+              <span class="stag">多模态 AI</span>
+              <span class="stag">Prompt 工程</span>
+              <span class="stag">Function Calling</span>
+              <span class="stag">模型选型与成本优化</span>
+              <span class="stag">AI 产品路线规划</span>
+            </div>
+          </div>
+          <div class="skill-card reveal reveal-delay-2">
+            <div class="skill-icon">🔁</div>
+            <div class="skill-name">产品设计与闭环搭建</div>
+            <div class="skill-tags">
+              <span class="stag">MVP 验证</span>
+              <span class="stag">分阶段交付</span>
+              <span class="stag">数据飞轮构建</span>
+              <span class="stag">PRD & 原型</span>
+              <span class="stag">用户体验全流程</span>
+            </div>
+          </div>
+          <div class="skill-card reveal reveal-delay-3">
+            <div class="skill-icon">📊</div>
+            <div class="skill-name">数据驱动与指标体系</div>
+            <div class="skill-tags">
+              <span class="stag">北极星指标</span>
+              <span class="stag">分层 KPI</span>
+              <span class="stag">AB 测试</span>
+              <span class="stag">漏斗分析</span>
+              <span class="stag">LTV / CAC / NPS</span>
+              <span class="stag">因果推断</span>
+            </div>
+          </div>
+          <div class="skill-card reveal reveal-delay-4">
+            <div class="skill-icon">🧠</div>
+            <div class="skill-name">知识库管理与 RAG</div>
+            <div class="skill-tags">
+              <span class="stag">记忆体系架构</span>
+              <span class="stag">素材库 / 策略库</span>
+              <span class="stag">向量检索</span>
+              <span class="stag">混合检索</span>
+              <span class="stag">知识库版本管理</span>
+            </div>
+          </div>
+          <div class="skill-card reveal reveal-delay-5">
+            <div class="skill-icon">🚀</div>
+            <div class="skill-name">AI 产品商业化</div>
+            <div class="skill-tags">
+              <span class="stag">商业模式设计</span>
+              <span class="stag">种子用户验证</span>
+              <span class="stag">定价策略</span>
+              <span class="stag">MVP → 规模化</span>
+            </div>
+          </div>
+          <div class="skill-card reveal reveal-delay-6">
+            <div class="skill-icon">🤝</div>
+            <div class="skill-name">跨部门协作与项目推进</div>
+            <div class="skill-tags">
+              <span class="stag">算法 / 工程 / 设计协同</span>
+              <span class="stag">10+ 团队并行统筹</span>
+              <span class="stag">灰度发布</span>
+              <span class="stag">优先级管理</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Experience -->
+    <section id="experience">
+      <div class="section">
+        <p class="section-label reveal">工作经历</p>
+        <h2 class="section-headline reveal reveal-delay-1">从京东到 AI 创业，<br>持续创造规模化价值。</h2>
+
+        <div class="exp-list">
+
+          <div class="exp-card reveal reveal-delay-2">
+            <div class="exp-header">
+              <div>
+                <div class="exp-company">中商摩派（深圳）电商科技有限公司</div>
+                <div class="exp-role">AI 产品经理</div>
+              </div>
+              <div class="exp-period">2024.06 — 2025.11</div>
+            </div>
+            <div class="project-block">
+              <div class="proj-name">商家 AI 投放助手产品</div>
+              <p class="proj-bg">针对小红书电商腰部商家（年销 500 万–5000 万）内容生产低效、投放决策碎片化、数据资产未利用三大痛点，以 AI 技术将投放工作流标准化、自动化。市场规模 150–200 亿 GMV/年，服务市场空间 20–50 亿。</p>
+              <ul class="proj-items">
+                <li>深访 20 家商家，评估 LLM / Vision AI / RAG / Multi-Agent 技术边界与成本，制定四期产品化路线（内容资产化 → 投放可控化 → ROI 归因 → 多模态升级），设计混合商业模式（免费 + 订阅 + 超量付费）</li>
+                <li>设计多 Agent 协同系统：主 Agent 负责整体工作流管理，专家 Agent 涵盖内容生成（文案 + 配图）、投放决策（预算分配、受众定位）、数据分析（效果监测、优化建议），设计 Agent 间通信协议</li>
+                <li>建立三层记忆架构：Session Memory → Merchant Memory → Knowledge Base（1 万+ 素材库 + 1–2 千条策略库 + 敏感词库 + 图片风格库），通过向量 + 混合检索指导生成，建立 AI 初标 + 人工审核标注流程</li>
+                <li>通义千问 + 万象实现一键识别 + 生成文案 + 配图完整素材包，多模态素材生成时间从 50 分钟压缩至 10 分钟；模型优化降低成本 95%</li>
+                <li>建立 AB 实验框架精确归因 ROI 变化，每 2 周迭代优化，准确率从 70% 提升至 98.6%</li>
+              </ul>
+              <div class="metrics">
+                <span class="metric">效率提升 3×</span>
+                <span class="metric">周产出 50→250 条</span>
+                <span class="metric">准确率 98.6%</span>
+                <span class="metric">年收入 252 万</span>
+                <span class="metric">付费用户 20 家</span>
+                <span class="metric">客户留存 85%+</span>
+                <span class="metric">模型成本降低 95%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="exp-card reveal reveal-delay-3">
+            <div class="exp-header">
+              <div>
+                <div class="exp-company">北京京东世纪贸易有限公司</div>
+                <div class="exp-role">产品经理</div>
+              </div>
+              <div class="exp-period">2019.02 — 2024.03</div>
+            </div>
+            <div class="project-block">
+              <div class="proj-name">平台级大促互动增长产品（年货节 / 618 / 双 11）</div>
+              <p class="proj-bg">通过互动玩法提升用户活跃度、延长停留时长、促进转化，协调多个业务线、研发、运营、设计团队并行开发千万 DAU 级核心项目。</p>
+              <ul class="proj-items">
+                <li>承接平台年度增长目标，建立完整指标体系（单 UV 成本、日均 UV、次日复访率、签到 / 任务完成率等），拆解各指标权重与优先级，制定分阶段目标</li>
+                <li>主导大促互动产品整体方案设计：核心玩法机制（任务体系 / 积分系统 / 游戏化互动）、激励策略（红包 / 优惠券 / 权益发放规则）、留存机制，输出完整 PRD 与原型</li>
+                <li>统筹项目整体推进，制定排期与里程碑；协调跨团队资源对齐（业务方 / 研发 / 运营 / 设计 / 外包供应商），推进灰度发布与全量上线，保障稳定交付</li>
+              </ul>
+              <div class="metrics">
+                <span class="metric">日均 UV 1712.9 万</span>
+                <span class="metric">UV 同比 +46%</span>
+                <span class="metric">单 UV 成本降 30%</span>
+                <span class="metric">签到用户同比 +173%</span>
+              </div>
+            </div>
+            <div class="project-block">
+              <div class="proj-name">会员频道 & 超市频道互动体验设计</div>
+              <p class="proj-bg">2019–2020 年互动业务尚未成型阶段，基于行业趋势判断，提前布局互动体验设计能力，为后续承接平台级项目做准备。</p>
+              <ul class="proj-items">
+                <li>主导子频道互动项目体验与视觉交付，成功交付多个子频道互动产品，日均 UV 突破百万级</li>
+                <li>推动团队正式确立互动产品业务方向，为后续承接年货节 / 618 / 双 11 核心大促项目奠定基础</li>
+              </ul>
+              <div class="metrics">
+                <span class="metric">DAU 同比 +6.4%</span>
+                <span class="metric">CPA 转化率 +3.5%</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Education -->
+    <section id="education" style="background: var(--bg-alt);">
+      <div class="section">
+        <p class="section-label reveal">教育经历</p>
+        <h2 class="section-headline reveal reveal-delay-1">工程思维，<br>设计视角。</h2>
+
+        <div class="edu-grid">
+          <div class="edu-card reveal reveal-delay-2">
+            <div class="edu-year">2016 — 2018</div>
+            <div class="edu-school">University of Twente</div>
+            <div class="edu-degree">硕士 · Industrial Design Engineering</div>
+            <div class="edu-note">Track: Human Technology Relation · 主修: Scenario-based Product Design · Embodied Interaction · Brand Management</div>
+          </div>
+          <div class="edu-card reveal reveal-delay-3">
+            <div class="edu-year">2012 — 2016</div>
+            <div class="edu-school">南京工业大学</div>
+            <div class="edu-degree">本科 · 工业设计</div>
+            <div class="edu-note">工业设计专业系统训练，奠定产品体验设计与用户研究能力基础。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</Layout>
+
+<style>
+  /* ── Stats ── */
+  .stats-grid {
+    margin-top: 48px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .stat-item {
+    background: var(--bg);
+    padding: 36px 28px;
+    text-align: left;
+    transition: background .25s;
+  }
+  .stat-item:hover { background: var(--surface); }
+
+  .stat-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 48px;
+    font-weight: 800;
+    letter-spacing: -.04em;
+    line-height: 1;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+  .stat-number.accent { color: var(--accent); }
+  .stat-number.green { color: var(--green); }
+  .stat-number.purple { color: #7c3aed; }
+
+  .stat-label { font-size: 12.5px; color: var(--muted); }
+
+  /* ── Skills ── */
+  .skills-wrap {
+    margin-top: 56px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .skill-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    transition: all .3s cubic-bezier(.25,.46,.45,.94);
+  }
+
+  .skill-card:hover {
+    border-color: var(--border-mid);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.07);
+    transform: translateY(-2px);
+  }
+
+  .skill-icon { font-size: 24px; margin-bottom: 14px; }
+  .skill-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 14px; letter-spacing: -.1px; }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+  .stag {
+    background: var(--accent-bg);
+    color: var(--accent);
+    border: 1px solid var(--accent-border);
+    border-radius: 6px;
+    padding: 3px 10px;
+    font-size: 11.5px;
+    font-weight: 500;
+  }
+
+  /* ── Experience ── */
+  .exp-list {
+    margin-top: 56px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .exp-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all .3s cubic-bezier(.25,.46,.45,.94);
+  }
+
+  .exp-card:hover {
+    border-color: var(--border-mid);
+    box-shadow: 0 12px 48px rgba(0,0,0,0.07);
+  }
+
+  .exp-header {
+    padding: 28px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .exp-company { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; letter-spacing: -.02em; color: var(--text); }
+  .exp-role { font-size: 13px; color: var(--accent); font-weight: 600; margin-top: 4px; }
+  .exp-period {
+    font-size: 12px;
+    color: var(--muted);
+    background: var(--bg);
+    padding: 5px 14px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  .project-block { padding: 24px 32px 28px; }
+  .project-block + .project-block { border-top: 1px solid var(--border); }
+
+  .proj-name { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; letter-spacing: -.1px; }
+
+  .proj-bg { font-size: 13px; color: var(--muted); margin-bottom: 16px; line-height: 1.7; }
+
+  .proj-items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .proj-items li {
+    font-size: 13.5px;
+    color: var(--text);
+    line-height: 1.7;
+    padding-left: 16px;
+    position: relative;
+    opacity: .85;
+  }
+
+  .proj-items li::before {
+    content: "–";
+    position: absolute;
+    left: 0;
+    color: var(--muted);
+    top: 0;
+  }
+
+  .metrics { display: flex; flex-wrap: wrap; gap: 7px; }
+
+  .metric {
+    background: var(--green-bg);
+    border: 1px solid var(--green-border);
+    color: var(--green);
+    border-radius: 8px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  /* ── Education ── */
+  .edu-grid {
+    margin-top: 56px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .edu-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 32px 28px;
+    transition: all .3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .edu-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(to right, var(--accent), #7c3aed);
+  }
+
+  .edu-card:hover {
+    border-color: var(--border-mid);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.07);
+    transform: translateY(-2px);
+  }
+
+  .edu-year { font-size: 11px; color: var(--accent); font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; }
+  .edu-school { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; letter-spacing: -.02em; color: var(--text); margin-bottom: 6px; }
+  .edu-degree { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
+  .edu-note { font-size: 12.5px; color: var(--muted); line-height: 1.65; }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .skills-wrap { grid-template-columns: 1fr; }
+    .edu-grid { grid-template-columns: 1fr; }
+    .exp-header { padding: 20px; }
+    .project-block { padding: 20px; }
+  }
+</style>

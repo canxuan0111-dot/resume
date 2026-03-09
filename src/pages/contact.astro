@@ -1,0 +1,133 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="联系">
+  <main>
+    <section class="section" style="padding-top: 140px;">
+      <p class="section-label reveal">联系我</p>
+      <h1 class="section-headline reveal reveal-delay-1">有合适的机会，<br>欢迎随时聊聊。</h1>
+      <p class="section-sub reveal reveal-delay-2">
+        求职意向：AI 产品经理 · 优先考虑 AI 原生产品方向
+      </p>
+
+      <div class="contact-grid">
+
+        <a class="contact-card reveal reveal-delay-2" href="mailto:oridlcx@163.com">
+          <div class="contact-icon-wrap">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </div>
+          <div class="contact-info">
+            <div class="contact-label">邮件</div>
+            <div class="contact-value">oridlcx@163.com</div>
+          </div>
+          <div class="contact-arrow">→</div>
+        </a>
+
+        <a class="contact-card reveal reveal-delay-3" href="tel:13006656330">
+          <div class="contact-icon-wrap">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+          </div>
+          <div class="contact-info">
+            <div class="contact-label">电话</div>
+            <div class="contact-value">130 0665 6330</div>
+          </div>
+          <div class="contact-arrow">→</div>
+        </a>
+
+        <button class="contact-card reveal reveal-delay-4" onclick="document.getElementById('wechat-modal').classList.add('open')">
+          <div class="contact-icon-wrap">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M9.5 7c.83 0 1.5.67 1.5 1.5S10.33 10 9.5 10 8 9.33 8 8.5 8.67 7 9.5 7zm5 0c.83 0 1.5.67 1.5 1.5S15.33 10 14.5 10 13 9.33 13 8.5 13.67 7 14.5 7zM12 2C6.48 2 2 6.03 2 11c0 2.7 1.28 5.12 3.31 6.79L4.5 21l3.64-1.82C9.33 19.71 10.63 20 12 20c5.52 0 10-4.03 10-9S17.52 2 12 2z"/>
+            </svg>
+          </div>
+          <div class="contact-info">
+            <div class="contact-label">微信</div>
+            <div class="contact-value">扫码添加</div>
+          </div>
+          <div class="contact-arrow">→</div>
+        </button>
+
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .contact-grid {
+    margin-top: 56px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 560px;
+  }
+
+  .contact-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px 24px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    font-family: inherit;
+    text-align: left;
+    width: 100%;
+    transition: all .3s cubic-bezier(.25,.46,.45,.94);
+  }
+
+  .contact-card:hover {
+    border-color: var(--border-mid);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.07);
+    transform: translateY(-2px);
+  }
+
+  .contact-icon-wrap {
+    width: 40px;
+    height: 40px;
+    background: var(--accent-bg);
+    border: 1px solid var(--accent-border);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .contact-info { flex: 1; }
+
+  .contact-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 3px;
+  }
+
+  .contact-value {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -.2px;
+  }
+
+  .contact-arrow {
+    font-size: 16px;
+    color: var(--muted);
+    transition: transform .25s, color .25s;
+  }
+
+  .contact-card:hover .contact-arrow {
+    transform: translateX(4px);
+    color: var(--text);
+  }
+</style>
