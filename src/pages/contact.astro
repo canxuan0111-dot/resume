@@ -1,105 +1,187 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import CtaButton from '../components/CtaButton.astro';
 ---
 
 <Layout title="联系">
   <main>
-    <section class="section" style="padding-top: 140px;">
-      <p class="section-label reveal">联系我</p>
-      <h1 class="section-headline reveal reveal-delay-1">有合适的机会，<br>欢迎随时聊聊。</h1>
-      <p class="section-sub reveal reveal-delay-2">
-        求职意向：AI 产品经理 · 优先考虑 AI 原生产品方向
-      </p>
 
-      <div class="contact-grid">
+    <!-- Contact -->
+    <section id="contact">
+      <div class="section" style="padding-top: 140px;">
+        <SectionHeader
+          eyebrow="联系我"
+          title="有合适的机会，<br>欢迎随时聊聊。"
+          subtitle="求职意向：AI 产品经理 · 优先考虑 AI 原生产品方向"
+        />
 
-        <a class="contact-card reveal reveal-delay-2" href="mailto:oridlcx@163.com">
-          <div class="contact-icon-wrap">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-              <polyline points="22,6 12,13 2,6"/>
-            </svg>
-          </div>
-          <div class="contact-info">
-            <div class="contact-label">邮件</div>
-            <div class="contact-value">oridlcx@163.com</div>
-          </div>
-          <div class="contact-arrow">→</div>
-        </a>
+        <div class="contact-grid">
 
-        <a class="contact-card reveal reveal-delay-3" href="tel:13006656330">
-          <div class="contact-icon-wrap">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
-            </svg>
-          </div>
-          <div class="contact-info">
-            <div class="contact-label">电话</div>
-            <div class="contact-value">130 0665 6330</div>
-          </div>
-          <div class="contact-arrow">→</div>
-        </a>
+          <a class="contact-card reveal reveal-delay-1" href="mailto:oridlcx@163.com">
+            <div class="contact-icon-wrap">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </div>
+            <div class="contact-info">
+              <div class="contact-label">邮件</div>
+              <div class="contact-value">oridlcx@163.com</div>
+            </div>
+            <div class="contact-arrow">→</div>
+          </a>
 
-        <button class="contact-card reveal reveal-delay-4" onclick="document.getElementById('wechat-modal').classList.add('open')">
-          <div class="contact-icon-wrap">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M9.5 7c.83 0 1.5.67 1.5 1.5S10.33 10 9.5 10 8 9.33 8 8.5 8.67 7 9.5 7zm5 0c.83 0 1.5.67 1.5 1.5S15.33 10 14.5 10 13 9.33 13 8.5 13.67 7 14.5 7zM12 2C6.48 2 2 6.03 2 11c0 2.7 1.28 5.12 3.31 6.79L4.5 21l3.64-1.82C9.33 19.71 10.63 20 12 20c5.52 0 10-4.03 10-9S17.52 2 12 2z"/>
-            </svg>
+          <a class="contact-card reveal reveal-delay-2" href="tel:13006656330">
+            <div class="contact-icon-wrap">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+              </svg>
+            </div>
+            <div class="contact-info">
+              <div class="contact-label">电话</div>
+              <div class="contact-value">130 0665 6330</div>
+            </div>
+            <div class="contact-arrow">→</div>
+          </a>
+
+          <button class="contact-card reveal reveal-delay-3" onclick="document.getElementById('wechat-modal').classList.add('open')">
+            <div class="contact-icon-wrap contact-icon-wrap--wechat">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M9.5 7c.83 0 1.5.67 1.5 1.5S10.33 10 9.5 10 8 9.33 8 8.5 8.67 7 9.5 7zm5 0c.83 0 1.5.67 1.5 1.5S15.33 10 14.5 10 13 9.33 13 8.5 13.67 7 14.5 7zM12 2C6.48 2 2 6.03 2 11c0 2.7 1.28 5.12 3.31 6.79L4.5 21l3.64-1.82C9.33 19.71 10.63 20 12 20c5.52 0 10-4.03 10-9S17.52 2 12 2z"/>
+              </svg>
+            </div>
+            <div class="contact-info">
+              <div class="contact-label">微信</div>
+              <div class="contact-value">扫码添加</div>
+            </div>
+            <div class="contact-arrow">→</div>
+          </button>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Job Intent -->
+    <section id="intent" style="background: var(--bg-alt);">
+      <div class="section">
+        <SectionHeader
+          eyebrow="求职意向"
+          title="寻找 AI 原生<br>产品机会。"
+          subtitle="专注于有真实业务价值的 AI 产品，希望在产品、技术与商业化之间创造最大杠杆。"
+        />
+
+        <div class="intent-grid">
+          <div class="intent-card reveal reveal-delay-1">
+            <div class="intent-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <rect x="2" y="7" width="20" height="14" rx="2"/>
+                <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+              </svg>
+            </div>
+            <div class="intent-label">意向岗位</div>
+            <div class="intent-value">AI 产品经理</div>
+            <div class="intent-sub">产品总监 · AI 产品负责人</div>
           </div>
-          <div class="contact-info">
-            <div class="contact-label">微信</div>
-            <div class="contact-value">扫码添加</div>
+
+          <div class="intent-card reveal reveal-delay-2">
+            <div class="intent-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+            </div>
+            <div class="intent-label">工作城市</div>
+            <div class="intent-value">北京 / 上海 / 深圳</div>
+            <div class="intent-sub">支持远程办公</div>
           </div>
-          <div class="contact-arrow">→</div>
-        </button>
+
+          <div class="intent-card reveal reveal-delay-3">
+            <div class="intent-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+            <div class="intent-label">到岗时间</div>
+            <div class="intent-value">1 个月内</div>
+            <div class="intent-sub">可提前沟通</div>
+          </div>
+
+          <div class="intent-card reveal reveal-delay-4">
+            <div class="intent-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </div>
+            <div class="intent-label">工作形式</div>
+            <div class="intent-value">全职优先</div>
+            <div class="intent-sub">兼职 · 顾问可谈</div>
+          </div>
+        </div>
+
+        <div class="intent-cta reveal reveal-delay-5">
+          <CtaButton href="mailto:oridlcx@163.com" label="发送邮件" />
+          <CtaButton href="/resume" label="查看完整简历" size="sm" />
+        </div>
 
       </div>
     </section>
+
   </main>
 </Layout>
 
 <style>
+  /* ── Contact grid ── */
   .contact-grid {
-    margin-top: 56px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    max-width: 560px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
   }
 
   .contact-card {
     background: var(--bg);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
-    padding: 20px 24px;
+    padding: 28px 24px;
     text-decoration: none;
     display: flex;
-    align-items: center;
-    gap: 16px;
+    flex-direction: column;
+    gap: 20px;
     cursor: pointer;
     font-family: inherit;
     text-align: left;
     width: 100%;
     transition: all .3s cubic-bezier(.25,.46,.45,.94);
+    position: relative;
   }
 
   .contact-card:hover {
     border-color: var(--border-mid);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.07);
-    transform: translateY(-2px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.09);
+    transform: translateY(-3px);
   }
 
   .contact-icon-wrap {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     background: var(--accent-bg);
     border: 1px solid var(--accent-border);
-    border-radius: 10px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--accent);
     flex-shrink: 0;
+  }
+
+  .contact-icon-wrap--wechat {
+    background: rgba(7,193,96,0.08);
+    border-color: rgba(7,193,96,0.2);
+    color: #07c160;
   }
 
   .contact-info { flex: 1; }
@@ -110,24 +192,106 @@ import Layout from '../layouts/Layout.astro';
     letter-spacing: 1.5px;
     text-transform: uppercase;
     color: var(--muted);
-    margin-bottom: 3px;
+    margin-bottom: 6px;
   }
 
   .contact-value {
-    font-size: 15px;
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
     font-weight: 600;
     color: var(--text);
     letter-spacing: -.2px;
   }
 
   .contact-arrow {
-    font-size: 16px;
+    font-size: 18px;
     color: var(--muted);
-    transition: transform .25s, color .25s;
+    transition: transform .25s cubic-bezier(0.34, 1.56, 0.64, 1), color .25s;
+    align-self: flex-end;
   }
 
   .contact-card:hover .contact-arrow {
-    transform: translateX(4px);
+    transform: translate(4px, -4px);
     color: var(--text);
+  }
+
+  /* ── Intent grid ── */
+  .intent-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  .intent-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px 24px;
+    transition: all .3s cubic-bezier(.25,.46,.45,.94);
+  }
+
+  .intent-card:hover {
+    border-color: var(--border-mid);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.07);
+    transform: translateY(-2px);
+  }
+
+  .intent-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .intent-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .intent-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -.02em;
+    margin-bottom: 6px;
+  }
+
+  .intent-sub {
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .intent-cta {
+    margin-top: 56px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .intent-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 768px) {
+    .contact-grid { grid-template-columns: 1fr; }
+    .intent-grid  { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 480px) {
+    .intent-grid { grid-template-columns: 1fr; }
   }
 </style>

@@ -1,5 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import Tag from '../components/Tag.astro';
+import CtaButton from '../components/CtaButton.astro';
 ---
 
 <Layout title="简历">
@@ -7,53 +10,53 @@ import Layout from '../layouts/Layout.astro';
 
     <!-- Stats -->
     <section id="stats">
-      <div class="section" style="padding-top: 140px; padding-bottom: 80px;">
-        <p class="section-label reveal">一些数字</p>
+      <div class="section" style="padding-top: 140px;">
+        <SectionHeader
+          eyebrow="一些数字"
+          title="7 年，持续交付<br>规模化价值。"
+        />
         <div class="stats-grid">
           <div class="stat-item reveal reveal-delay-1">
             <div class="stat-number accent" data-target="7">0</div>
             <div class="stat-label">年工作经验</div>
           </div>
           <div class="stat-item reveal reveal-delay-2">
-            <div class="stat-number" data-target="252">0</div>
+            <div class="stat-number accent" data-target="252">0</div>
             <div class="stat-label">万年收入（AI 项目）</div>
           </div>
           <div class="stat-item reveal reveal-delay-3">
-            <div class="stat-number green" data-suffix="万+" data-target="1712">0</div>
+            <div class="stat-number accent" data-suffix="万+" data-target="1712">0</div>
             <div class="stat-label">日均 UV 峰值</div>
           </div>
           <div class="stat-item reveal reveal-delay-4">
-            <div class="stat-number purple" data-suffix="%" data-target="98">0</div>
+            <div class="stat-number accent" data-suffix="%" data-target="98">0</div>
             <div class="stat-label">AI 素材准确率</div>
           </div>
         </div>
       </div>
     </section>
 
-    <div class="divider"></div>
-
     <!-- About -->
-    <section id="about">
+    <section id="about" style="background: var(--bg-alt);">
       <div class="section">
-        <p class="section-label reveal">职业概述</p>
-        <h2 class="section-headline reveal reveal-delay-1">用 AI 重构产品，<br>从技术到商业化。</h2>
-        <p class="section-sub reveal reveal-delay-2">
-          7 年产品经理经验，专注 AI 产品从 0 到 1 全链路落地。深度理解 LLM、Multi-Agent、RAG、多模态 AIGC 等技术的产品化应用。成功主导商家 AI 投放助手，驱动内容生产效率提升 3 倍、素材生成准确率 98.6%，年收入 252 万，客户留存 85%+。荷兰工业设计工程硕士，体验设计 × 产品双背景。
-        </p>
+        <SectionHeader
+          eyebrow="职业概述"
+          title="用 AI 重构产品，<br>从技术到商业化。"
+          subtitle="7 年产品经理经验，专注 AI 产品从 0 到 1 全链路落地。深度理解 LLM、Multi-Agent、RAG、多模态 AIGC 等技术的产品化应用。成功主导商家 AI 投放助手，驱动内容生产效率提升 3 倍、素材生成准确率 98.6%，年收入 252 万，客户留存 85%+。荷兰工业设计工程硕士，体验设计 × 产品双背景。"
+        />
+        <CtaButton href="/contact" label="探讨合作机会" size="sm" />
       </div>
     </section>
 
-    <div class="divider"></div>
-
     <!-- Skills -->
-    <section id="skills" style="background: var(--bg-alt);">
+    <section id="skills">
       <div class="section">
-        <p class="section-label reveal">核心能力</p>
-        <h2 class="section-headline reveal reveal-delay-1">技术 × 设计 × 商业<br>的全栈产品思维。</h2>
-
+        <SectionHeader
+          eyebrow="核心能力"
+          title="技术 × 设计 × 商业<br>的全栈产品思维。"
+        />
         <div class="skills-wrap">
           <div class="skill-card reveal reveal-delay-1">
-            <div class="skill-icon">🤖</div>
             <div class="skill-name">AI 技术理解与产品化</div>
             <div class="skill-tags">
               <span class="stag">LLM / Agent / RAG</span>
@@ -65,7 +68,6 @@ import Layout from '../layouts/Layout.astro';
             </div>
           </div>
           <div class="skill-card reveal reveal-delay-2">
-            <div class="skill-icon">🔁</div>
             <div class="skill-name">产品设计与闭环搭建</div>
             <div class="skill-tags">
               <span class="stag">MVP 验证</span>
@@ -76,7 +78,6 @@ import Layout from '../layouts/Layout.astro';
             </div>
           </div>
           <div class="skill-card reveal reveal-delay-3">
-            <div class="skill-icon">📊</div>
             <div class="skill-name">数据驱动与指标体系</div>
             <div class="skill-tags">
               <span class="stag">北极星指标</span>
@@ -88,7 +89,6 @@ import Layout from '../layouts/Layout.astro';
             </div>
           </div>
           <div class="skill-card reveal reveal-delay-4">
-            <div class="skill-icon">🧠</div>
             <div class="skill-name">知识库管理与 RAG</div>
             <div class="skill-tags">
               <span class="stag">记忆体系架构</span>
@@ -99,7 +99,6 @@ import Layout from '../layouts/Layout.astro';
             </div>
           </div>
           <div class="skill-card reveal reveal-delay-5">
-            <div class="skill-icon">🚀</div>
             <div class="skill-name">AI 产品商业化</div>
             <div class="skill-tags">
               <span class="stag">商业模式设计</span>
@@ -109,7 +108,6 @@ import Layout from '../layouts/Layout.astro';
             </div>
           </div>
           <div class="skill-card reveal reveal-delay-6">
-            <div class="skill-icon">🤝</div>
             <div class="skill-name">跨部门协作与项目推进</div>
             <div class="skill-tags">
               <span class="stag">算法 / 工程 / 设计协同</span>
@@ -122,17 +120,17 @@ import Layout from '../layouts/Layout.astro';
       </div>
     </section>
 
-    <div class="divider"></div>
-
     <!-- Experience -->
-    <section id="experience">
+    <section id="experience" style="background: var(--bg-alt);">
       <div class="section">
-        <p class="section-label reveal">工作经历</p>
-        <h2 class="section-headline reveal reveal-delay-1">从京东到 AI 创业，<br>持续创造规模化价值。</h2>
+        <SectionHeader
+          eyebrow="工作经历"
+          title="从京东到 AI 创业，<br>持续创造规模化价值。"
+        />
 
         <div class="exp-list">
 
-          <div class="exp-card reveal reveal-delay-2">
+          <div class="exp-card reveal reveal-delay-1">
             <div class="exp-header">
               <div>
                 <div class="exp-company">中商摩派（深圳）电商科技有限公司</div>
@@ -151,18 +149,18 @@ import Layout from '../layouts/Layout.astro';
                 <li>建立 AB 实验框架精确归因 ROI 变化，每 2 周迭代优化，准确率从 70% 提升至 98.6%</li>
               </ul>
               <div class="metrics">
-                <span class="metric">效率提升 3×</span>
-                <span class="metric">周产出 50→250 条</span>
-                <span class="metric">准确率 98.6%</span>
-                <span class="metric">年收入 252 万</span>
-                <span class="metric">付费用户 20 家</span>
-                <span class="metric">客户留存 85%+</span>
-                <span class="metric">模型成本降低 95%</span>
+                <Tag variant="metric" label="效率提升 3×" />
+                <Tag variant="metric" label="周产出 50→250 条" />
+                <Tag variant="metric" label="准确率 98.6%" />
+                <Tag variant="metric" label="年收入 252 万" />
+                <Tag variant="metric" label="付费用户 20 家" />
+                <Tag variant="metric" label="客户留存 85%+" />
+                <Tag variant="metric" label="模型成本降低 95%" />
               </div>
             </div>
           </div>
 
-          <div class="exp-card reveal reveal-delay-3">
+          <div class="exp-card reveal reveal-delay-2">
             <div class="exp-header">
               <div>
                 <div class="exp-company">北京京东世纪贸易有限公司</div>
@@ -179,10 +177,10 @@ import Layout from '../layouts/Layout.astro';
                 <li>统筹项目整体推进，制定排期与里程碑；协调跨团队资源对齐（业务方 / 研发 / 运营 / 设计 / 外包供应商），推进灰度发布与全量上线，保障稳定交付</li>
               </ul>
               <div class="metrics">
-                <span class="metric">日均 UV 1712.9 万</span>
-                <span class="metric">UV 同比 +46%</span>
-                <span class="metric">单 UV 成本降 30%</span>
-                <span class="metric">签到用户同比 +173%</span>
+                <Tag variant="metric" label="日均 UV 1712.9 万" />
+                <Tag variant="metric" label="UV 同比 +46%" />
+                <Tag variant="metric" label="单 UV 成本降 30%" />
+                <Tag variant="metric" label="签到用户同比 +173%" />
               </div>
             </div>
             <div class="project-block">
@@ -193,8 +191,8 @@ import Layout from '../layouts/Layout.astro';
                 <li>推动团队正式确立互动产品业务方向，为后续承接年货节 / 618 / 双 11 核心大促项目奠定基础</li>
               </ul>
               <div class="metrics">
-                <span class="metric">DAU 同比 +6.4%</span>
-                <span class="metric">CPA 转化率 +3.5%</span>
+                <Tag variant="metric" label="DAU 同比 +6.4%" />
+                <Tag variant="metric" label="CPA 转化率 +3.5%" />
               </div>
             </div>
           </div>
@@ -203,28 +201,34 @@ import Layout from '../layouts/Layout.astro';
       </div>
     </section>
 
-    <div class="divider"></div>
-
     <!-- Education -->
-    <section id="education" style="background: var(--bg-alt);">
+    <section id="education">
       <div class="section">
-        <p class="section-label reveal">教育经历</p>
-        <h2 class="section-headline reveal reveal-delay-1">工程思维，<br>设计视角。</h2>
+        <SectionHeader
+          eyebrow="教育经历"
+          title="工程思维，<br>设计视角。"
+        />
 
         <div class="edu-grid">
-          <div class="edu-card reveal reveal-delay-2">
+          <div class="edu-card reveal reveal-delay-1">
             <div class="edu-year">2016 — 2018</div>
             <div class="edu-school">University of Twente</div>
             <div class="edu-degree">硕士 · Industrial Design Engineering</div>
             <div class="edu-note">Track: Human Technology Relation · 主修: Scenario-based Product Design · Embodied Interaction · Brand Management</div>
           </div>
-          <div class="edu-card reveal reveal-delay-3">
+          <div class="edu-card reveal reveal-delay-2">
             <div class="edu-year">2012 — 2016</div>
             <div class="edu-school">南京工业大学</div>
             <div class="edu-degree">本科 · 工业设计</div>
             <div class="edu-note">工业设计专业系统训练，奠定产品体验设计与用户研究能力基础。</div>
           </div>
         </div>
+
+        <div class="edu-cta reveal reveal-delay-3">
+          <CtaButton href="/contact" label="探讨合作机会" />
+          <CtaButton href="/projects" label="查看项目案例" size="sm" />
+        </div>
+
       </div>
     </section>
 
@@ -234,7 +238,6 @@ import Layout from '../layouts/Layout.astro';
 <style>
   /* ── Stats ── */
   .stats-grid {
-    margin-top: 48px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1px;
@@ -262,14 +265,11 @@ import Layout from '../layouts/Layout.astro';
     color: var(--text);
   }
   .stat-number.accent { color: var(--accent); }
-  .stat-number.green { color: var(--green); }
-  .stat-number.purple { color: #7c3aed; }
 
   .stat-label { font-size: 12.5px; color: var(--muted); }
 
   /* ── Skills ── */
   .skills-wrap {
-    margin-top: 56px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
@@ -289,9 +289,8 @@ import Layout from '../layouts/Layout.astro';
     transform: translateY(-2px);
   }
 
-  .skill-icon { font-size: 24px; margin-bottom: 14px; }
-  .skill-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 14px; letter-spacing: -.1px; }
-  .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .skill-name  { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 14px; letter-spacing: -.1px; }
+  .skill-tags  { display: flex; flex-wrap: wrap; gap: 6px; }
 
   .stag {
     background: var(--accent-bg);
@@ -305,7 +304,6 @@ import Layout from '../layouts/Layout.astro';
 
   /* ── Experience ── */
   .exp-list {
-    margin-top: 56px;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -336,8 +334,8 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .exp-company { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; letter-spacing: -.02em; color: var(--text); }
-  .exp-role { font-size: 13px; color: var(--accent); font-weight: 600; margin-top: 4px; }
-  .exp-period {
+  .exp-role    { font-size: 13px; color: var(--accent); font-weight: 600; margin-top: 4px; }
+  .exp-period  {
     font-size: 12px;
     color: var(--muted);
     background: var(--bg);
@@ -350,9 +348,8 @@ import Layout from '../layouts/Layout.astro';
   .project-block { padding: 24px 32px 28px; }
   .project-block + .project-block { border-top: 1px solid var(--border); }
 
-  .proj-name { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; letter-spacing: -.1px; }
-
-  .proj-bg { font-size: 13px; color: var(--muted); margin-bottom: 16px; line-height: 1.7; }
+  .proj-name  { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; letter-spacing: -.1px; }
+  .proj-bg    { font-size: 13px; color: var(--muted); margin-bottom: 16px; line-height: 1.7; }
 
   .proj-items {
     list-style: none;
@@ -376,24 +373,16 @@ import Layout from '../layouts/Layout.astro';
     position: absolute;
     left: 0;
     color: var(--muted);
-    top: 0;
   }
 
-  .metrics { display: flex; flex-wrap: wrap; gap: 7px; }
-
-  .metric {
-    background: var(--green-bg);
-    border: 1px solid var(--green-border);
-    color: var(--green);
-    border-radius: 8px;
-    padding: 4px 12px;
-    font-size: 12px;
-    font-weight: 600;
+  .metrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
   }
 
   /* ── Education ── */
   .edu-grid {
-    margin-top: 56px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
@@ -423,17 +412,28 @@ import Layout from '../layouts/Layout.astro';
     transform: translateY(-2px);
   }
 
-  .edu-year { font-size: 11px; color: var(--accent); font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; }
+  .edu-year   { font-size: 11px; color: var(--accent); font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; }
   .edu-school { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; letter-spacing: -.02em; color: var(--text); margin-bottom: 6px; }
   .edu-degree { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
-  .edu-note { font-size: 12.5px; color: var(--muted); line-height: 1.65; }
+  .edu-note   { font-size: 12.5px; color: var(--muted); line-height: 1.65; }
+
+  .edu-cta {
+    margin-top: 56px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
 
   /* ── Responsive ── */
-  @media (max-width: 768px) {
-    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 900px) {
     .skills-wrap { grid-template-columns: 1fr; }
-    .edu-grid { grid-template-columns: 1fr; }
-    .exp-header { padding: 20px; }
+  }
+
+  @media (max-width: 768px) {
+    .stats-grid  { grid-template-columns: repeat(2, 1fr); }
+    .edu-grid    { grid-template-columns: 1fr; }
+    .exp-header  { padding: 20px; }
     .project-block { padding: 20px; }
   }
 </style>

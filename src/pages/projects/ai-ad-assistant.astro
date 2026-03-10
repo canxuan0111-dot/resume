@@ -2,30 +2,56 @@
 import Layout from '../../layouts/Layout.astro';
 import SectionHeader from '../../components/SectionHeader.astro';
 import Tag from '../../components/Tag.astro';
+import CtaButton from '../../components/CtaButton.astro';
 ---
 
-<Layout title="AI 轻松投">
+<Layout title="AI 轻松投" navPill={true}>
   <main class="pd">
 
     <!-- ① Hero -->
     <section class="pd-hero">
-      <div class="pd-inner">
-        <div class="pd-hero-tags">
-          <Tag label="AI 产品经理" variant="hero" />
-          <Tag label="2024.06 – 2025.11" variant="hero" />
-          <Tag label="Multi-Agent · RAG · 多模态" variant="hero" />
+
+      <!-- 背景 GIF -->
+      <img src="/aiad-hero.gif" alt="" class="pd-hero-bg-gif" aria-hidden="true" />
+
+      <!-- 遮罩：左侧 + 底部加深 -->
+      <div class="pd-hero-overlay"></div>
+
+      <!-- 内容层 -->
+      <div class="pd-hero-content">
+
+        <!-- 左下角：标签 + 标题 + 副标题 + 数据 -->
+        <div class="pd-hero-bl pd-ha pd-ha-bl">
+          <div class="pd-hero-tags">
+            <Tag label="AI 产品经理" variant="hero" />
+            <Tag label="2024.06 – 2025.11" variant="hero" />
+            <Tag label="Multi-Agent · RAG · 多模态" variant="hero" />
+          </div>
+          <h1 class="pd-hero-title">AI 轻松投</h1>
+          <p class="pd-hero-sub">小红书电商腰部商家的 AI 投放全流程助手</p>
+          <div class="pd-hero-rule"></div>
+          <div class="pd-hero-stats">
+            <div class="pd-stat"><div class="pd-stat-val">3×</div><div class="pd-stat-lbl">效率提升</div></div>
+            <div class="pd-stat"><div class="pd-stat-val">98.6%</div><div class="pd-stat-lbl">素材准确率</div></div>
+            <div class="pd-stat"><div class="pd-stat-val">252万</div><div class="pd-stat-lbl">年收入</div></div>
+            <div class="pd-stat"><div class="pd-stat-val">20家</div><div class="pd-stat-lbl">付费客户</div></div>
+            <div class="pd-stat"><div class="pd-stat-val">85%+</div><div class="pd-stat-lbl">客户留存</div></div>
+            <div class="pd-stat"><div class="pd-stat-val">−95%</div><div class="pd-stat-lbl">模型成本</div></div>
+          </div>
         </div>
-        <h1 class="pd-hero-title">AI 轻松投</h1>
-        <p class="pd-hero-sub">小红书电商腰部商家的<br>AI 投放全流程助手</p>
-        <div class="pd-hero-rule"></div>
-        <div class="pd-hero-stats">
-          <div class="pd-stat"><div class="pd-stat-val">3×</div><div class="pd-stat-lbl">效率提升</div></div>
-          <div class="pd-stat"><div class="pd-stat-val">98.6%</div><div class="pd-stat-lbl">素材准确率</div></div>
-          <div class="pd-stat"><div class="pd-stat-val">252万</div><div class="pd-stat-lbl">年收入</div></div>
-          <div class="pd-stat"><div class="pd-stat-val">20家</div><div class="pd-stat-lbl">付费客户</div></div>
-          <div class="pd-stat"><div class="pd-stat-val">85%+</div><div class="pd-stat-lbl">客户留存</div></div>
-          <div class="pd-stat"><div class="pd-stat-val">−95%</div><div class="pd-stat-lbl">模型成本</div></div>
+
+        <!-- 右下角：滚动引导 -->
+        <div class="pd-hero-scroll pd-ha pd-ha-scroll" aria-hidden="true">
+          <div class="scroll-mouse">
+            <div class="scroll-wheel"></div>
+          </div>
+          <div class="scroll-arrows">
+            <span></span>
+            <span></span>
+          </div>
+          <span class="scroll-label">SCROLL</span>
         </div>
+
       </div>
     </section>
 
@@ -205,8 +231,14 @@ import Tag from '../../components/Tag.astro';
       </div>
     </section>
 
-    <!-- ⑤ 核心功能 -->
-    <section class="pd-section pd-alt">
+    <!-- 装饰图 + 核心功能 包在 wrapper 内，限制 sticky 范围 -->
+    <div class="pd-deco-wrapper">
+      <section class="pd-deco-img" id="pd-deco-img">
+        <img src="/aiad-deco.jpg" alt="" class="pd-deco-full-img" />
+      </section>
+
+      <!-- ⑤ 核心功能 -->
+      <section class="pd-section pd-alt pd-over">
       <div class="pd-inner">
         <SectionHeader
           eyebrow="核心功能"
@@ -216,10 +248,7 @@ import Tag from '../../components/Tag.astro';
         <div class="pd-features">
           <div class="pd-feature reveal">
             <div class="pd-feature-media">
-              <div class="pd-placeholder">
-                <span class="pd-placeholder-main">截图待补充</span>
-                <span class="pd-placeholder-sub">SKU 录入界面</span>
-              </div>
+              <img src="/SKU.gif" alt="SKU 录入界面" class="pd-feature-img" />
             </div>
             <div class="pd-feature-body">
               <div class="pd-feature-num">01</div>
@@ -234,10 +263,7 @@ import Tag from '../../components/Tag.astro';
 
           <div class="pd-feature pd-feature--rev reveal">
             <div class="pd-feature-media">
-              <div class="pd-placeholder">
-                <span class="pd-placeholder-main">截图待补充</span>
-                <span class="pd-placeholder-sub">素材生成界面</span>
-              </div>
+              <img src="/COPY.gif" alt="素材生成界面" class="pd-feature-img" />
             </div>
             <div class="pd-feature-body">
               <div class="pd-feature-num">02</div>
@@ -252,10 +278,7 @@ import Tag from '../../components/Tag.astro';
 
           <div class="pd-feature reveal">
             <div class="pd-feature-media">
-              <div class="pd-placeholder">
-                <span class="pd-placeholder-main">截图待补充</span>
-                <span class="pd-placeholder-sub">投放报告界面</span>
-              </div>
+              <img src="/IMAGE.gif" alt="投放报告界面" class="pd-feature-img" />
             </div>
             <div class="pd-feature-body">
               <div class="pd-feature-num">03</div>
@@ -270,10 +293,7 @@ import Tag from '../../components/Tag.astro';
 
           <div class="pd-feature pd-feature--rev reveal">
             <div class="pd-feature-media">
-              <div class="pd-placeholder">
-                <span class="pd-placeholder-main">截图待补充</span>
-                <span class="pd-placeholder-sub">投放诊断界面</span>
-              </div>
+              <img src="/ANALYSIS.gif" alt="投放诊断界面" class="pd-feature-img" />
             </div>
             <div class="pd-feature-body">
               <div class="pd-feature-num">04</div>
@@ -288,6 +308,7 @@ import Tag from '../../components/Tag.astro';
         </div>
       </div>
     </section>
+    </div><!-- /pd-deco-wrapper -->
 
     <!-- ⑥ 关键挑战 -->
     <section class="pd-section">
@@ -373,6 +394,7 @@ import Tag from '../../components/Tag.astro';
         <SectionHeader
           eyebrow="项目成果"
           title="数字说话。"
+          weight="editorial"
           theme="dark"
         />
         <div class="pd-results-grid">
@@ -383,6 +405,10 @@ import Tag from '../../components/Tag.astro';
           <div class="pd-result reveal reveal-delay-5"><div class="pd-result-val">20家</div><div class="pd-result-lbl">付费客户</div></div>
           <div class="pd-result reveal reveal-delay-6"><div class="pd-result-val">85%+</div><div class="pd-result-lbl">客户留存率</div></div>
           <div class="pd-result reveal reveal-delay-1"><div class="pd-result-val">−95%</div><div class="pd-result-lbl">模型成本降低</div></div>
+        </div>
+        <div class="pd-results-cta">
+          <CtaButton href="/contact" label="联系我" variant="light" />
+          <CtaButton href="/resume" label="查看完整简历" variant="light" />
         </div>
       </div>
     </section>
@@ -398,6 +424,31 @@ import Tag from '../../components/Tag.astro';
 
   </main>
 </Layout>
+
+<script>
+  // ── 装饰图 scale 入场 ──
+  const decoSection = document.getElementById('pd-deco-img');
+  if (decoSection) {
+    const decoObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          decoSection.classList.add('deco-visible');
+          decoObs.unobserve(decoSection);
+        }
+      });
+    }, { threshold: 0.1 });
+    decoObs.observe(decoSection);
+  }
+
+  const nav  = document.getElementById('main-nav')!;
+  const hero = document.querySelector('.pd-hero') as HTMLElement;
+
+  function updateNav() {
+    nav.classList.toggle('nav-hero', hero.getBoundingClientRect().bottom > 60);
+  }
+  updateNav();
+  window.addEventListener('scroll', updateNav, { passive: true });
+</script>
 
 <style>
 /* ─── 布局基础 ─── */
@@ -418,8 +469,82 @@ import Tag from '../../components/Tag.astro';
 
 /* ─── Hero ─── */
 .pd-hero {
+  position: relative;
   background: var(--canvas-dark);
-  padding: 160px 40px 100px;
+  height: 100vh;
+  min-height: 640px;
+  overflow: hidden;
+}
+
+.pd-hero-bg-gif {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  opacity: .18;
+  pointer-events: none;
+  user-select: none;
+}
+
+.pd-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to right,  rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 50%, rgba(0,0,0,0) 100%),
+    linear-gradient(to top,    rgba(0,0,0,0.7)  0%, rgba(0,0,0,0)    55%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.pd-hero-content {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 40px 0;
+}
+
+/* ── 入场动画 ── */
+@keyframes pdHeroFadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pdHeroFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.pd-ha {
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.22, 0.8, 0.44, 1);
+  animation-duration: 0.8s;
+}
+.pd-ha-bl     { animation-name: pdHeroFadeUp; animation-delay: 0.1s; }
+.pd-ha-scroll { animation-name: pdHeroFadeIn; animation-delay: 0.75s; }
+
+/* ── 居中文案区 ── */
+.pd-hero-bl {
+  text-align: center;
+  max-width: 760px;
+  width: 100%;
+}
+
+.pd-hero-bl .pd-hero-tags {
+  justify-content: center;
+}
+
+.pd-hero-bl .pd-hero-stats {
+  justify-content: center;
+}
+
+.pd-hero-bl .pd-hero-rule {
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .pd-hero-tags {
@@ -470,6 +595,78 @@ import Tag from '../../components/Tag.astro';
 .pd-stat-lbl {
   font-size: 12px;
   color: var(--muted-inv);
+}
+
+/* ── 右下角滚动引导 ── */
+.pd-hero-scroll {
+  position: absolute;
+  right: 36px;
+  bottom: 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.scroll-mouse {
+  width: 24px;
+  height: 38px;
+  border: 2px solid rgba(255,255,255,0.75);
+  border-radius: 12px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 0 12px rgba(255,255,255,0.15);
+}
+
+.scroll-wheel {
+  width: 4px;
+  height: 7px;
+  background: #fff;
+  border-radius: 2px;
+  position: absolute;
+  top: 6px;
+  animation: pdWheelBounce 1.6s cubic-bezier(.45,0,.55,1) infinite;
+}
+
+@keyframes pdWheelBounce {
+  0%   { top: 6px;  opacity: 1; }
+  60%  { top: 18px; opacity: 0.2; }
+  100% { top: 6px;  opacity: 1; }
+}
+
+.scroll-arrows {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.scroll-arrows span {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid rgba(255,255,255,0.75);
+  border-bottom: 2px solid rgba(255,255,255,0.75);
+  transform: rotate(45deg);
+  animation: pdArrowFade 1.6s ease-in-out infinite;
+}
+
+.scroll-arrows span:nth-child(2) {
+  animation-delay: .18s;
+  opacity: 0.5;
+}
+
+@keyframes pdArrowFade {
+  0%, 100% { opacity: 0.2; transform: rotate(45deg) translateY(-3px); }
+  50%       { opacity: 1;   transform: rotate(45deg) translateY(2px);  }
+}
+
+.scroll-label {
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: rgba(255,255,255,0.6);
+  font-weight: 600;
 }
 
 /* ─── 背景与问题 ─── */
@@ -861,6 +1058,42 @@ import Tag from '../../components/Tag.astro';
   padding: 6px 0;
 }
 
+/* ─── 装饰图 wrapper（限制 sticky 范围）─── */
+.pd-deco-wrapper {
+  position: relative;
+  isolation: isolate;
+}
+
+/* ─── 装饰图楼层 ─── */
+.pd-deco-img {
+  position: sticky;
+  top: 0;
+  z-index: 0;
+  width: 100%;
+  line-height: 0;
+  overflow: hidden;
+}
+
+.pd-deco-full-img {
+  width: 100%;
+  display: block;
+  height: auto;
+  max-height: 640px;
+  object-fit: cover;
+  transform: scale(1.07);
+  transition: transform 1.4s cubic-bezier(.25,.46,.45,.94);
+}
+
+.pd-deco-img.deco-visible .pd-deco-full-img {
+  transform: scale(1);
+}
+
+/* 核心功能楼层压在装饰图上方滑入 */
+.pd-over {
+  position: relative;
+  z-index: 1;
+}
+
 /* ─── 核心功能 ─── */
 .pd-features {
   display: flex;
@@ -887,6 +1120,13 @@ import Tag from '../../components/Tag.astro';
   overflow: hidden;
   aspect-ratio: 16/10;
   border: 1px solid var(--border);
+}
+
+.pd-feature-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .pd-placeholder {
@@ -1019,18 +1259,18 @@ import Tag from '../../components/Tag.astro';
 }
 
 .pd-evo-step--bad {
-  background: rgba(249,68,44,.04);
-  border-color: rgba(249,68,44,.2);
+  background: var(--surface);
+  border-color: var(--border-mid);
 }
 
 .pd-evo-step--mid {
-  background: var(--amber-bg);
-  border-color: var(--amber-border);
+  background: var(--surface);
+  border-color: var(--border-mid);
 }
 
 .pd-evo-step--good {
-  background: var(--green-bg);
-  border-color: var(--green-border);
+  background: var(--accent-bg);
+  border-color: var(--accent-border);
 }
 
 .pd-evo-label {
@@ -1041,9 +1281,9 @@ import Tag from '../../components/Tag.astro';
   margin-bottom: 10px;
 }
 
-.pd-evo-step--bad  .pd-evo-label { color: var(--red); }
-.pd-evo-step--mid  .pd-evo-label { color: var(--amber); }
-.pd-evo-step--good .pd-evo-label { color: var(--green); }
+.pd-evo-step--bad  .pd-evo-label { color: var(--muted); }
+.pd-evo-step--mid  .pd-evo-label { color: var(--muted); }
+.pd-evo-step--good .pd-evo-label { color: var(--accent); }
 
 .pd-evo-step p {
   font-size: 13px;
@@ -1077,12 +1317,13 @@ import Tag from '../../components/Tag.astro';
 }
 
 .pd-debate-side--for {
-  background: var(--accent-bg);
-  border-color: var(--accent-border);
+  background: var(--surface);
+  border-color: var(--border-mid);
 }
 
 .pd-debate-side--against {
-  background: var(--surface);
+  background: var(--accent-bg);
+  border-color: var(--accent-border);
 }
 
 .pd-debate-vs {
@@ -1104,7 +1345,8 @@ import Tag from '../../components/Tag.astro';
   color: var(--muted);
 }
 
-.pd-debate-side--for .pd-debate-label { color: var(--accent); }
+.pd-debate-side--for .pd-debate-label { color: var(--muted); }
+.pd-debate-side--against .pd-debate-label { color: var(--accent); }
 
 .pd-debate-side p {
   font-size: 13px;
@@ -1166,6 +1408,14 @@ import Tag from '../../components/Tag.astro';
 .pd-result-lbl {
   font-size: 12px;
   color: var(--muted-inv);
+}
+
+/* ─── 成果 CTA ─── */
+.pd-results-cta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 56px;
 }
 
 /* ─── 项目导航 ─── */
@@ -1230,7 +1480,8 @@ import Tag from '../../components/Tag.astro';
 }
 
 @media (max-width: 600px) {
-  .pd-hero { padding: 120px 20px 60px; }
+  .pd-hero-bl { left: 20px; bottom: 40px; max-width: calc(100vw - 40px); }
+  .pd-hero-scroll { display: none; }
   .pd-section { padding: 80px 0; }
   .pd-inner { padding: 0 20px; }
   .pd-results { padding: 80px 0; }
