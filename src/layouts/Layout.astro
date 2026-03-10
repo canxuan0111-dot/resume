@@ -604,8 +604,10 @@ function isActive(href: string) {
         // 顶部区域：强制展开
         nav.classList.remove('nav-collapsed');
       } else if (y > lastScrollY + 4) {
-        // 向下滚：collapse
-        nav.classList.add('nav-collapsed');
+        // 向下滚：collapse（移动端 pill 不折叠，tap 区域太小）
+        if (!(isPill && window.innerWidth <= 768)) {
+          nav.classList.add('nav-collapsed');
+        }
       } else if (y < lastScrollY - 2) {
         // 向上滚：expand
         nav.classList.remove('nav-collapsed');

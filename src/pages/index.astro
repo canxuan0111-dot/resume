@@ -1172,7 +1172,8 @@ import Layout from '../layouts/Layout.astro';
   }
 
   @media (max-width: 768px) {
-    .hero-tl { top: 80px; left: 24px; max-width: 200px; }
+    /* 将文案区移到大字名字正上方 */
+    .hero-tl { top: auto; bottom: 180px; left: 16px; max-width: calc(100vw - 32px); }
     .hero-name { left: 16px; bottom: 52px; }
     .hero-scroll { right: 20px; bottom: 28px; }
     .sw-header { flex-direction: column; gap: 16px; }
@@ -1186,7 +1187,7 @@ import Layout from '../layouts/Layout.astro';
 
   /* 极小屏 */
   @media (max-width: 480px) {
-    .hero-tl { top: 72px; max-width: 180px; }
+    .hero-tl { bottom: 120px; max-width: calc(100vw - 32px); }
     .hero-name { font-size: clamp(48px, 13vw, 72px); bottom: 44px; }
     .hero-tagline { display: none; }
     .hero-scroll { display: none; }
@@ -1230,7 +1231,10 @@ import Layout from '../layouts/Layout.astro';
     if (s > hero.offsetHeight) return;
 
     heroBg.style.transform      = `translateY(${s * 0.30}px)`;
-    heroTl.style.transform      = `translateY(${s * -0.08}px)`;
+    // 移动端 hero-tl 用 bottom 定位，跳过视差以免覆盖
+    if (window.innerWidth > 768) {
+      heroTl.style.transform    = `translateY(${s * -0.08}px)`;
+    }
     heroName.style.transform    = `translateY(${s * -0.22}px)`;
     heroTagline.style.transform = `translateY(${s * -0.12}px)`;
     if (heroScroll) heroScroll.style.transform = `translateY(${s * -0.15}px)`;
