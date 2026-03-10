@@ -1419,6 +1419,7 @@ import CtaButton from '../../components/CtaButton.astro';
 }
 
 @media (max-width: 600px) {
+  .pd-hero-content { padding: 80px 20px 0; }
   .pd-hero-scroll { display: none; }
   .pd-section { padding: 80px 0; }
   .pd-inner { padding: 0 20px; }
@@ -1430,5 +1431,11 @@ import CtaButton from '../../components/CtaButton.astro';
   .pd-decision-card { flex-direction: column; gap: 12px; }
   .pd-color-swatches { gap: 8px; }
   .pd-swatch { min-width: 64px; }
+}
+
+@media (max-width: 480px) {
+  .pd-hero-sub { font-size: 16px; margin-bottom: 36px; }
+  .pd-hero-stats { gap: 20px; }
+  .pd-results-grid { grid-template-columns: 1fr; }
 }
 </style>

@@ -31,7 +31,7 @@ import CtaButton from '../../components/CtaButton.astro';
           <p class="pd-hero-sub">T 级大促全周期互动设计<br>三次完整项目复盘</p>
           <div class="pd-hero-rule"></div>
           <div class="pd-hero-stats">
-            <div class="pd-stat"><div class="pd-stat-val">8350w</div><div class="pd-stat-lbl">累计参与 UV（618）</div></div>
+            <div class="pd-stat"><div class="pd-stat-val">2亿</div><div class="pd-stat-lbl">累计参与 UV（双 11）</div></div>
             <div class="pd-stat"><div class="pd-stat-val">1753w</div><div class="pd-stat-lbl">日均 DAU（年货节）</div></div>
             <div class="pd-stat"><div class="pd-stat-val">70.12%</div><div class="pd-stat-lbl">次日复访率</div></div>
             <div class="pd-stat"><div class="pd-stat-val">2866w</div><div class="pd-stat-lbl">累计分享 UV（双11）</div></div>
@@ -73,8 +73,8 @@ import CtaButton from '../../components/CtaButton.astro';
             <div class="pd-prob">
               <div class="pd-prob-num">02</div>
               <div>
-                <div class="pd-prob-title">设计价值难量化</div>
-                <p class="pd-prob-desc">设计动作与业务结果缺乏直连路径，参与 UV、分享 UV、复访率等指标难以归因到具体设计决策。</p>
+                <div class="pd-prob-title">产品价值难量化</div>
+                <p class="pd-prob-desc">产品动作与业务结果缺乏直连路径，参与 UV、分享 UV、复访率等指标难以归因到具体产品决策。</p>
               </div>
             </div>
             <div class="pd-prob">
@@ -154,10 +154,20 @@ import CtaButton from '../../components/CtaButton.astro';
         </div>
 
         <div class="pd-kpi-grid reveal reveal-delay-2">
+          <div class="pd-kpi pd-kpi--accent">
+            <div class="pd-kpi-val">2亿</div>
+            <div class="pd-kpi-lbl">累计参与 UV</div>
+            <div class="pd-kpi-delta">同比 +13.5%</div>
+          </div>
           <div class="pd-kpi">
             <div class="pd-kpi-val">2866w</div>
             <div class="pd-kpi-lbl">累计分享 UV</div>
             <div class="pd-kpi-delta">同比 +13.3%</div>
+          </div>
+          <div class="pd-kpi">
+            <div class="pd-kpi-val">69.4%</div>
+            <div class="pd-kpi-lbl">次日复访率</div>
+            <div class="pd-kpi-delta">同比 +4.9%</div>
           </div>
           <div class="pd-kpi">
             <div class="pd-kpi-val">+173%</div>
@@ -203,7 +213,7 @@ import CtaButton from '../../components/CtaButton.astro';
               <div class="pd-sub-label">背景与目标</div>
               <ul class="pd-list">
                 <li>目标：提升参与规模与互动粘性，并建立可量化验证路径。</li>
-                <li>挑战：设计价值容易"可感知但难量化"，指标归因缺失。</li>
+                <li>挑战：产品价值容易"可感知但难量化"，指标归因缺失。</li>
               </ul>
             </div>
             <div class="pd-subsection">
@@ -221,9 +231,9 @@ import CtaButton from '../../components/CtaButton.astro';
 
         <div class="pd-kpi-grid pd-kpi-grid--8 reveal reveal-delay-2">
           <div class="pd-kpi pd-kpi--accent">
-            <div class="pd-kpi-val">8350w</div>
+            <div class="pd-kpi-val">1.97亿</div>
             <div class="pd-kpi-lbl">累计参与 UV</div>
-            <div class="pd-kpi-delta">同比 +89%</div>
+            <div class="pd-kpi-delta">同比 +25%</div>
           </div>
           <div class="pd-kpi pd-kpi--accent">
             <div class="pd-kpi-val">1172.5w</div>
@@ -367,7 +377,7 @@ import CtaButton from '../../components/CtaButton.astro';
           <div class="pd-method">
             <div class="pd-method-num">01</div>
             <div class="pd-method-name">目标拆解</div>
-            <p class="pd-method-desc">业务目标拆到行为指标，设计动作有锚点。</p>
+            <p class="pd-method-desc">业务目标拆到行为指标，产品动作有锚点。</p>
           </div>
           <div class="pd-method">
             <div class="pd-method-num">02</div>
@@ -414,8 +424,7 @@ import CtaButton from '../../components/CtaButton.astro';
           theme="dark"
         />
         <div class="pd-results-grid">
-          <div class="pd-result reveal reveal-delay-1"><div class="pd-result-val">8350w</div><div class="pd-result-lbl">累计参与 UV（奇旅）</div></div>
-          <div class="pd-result reveal reveal-delay-2"><div class="pd-result-val">+89%</div><div class="pd-result-lbl">参与 UV 同比增长</div></div>
+          <div class="pd-result reveal reveal-delay-1"><div class="pd-result-val">2亿</div><div class="pd-result-lbl">累计参与 UV（双 11）</div></div>
           <div class="pd-result reveal reveal-delay-3"><div class="pd-result-val">1753w</div><div class="pd-result-lbl">日均 DAU（炸年兽）</div></div>
           <div class="pd-result reveal reveal-delay-4"><div class="pd-result-val">70.12%</div><div class="pd-result-lbl">次日复访率（炸年兽）</div></div>
           <div class="pd-result reveal reveal-delay-5"><div class="pd-result-val">2866w</div><div class="pd-result-lbl">累计分享 UV（穿行记）</div></div>
@@ -1152,6 +1161,7 @@ import CtaButton from '../../components/CtaButton.astro';
 }
 
 @media (max-width: 600px) {
+  .pd-hero-content { padding: 80px 20px 0; }
   .pd-hero-scroll { display: none; }
   .pd-section { padding: 80px 0; }
   .pd-inner { padding: 0 20px; }
@@ -1162,6 +1172,12 @@ import CtaButton from '../../components/CtaButton.astro';
   .pd-kpi-grid--8 { grid-template-columns: 1fr 1fr; }
   .pd-methods { grid-template-columns: 1fr 1fr; }
   .pd-results-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 480px) {
+  .pd-hero-sub { font-size: 16px; margin-bottom: 36px; }
+  .pd-hero-stats { gap: 20px; }
+  .pd-results-grid { grid-template-columns: 1fr; }
 }
 </style>
 

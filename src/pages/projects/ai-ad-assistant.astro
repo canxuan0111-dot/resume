@@ -32,11 +32,10 @@ import CtaButton from '../../components/CtaButton.astro';
           <div class="pd-hero-rule"></div>
           <div class="pd-hero-stats">
             <div class="pd-stat"><div class="pd-stat-val">3×</div><div class="pd-stat-lbl">效率提升</div></div>
-            <div class="pd-stat"><div class="pd-stat-val">98.6%</div><div class="pd-stat-lbl">素材准确率</div></div>
+            <div class="pd-stat"><div class="pd-stat-val">98.6%</div><div class="pd-stat-lbl">文案准确率</div></div>
             <div class="pd-stat"><div class="pd-stat-val">252万</div><div class="pd-stat-lbl">年收入</div></div>
-            <div class="pd-stat"><div class="pd-stat-val">20家</div><div class="pd-stat-lbl">付费客户</div></div>
+            <div class="pd-stat"><div class="pd-stat-val">120+</div><div class="pd-stat-lbl">付费客户</div></div>
             <div class="pd-stat"><div class="pd-stat-val">85%+</div><div class="pd-stat-lbl">客户留存</div></div>
-            <div class="pd-stat"><div class="pd-stat-val">−95%</div><div class="pd-stat-lbl">模型成本</div></div>
           </div>
         </div>
 
@@ -195,12 +194,6 @@ import CtaButton from '../../components/CtaButton.astro';
               </div>
               <div class="pd-arch-node pd-arch-node--expert">
                 <div class="pd-conn-vline-branch"></div>
-                <div class="pd-node-glyph">◎</div>
-                <div class="pd-node-name">投放决策 Agent</div>
-                <div class="pd-node-desc">预算分配 · 受众定位 · 出价</div>
-              </div>
-              <div class="pd-arch-node pd-arch-node--expert">
-                <div class="pd-conn-vline-branch"></div>
                 <div class="pd-node-glyph">◈</div>
                 <div class="pd-node-name">数据分析 Agent</div>
                 <div class="pd-node-desc">效果监测 · 诊断 · 优化建议</div>
@@ -346,7 +339,7 @@ import CtaButton from '../../components/CtaButton.astro';
         <div class="pd-challenge reveal reveal-delay-1">
           <div class="pd-ch-head">
             <span class="pd-ch-num">02</span>
-            <h3 class="pd-ch-title">图片生成准确率：从 70% 到 98.6%</h3>
+            <h3 class="pd-ch-title">图片生成准确率：从 72.3% 到 84.7%</h3>
           </div>
           <div class="pd-evolution pd-evolution--2col">
             <div class="pd-evo-step pd-evo-step--bad">
@@ -1480,7 +1473,7 @@ import CtaButton from '../../components/CtaButton.astro';
 }
 
 @media (max-width: 600px) {
-  .pd-hero-bl { left: 20px; bottom: 40px; max-width: calc(100vw - 40px); }
+  .pd-hero-content { padding: 80px 20px 0; }
   .pd-hero-scroll { display: none; }
   .pd-section { padding: 80px 0; }
   .pd-inner { padding: 0 20px; }
@@ -1488,5 +1481,11 @@ import CtaButton from '../../components/CtaButton.astro';
   .pd-proj-nav { padding: 24px 20px; }
   .pd-hero-stats { gap: 28px; }
   .pd-results-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 480px) {
+  .pd-hero-sub { font-size: 16px; margin-bottom: 36px; }
+  .pd-hero-stats { gap: 20px; }
+  .pd-results-grid { grid-template-columns: 1fr; }
 }
 </style>

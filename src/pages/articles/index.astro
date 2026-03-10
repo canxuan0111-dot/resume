@@ -147,4 +147,13 @@ const articles = [
     transform: translateX(4px);
     color: var(--text);
   }
+
+  @media (max-width: 600px) {
+    .article-card { padding: 20px; gap: 14px; }
+  }
+
+  @media (max-width: 480px) {
+    .article-arrow { display: none; }
+    .articles-list { margin-top: 40px; }
+  }
 </style>

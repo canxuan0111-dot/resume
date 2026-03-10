@@ -1837,6 +1837,7 @@ const CODE_ELAPSED = `function useElapsedSeconds() {
 }
 
 @media (max-width: 640px) {
+  .pd-hero-content { padding: 80px 20px 0; }
   .pd-hero-scroll { display: none; }
   .pd-section { padding: 80px 0; }
   .pd-inner { padding: 0 20px; }
@@ -1858,5 +1859,11 @@ const CODE_ELAPSED = `function useElapsedSeconds() {
   .arch-resp-col { padding: 16px 20px; }
   .arch-decision { padding: 28px 0; }
   .arch-step-legend { flex-direction: column; gap: 16px; }
+}
+
+@media (max-width: 480px) {
+  .pd-hero-sub { font-size: 16px; margin-bottom: 36px; }
+  .pd-hero-stats { gap: 20px; }
+  .pd-results-grid { grid-template-columns: 1fr; }
 }
 </style>

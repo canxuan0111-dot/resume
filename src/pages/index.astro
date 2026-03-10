@@ -943,15 +943,15 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .ins-cover-1 {
-    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 40%, #0062ff 100%);
+    background: url('/article1.jpg') center/cover no-repeat;
   }
 
   .ins-cover-2 {
-    background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+    background: url('/article2.jpg') center/cover no-repeat;
   }
 
   .ins-cover-3 {
-    background: linear-gradient(135deg, #1a0533 0%, #6b21a8 60%, #f9442c 100%);
+    background: url('/article3.jpg') center/cover no-repeat;
   }
 
   .ins-card-body {
@@ -1178,6 +1178,7 @@ import Layout from '../layouts/Layout.astro';
     .sw-header { flex-direction: column; gap: 16px; }
     .sw-subtitle { text-align: left; }
     .sw-item { grid-template-columns: 1fr auto; gap: 12px; }
+    .sw-item::before { inset: 0 -20px; }   /* 与移动端 section padding 匹配 */
     .sw-cat { display: none; }
     .ins-grid { grid-template-columns: 1fr; }
     .ins-header { flex-direction: column; align-items: flex-start; gap: 20px; }
@@ -1185,12 +1186,17 @@ import Layout from '../layouts/Layout.astro';
 
   /* 极小屏 */
   @media (max-width: 480px) {
+    .hero-tl { top: 72px; max-width: 180px; }
     .hero-name { font-size: clamp(48px, 13vw, 72px); bottom: 44px; }
     .hero-tagline { display: none; }
     .hero-scroll { display: none; }
-    #about, #process, #insights { padding: 72px 0 80px; }
-    #selected-work { padding: 72px 0 60px; }
-    .proc-col { padding: 28px 20px 32px; }
+    #about, #process, #insights { padding: 64px 0 72px; }
+    #selected-work { padding: 64px 0 52px; }
+    #why-me { padding: 64px 0 60px; }
+    .wm-title { margin-bottom: 40px; }
+    .about-quote { margin-bottom: 48px; }
+    .proc-title { margin-bottom: 40px; }
+    .proc-lead { margin-bottom: 56px; }
   }
 </style>
 

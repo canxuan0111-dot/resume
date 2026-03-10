@@ -207,4 +207,10 @@ const projects = [
     .project-card-right { width: 100%; border-left: none; border-top: 1px solid var(--border); flex-direction: row; align-items: center; }
     .project-metrics { flex-direction: row; flex-wrap: wrap; }
   }
+
+  @media (max-width: 480px) {
+    .project-body { padding: 20px 20px 20px 16px; }
+    .project-card-right { padding: 16px 20px; flex-direction: column; align-items: flex-start; gap: 12px; }
+    .project-cta { text-align: left; }
+  }
 </style>

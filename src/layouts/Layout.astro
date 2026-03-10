@@ -5,7 +5,7 @@ interface Props {
   navPill?: boolean;
 }
 
-const { title = '李灿轩', description = '李灿轩 · AI 产品经理 · 7年经验', navPill = false } = Astro.props;
+const { title = '李灿轩', description = '李灿轩 · AI 产品经理 · 6年经验', navPill = false } = Astro.props;
 const path = Astro.url.pathname;
 
 function isActive(href: string) {
@@ -391,12 +391,96 @@ function isActive(href: string) {
       color: var(--text);
     }
 
+    /* ── Hamburger ── */
+    .nav-menu-btn {
+      display: none;
+      width: 36px;
+      height: 36px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+
+    .nav-menu-btn span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: var(--text);
+      border-radius: 2px;
+      transform-origin: center;
+      transition: transform .28s cubic-bezier(.25,.46,.45,.94), opacity .2s;
+    }
+
+    .nav-menu-btn.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-menu-btn.open span:nth-child(2) { opacity: 0; }
+    .nav-menu-btn.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    nav.nav-hero .nav-menu-btn span { background: rgba(255,255,255,0.8); }
+
+    /* ── Mobile menu ── */
+    .nav-mobile-menu {
+      position: fixed;
+      top: 60px;
+      left: 0;
+      right: 0;
+      z-index: 98;
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 4px 20px 20px;
+      opacity: 0;
+      transform: translateY(-10px);
+      pointer-events: none;
+      transition: opacity .22s, transform .22s cubic-bezier(.25,.46,.45,.94);
+    }
+
+    .nav-mobile-menu.open {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: all;
+    }
+
+    .nav-mobile-links { list-style: none; }
+
+    .nav-mobile-links li { border-bottom: 1px solid var(--border); }
+    .nav-mobile-links li:last-child { border-bottom: none; }
+
+    .nav-mobile-links a {
+      display: block;
+      font-family: 'Syne', sans-serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 16px 0;
+      letter-spacing: -.03em;
+      transition: color .2s;
+    }
+
+    .nav-mobile-links a:hover,
+    .nav-mobile-links a.active { color: var(--text); }
+
     /* ── Responsive ── */
     @media (max-width: 768px) {
       nav { padding: 0 20px; }
       .nav-links { display: none; }
-      .section { padding: 80px 20px; }
+      .nav-menu-btn { display: flex; }
+      .section { padding: 72px 20px; }
       footer { padding: 32px 20px; }
+    }
+
+    /* pill nav 极小屏防溢出 */
+    @media (max-width: 480px) {
+      nav.nav-pill { max-width: calc(100vw - 32px); padding: 0 14px; }
+      nav.nav-pill .nav-links { gap: 18px; }
     }
   </style>
 </head>
@@ -411,7 +495,26 @@ function isActive(href: string) {
       <li><a href="/articles" class={isActive('/articles') ? 'active' : ''}>文章</a></li>
       <li><a href="/contact" class={isActive('/contact') ? 'active' : ''}>联系</a></li>
     </ul>
+    {!navPill && (
+      <button class="nav-menu-btn" id="nav-menu-btn" aria-label="菜单">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    )}
   </nav>
+
+  {!navPill && (
+    <div class="nav-mobile-menu" id="nav-mobile-menu">
+      <ul class="nav-mobile-links">
+        <li><a href="/" class={isActive('/') ? 'active' : ''}>首页</a></li>
+        <li><a href="/resume" class={isActive('/resume') ? 'active' : ''}>简历</a></li>
+        <li><a href="/projects" class={isActive('/projects') ? 'active' : ''}>项目</a></li>
+        <li><a href="/articles" class={isActive('/articles') ? 'active' : ''}>文章</a></li>
+        <li><a href="/contact" class={isActive('/contact') ? 'active' : ''}>联系</a></li>
+      </ul>
+    </div>
+  )}
 
   <slot />
 
@@ -518,6 +621,22 @@ function isActive(href: string) {
         if (nav.classList.contains('nav-collapsed')) {
           nav.classList.remove('nav-collapsed');
         }
+      });
+    }
+
+    // ── Hamburger menu ──
+    const menuBtn = document.getElementById('nav-menu-btn');
+    const mobileMenu = document.getElementById('nav-mobile-menu');
+    if (menuBtn && mobileMenu) {
+      menuBtn.addEventListener('click', () => {
+        const open = menuBtn.classList.toggle('open');
+        mobileMenu.classList.toggle('open', open);
+      });
+      mobileMenu.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          menuBtn.classList.remove('open');
+          mobileMenu.classList.remove('open');
+        });
       });
     }
   </script>

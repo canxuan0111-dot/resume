@@ -13,11 +13,11 @@ import CtaButton from '../components/CtaButton.astro';
       <div class="section" style="padding-top: 140px;">
         <SectionHeader
           eyebrow="一些数字"
-          title="7 年，持续交付<br>规模化价值。"
+          title="6 年，持续交付<br>规模化价值。"
         />
         <div class="stats-grid">
           <div class="stat-item reveal reveal-delay-1">
-            <div class="stat-number accent" data-target="7">0</div>
+            <div class="stat-number accent" data-target="6">0</div>
             <div class="stat-label">年工作经验</div>
           </div>
           <div class="stat-item reveal reveal-delay-2">
@@ -26,11 +26,11 @@ import CtaButton from '../components/CtaButton.astro';
           </div>
           <div class="stat-item reveal reveal-delay-3">
             <div class="stat-number accent" data-suffix="万+" data-target="1712">0</div>
-            <div class="stat-label">日均 UV 峰值</div>
+            <div class="stat-label">日均 UV 峰值（互动项目）</div>
           </div>
           <div class="stat-item reveal reveal-delay-4">
             <div class="stat-number accent" data-suffix="%" data-target="98">0</div>
-            <div class="stat-label">AI 素材准确率</div>
+            <div class="stat-label">文案素材准确率</div>
           </div>
         </div>
       </div>
@@ -42,7 +42,7 @@ import CtaButton from '../components/CtaButton.astro';
         <SectionHeader
           eyebrow="职业概述"
           title="用 AI 重构产品，<br>从技术到商业化。"
-          subtitle="7 年产品经理经验，专注 AI 产品从 0 到 1 全链路落地。深度理解 LLM、Multi-Agent、RAG、多模态 AIGC 等技术的产品化应用。成功主导商家 AI 投放助手，驱动内容生产效率提升 3 倍、素材生成准确率 98.6%，年收入 252 万，客户留存 85%+。荷兰工业设计工程硕士，体验设计 × 产品双背景。"
+          subtitle="6 年产品经理经验，专注 AI 产品从 0 到 1 全链路落地。深度理解 LLM、Multi-Agent、RAG、多模态 AIGC 等技术的产品化应用。成功主导商家 AI 投放助手，驱动内容生产效率提升 3 倍、文案素材准确率 98.6%，年收入 252 万，客户留存 85%+。荷兰工业设计工程硕士，体验设计 × 产品双背景。"
         />
         <CtaButton href="/contact" label="探讨合作机会" size="sm" />
       </div>
@@ -153,9 +153,8 @@ import CtaButton from '../components/CtaButton.astro';
                 <Tag variant="metric" label="周产出 50→250 条" />
                 <Tag variant="metric" label="准确率 98.6%" />
                 <Tag variant="metric" label="年收入 252 万" />
-                <Tag variant="metric" label="付费用户 20 家" />
+                <Tag variant="metric" label="付费用户 120 家" />
                 <Tag variant="metric" label="客户留存 85%+" />
-                <Tag variant="metric" label="模型成本降低 95%" />
               </div>
             </div>
           </div>
@@ -221,6 +220,12 @@ import CtaButton from '../components/CtaButton.astro';
             <div class="edu-school">南京工业大学</div>
             <div class="edu-degree">本科 · 工业设计</div>
             <div class="edu-note">工业设计专业系统训练，奠定产品体验设计与用户研究能力基础。</div>
+          </div>
+          <div class="edu-card reveal reveal-delay-3">
+            <div class="edu-year">毕业设计 · 核心实践</div>
+            <div class="edu-school">HoloLens 智慧工厂 MR 交互系统</div>
+            <div class="edu-degree">多模态交互 · 空间计算 · 智能硬件</div>
+            <div class="edu-note">构建了从物理空间环境到数字界面的软硬协同产品交互认知底蕴。在真实 B 端仓储场景下，探索空间计算、手势识别（Air Tap 等）与物理货架的虚实叠加体验设计；针对工厂复杂作业环境，设计分层信息展示逻辑与手势确认防误触机制，解决空间交互中的「信息过载」与「环境鲁棒性」问题。认知沉淀：建立了对智能硬件产品「多模态交互 → 物理环境融合 → 硬件物理约束（算力/传感器边界）」的完整认知框架，为后续在 AI 业务线评估技术落地可行性与设计容错降级机制奠定底层基础。</div>
           </div>
         </div>
 
@@ -384,7 +389,7 @@ import CtaButton from '../components/CtaButton.astro';
   /* ── Education ── */
   .edu-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 12px;
   }
 
@@ -428,12 +433,21 @@ import CtaButton from '../components/CtaButton.astro';
   /* ── Responsive ── */
   @media (max-width: 900px) {
     .skills-wrap { grid-template-columns: 1fr; }
+    .edu-grid    { grid-template-columns: repeat(2, 1fr); }
   }
 
   @media (max-width: 768px) {
     .stats-grid  { grid-template-columns: repeat(2, 1fr); }
     .edu-grid    { grid-template-columns: 1fr; }
-    .exp-header  { padding: 20px; }
+    .exp-header  { padding: 20px; flex-direction: column; }
     .project-block { padding: 20px; }
+  }
+
+  @media (max-width: 480px) {
+    .stats-grid  { grid-template-columns: 1fr; }
+    .stat-number { font-size: 36px; }
+    .stat-item   { padding: 24px 20px; }
+    .exp-company { font-size: 15px; }
+    .edu-cta     { flex-direction: column; align-items: flex-start; }
   }
 </style>
