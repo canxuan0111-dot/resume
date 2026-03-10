@@ -499,6 +499,10 @@ function isActive(href: string) {
       nav.nav-pill.scrolled { border-bottom-color: var(--border); }
       /* 移动端不折叠（覆盖 collapsed 态的 transform） */
       nav.nav-pill.nav-collapsed { transform: none !important; opacity: 1 !important; }
+      /* Hero 区域透明背景 + 白色文字（覆盖桌面端的白底 pill-hero） */
+      nav.nav-pill.nav-hero { background: transparent !important; border-bottom-color: transparent !important; }
+      nav.nav-pill.nav-hero .nav-logo { color: rgba(255,255,255,0.9); }
+      nav.nav-pill.nav-hero .nav-menu-btn span { background: rgba(255,255,255,0.85); }
     }
   </style>
 </head>
