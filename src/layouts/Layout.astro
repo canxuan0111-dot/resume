@@ -468,19 +468,37 @@ function isActive(href: string) {
     .nav-mobile-links a:hover,
     .nav-mobile-links a.active { color: var(--text); }
 
+    /* 桌面端 pill nav 不显示汉堡 */
+    nav.nav-pill .nav-menu-btn { display: none; }
+
     /* ── Responsive ── */
     @media (max-width: 768px) {
       nav { padding: 0 20px; }
-      nav:not(.nav-pill) .nav-links { display: none; }  /* pill nav 保留链接可见 */
+      .nav-links { display: none; }
       .nav-menu-btn { display: flex; }
       .section { padding: 72px 20px; }
       footer { padding: 32px 20px; }
-    }
 
-    /* pill nav 极小屏防溢出 */
-    @media (max-width: 480px) {
-      nav.nav-pill { max-width: calc(100vw - 32px); padding: 0 14px; }
-      nav.nav-pill .nav-links { gap: 18px; }
+      /* Pill nav 在移动端退化为普通全宽导航条 */
+      nav.nav-pill {
+        left: 0;
+        right: 0;
+        top: 0;
+        transform: none;
+        width: auto;
+        max-width: none;
+        height: 60px;
+        border-radius: 0;
+        padding: 0 20px;
+        box-shadow: none;
+        border-bottom: 1px solid transparent;
+        background: rgba(255,255,255,0.92);
+      }
+      nav.nav-pill .nav-logo { display: block; }
+      nav.nav-pill .nav-menu-btn { display: flex; }
+      nav.nav-pill.scrolled { border-bottom-color: var(--border); }
+      /* 移动端不折叠（覆盖 collapsed 态的 transform） */
+      nav.nav-pill.nav-collapsed { transform: none !important; opacity: 1 !important; }
     }
   </style>
 </head>
@@ -495,17 +513,14 @@ function isActive(href: string) {
       <li><a href="/articles" class={isActive('/articles') ? 'active' : ''}>文章</a></li>
       <li><a href="/contact" class={isActive('/contact') ? 'active' : ''}>联系</a></li>
     </ul>
-    {!navPill && (
-      <button class="nav-menu-btn" id="nav-menu-btn" aria-label="菜单">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-    )}
+    <button class="nav-menu-btn" id="nav-menu-btn" aria-label="菜单">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </nav>
 
-  {!navPill && (
-    <div class="nav-mobile-menu" id="nav-mobile-menu">
+  <div class="nav-mobile-menu" id="nav-mobile-menu">
       <ul class="nav-mobile-links">
         <li><a href="/" class={isActive('/') ? 'active' : ''}>首页</a></li>
         <li><a href="/resume" class={isActive('/resume') ? 'active' : ''}>简历</a></li>
@@ -514,7 +529,6 @@ function isActive(href: string) {
         <li><a href="/contact" class={isActive('/contact') ? 'active' : ''}>联系</a></li>
       </ul>
     </div>
-  )}
 
   <slot />
 
