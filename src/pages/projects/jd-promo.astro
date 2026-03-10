@@ -5,27 +5,52 @@ import Tag from '../../components/Tag.astro';
 import CtaButton from '../../components/CtaButton.astro';
 ---
 
-<Layout title="京东大促互动产品">
+<Layout title="京东大促互动产品" navPill={true}>
   <main class="pd">
 
     <!-- ① Hero -->
     <section class="pd-hero">
-      <div class="pd-inner">
-        <div class="pd-hero-tags">
-          <Tag label="游戏化设计" variant="hero" />
-          <Tag label="2021 – 2023" variant="hero" />
-          <Tag label="双11 · 618 · 年货节" variant="hero" />
+
+      <!-- 背景图 -->
+      <img src="/jd-hero.jpg" alt="" class="pd-hero-bg-img" aria-hidden="true" />
+
+      <!-- 遮罩：左侧 + 底部加深 -->
+      <div class="pd-hero-overlay"></div>
+
+      <!-- 内容层 -->
+      <div class="pd-hero-content">
+
+        <!-- 居中：标签 + 标题 + 副标题 + 数据 -->
+        <div class="pd-hero-bl pd-ha pd-ha-bl">
+          <div class="pd-hero-tags">
+            <Tag label="游戏化设计" variant="hero" />
+            <Tag label="2021 – 2023" variant="hero" />
+            <Tag label="双11 · 618 · 年货节" variant="hero" />
+          </div>
+          <h1 class="pd-hero-title">京东大促<br>互动产品</h1>
+          <p class="pd-hero-sub">T 级大促全周期互动设计<br>三次完整项目复盘</p>
+          <div class="pd-hero-rule"></div>
+          <div class="pd-hero-stats">
+            <div class="pd-stat"><div class="pd-stat-val">8350w</div><div class="pd-stat-lbl">累计参与 UV（618）</div></div>
+            <div class="pd-stat"><div class="pd-stat-val">1753w</div><div class="pd-stat-lbl">日均 DAU（年货节）</div></div>
+            <div class="pd-stat"><div class="pd-stat-val">70.12%</div><div class="pd-stat-lbl">次日复访率</div></div>
+            <div class="pd-stat"><div class="pd-stat-val">2866w</div><div class="pd-stat-lbl">累计分享 UV（双11）</div></div>
+            <div class="pd-stat"><div class="pd-stat-val">+89%</div><div class="pd-stat-lbl">参与 UV 同比增长</div></div>
+          </div>
         </div>
-        <h1 class="pd-hero-title">京东大促<br>互动产品</h1>
-        <p class="pd-hero-sub">T 级大促全周期互动设计<br>三次完整项目复盘</p>
-        <div class="pd-hero-rule"></div>
-        <div class="pd-hero-stats">
-          <div class="pd-stat"><div class="pd-stat-val">8350w</div><div class="pd-stat-lbl">累计参与 UV（618）</div></div>
-          <div class="pd-stat"><div class="pd-stat-val">1753w</div><div class="pd-stat-lbl">日均 DAU（年货节）</div></div>
-          <div class="pd-stat"><div class="pd-stat-val">70.12%</div><div class="pd-stat-lbl">次日复访率</div></div>
-          <div class="pd-stat"><div class="pd-stat-val">2866w</div><div class="pd-stat-lbl">累计分享 UV（双11）</div></div>
-          <div class="pd-stat"><div class="pd-stat-val">+89%</div><div class="pd-stat-lbl">参与 UV 同比增长</div></div>
+
+        <!-- 右下角：滚动引导 -->
+        <div class="pd-hero-scroll pd-ha pd-ha-scroll" aria-hidden="true">
+          <div class="scroll-mouse">
+            <div class="scroll-wheel"></div>
+          </div>
+          <div class="scroll-arrows">
+            <span></span>
+            <span></span>
+          </div>
+          <span class="scroll-label">SCROLL</span>
         </div>
+
       </div>
     </section>
 
@@ -105,10 +130,7 @@ import CtaButton from '../../components/CtaButton.astro';
 
         <div class="pd-proj-body">
           <div class="pd-proj-media reveal reveal-delay-2">
-            <div class="pd-placeholder">
-              <span class="pd-placeholder-main">素材图待补充</span>
-              <span class="pd-placeholder-sub">热爱穿行记 · 古风穿越视觉</span>
-            </div>
+            <img src="/jd-cover01.jpg" alt="热爱穿行记 · 古风穿越视觉" class="pd-proj-img" />
           </div>
           <div class="pd-proj-detail reveal reveal-delay-3">
             <div class="pd-subsection">
@@ -174,10 +196,7 @@ import CtaButton from '../../components/CtaButton.astro';
 
         <div class="pd-proj-body pd-proj-body--rev">
           <div class="pd-proj-media reveal reveal-delay-2">
-            <div class="pd-placeholder">
-              <span class="pd-placeholder-main">素材图待补充</span>
-              <span class="pd-placeholder-sub">热爱奇旅 · 互动业务场景</span>
-            </div>
+            <img src="/jd-cover02.jpg" alt="热爱奇旅 · 互动业务场景" class="pd-proj-img" />
           </div>
           <div class="pd-proj-detail reveal reveal-delay-3">
             <div class="pd-subsection">
@@ -263,10 +282,7 @@ import CtaButton from '../../components/CtaButton.astro';
 
         <div class="pd-proj-body">
           <div class="pd-proj-media reveal reveal-delay-2">
-            <div class="pd-placeholder">
-              <span class="pd-placeholder-main">素材图待补充</span>
-              <span class="pd-placeholder-sub">炸年兽 · 互动业务场景</span>
-            </div>
+            <img src="/jd-cover03.jpg" alt="炸年兽 · 互动业务场景" class="pd-proj-img" />
           </div>
           <div class="pd-proj-detail reveal reveal-delay-3">
             <div class="pd-subsection">
@@ -334,8 +350,14 @@ import CtaButton from '../../components/CtaButton.astro';
       </div>
     </section>
 
+    <!-- 装饰图 + 方法论楼层 包在 wrapper 内，限制 sticky 范围 -->
+    <div class="pd-deco-wrapper">
+      <section class="pd-deco-img" id="pd-deco-img">
+        <img src="/jd-deco.jpg" alt="" class="pd-deco-full-img" />
+      </section>
+
     <!-- ⑥ 跨项目方法论 -->
-    <section class="pd-section">
+    <section class="pd-section pd-over">
       <div class="pd-inner">
         <SectionHeader
           eyebrow="方法论沉淀"
@@ -380,6 +402,7 @@ import CtaButton from '../../components/CtaButton.astro';
         </div>
       </div>
     </section>
+    </div><!-- /pd-deco-wrapper -->
 
     <!-- ⑦ 结果 -->
     <section class="pd-results">
@@ -438,8 +461,82 @@ import CtaButton from '../../components/CtaButton.astro';
 
 /* ─── Hero ─── */
 .pd-hero {
+  position: relative;
   background: var(--canvas-dark);
-  padding: 160px 40px 100px;
+  height: 100vh;
+  min-height: 640px;
+  overflow: hidden;
+}
+
+.pd-hero-bg-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  opacity: .55;
+  pointer-events: none;
+  user-select: none;
+}
+
+.pd-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to right,  rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.25) 55%, rgba(0,0,0,0.05) 100%),
+    linear-gradient(to top,    rgba(0,0,0,0.75) 0%, rgba(0,0,0,0)    55%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.pd-hero-content {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 40px 0;
+}
+
+/* ── 入场动画 ── */
+@keyframes pdHeroFadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pdHeroFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.pd-ha {
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.22, 0.8, 0.44, 1);
+  animation-duration: 0.8s;
+}
+.pd-ha-bl     { animation-name: pdHeroFadeUp; animation-delay: 0.1s; }
+.pd-ha-scroll { animation-name: pdHeroFadeIn; animation-delay: 0.75s; }
+
+/* ── 居中文案区 ── */
+.pd-hero-bl {
+  text-align: center;
+  max-width: 760px;
+  width: 100%;
+}
+
+.pd-hero-bl .pd-hero-tags {
+  justify-content: center;
+}
+
+.pd-hero-bl .pd-hero-stats {
+  justify-content: center;
+}
+
+.pd-hero-bl .pd-hero-rule {
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .pd-hero-tags {
@@ -490,6 +587,78 @@ import CtaButton from '../../components/CtaButton.astro';
 .pd-stat-lbl {
   font-size: 12px;
   color: var(--muted-inv);
+}
+
+/* ── 右下角滚动引导 ── */
+.pd-hero-scroll {
+  position: absolute;
+  right: 36px;
+  bottom: 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.scroll-mouse {
+  width: 24px;
+  height: 38px;
+  border: 2px solid rgba(255,255,255,0.75);
+  border-radius: 12px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 0 12px rgba(255,255,255,0.15);
+}
+
+.scroll-wheel {
+  width: 4px;
+  height: 7px;
+  background: #fff;
+  border-radius: 2px;
+  position: absolute;
+  top: 6px;
+  animation: pdWheelBounce 1.6s cubic-bezier(.45,0,.55,1) infinite;
+}
+
+@keyframes pdWheelBounce {
+  0%   { top: 6px;  opacity: 1; }
+  60%  { top: 18px; opacity: 0.2; }
+  100% { top: 6px;  opacity: 1; }
+}
+
+.scroll-arrows {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.scroll-arrows span {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid rgba(255,255,255,0.75);
+  border-bottom: 2px solid rgba(255,255,255,0.75);
+  transform: rotate(45deg);
+  animation: pdArrowFade 1.6s ease-in-out infinite;
+}
+
+.scroll-arrows span:nth-child(2) {
+  animation-delay: .18s;
+  opacity: 0.5;
+}
+
+@keyframes pdArrowFade {
+  0%, 100% { opacity: 0.2; transform: rotate(45deg) translateY(-3px); }
+  50%       { opacity: 1;   transform: rotate(45deg) translateY(2px);  }
+}
+
+.scroll-label {
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: rgba(255,255,255,0.6);
+  font-weight: 600;
 }
 
 /* ─── 背景与目标 ─── */
@@ -673,34 +842,11 @@ import CtaButton from '../../components/CtaButton.astro';
   border: 1px solid var(--border);
 }
 
-.pd-placeholder {
+.pd-proj-img {
   width: 100%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  background: repeating-linear-gradient(
-    -45deg,
-    transparent,
-    transparent 10px,
-    rgba(0,0,0,0.025) 10px,
-    rgba(0,0,0,0.025) 20px
-  );
-}
-
-.pd-placeholder-main {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--muted);
-  opacity: .5;
-}
-
-.pd-placeholder-sub {
-  font-size: 11px;
-  color: var(--muted);
-  opacity: .3;
+  object-fit: cover;
+  display: block;
 }
 
 .pd-proj-detail {
@@ -804,12 +950,48 @@ import CtaButton from '../../components/CtaButton.astro';
 
 .pd-kpi-delta {
   font-size: 11.5px;
-  color: var(--green);
+  color: var(--text);
   font-weight: 500;
 }
 
 .pd-kpi--note .pd-kpi-delta {
   color: var(--muted);
+}
+
+/* ─── 装饰图 wrapper（限制 sticky 范围）─── */
+.pd-deco-wrapper {
+  position: relative;
+  isolation: isolate;
+}
+
+/* ─── 装饰图楼层 ─── */
+.pd-deco-img {
+  position: sticky;
+  top: 0;
+  z-index: 0;
+  width: 100%;
+  line-height: 0;
+  overflow: hidden;
+}
+
+.pd-deco-full-img {
+  width: 100%;
+  display: block;
+  height: auto;
+  max-height: 640px;
+  object-fit: cover;
+  transform: scale(1.07);
+  transition: transform 1.4s cubic-bezier(.25,.46,.45,.94);
+}
+
+.pd-deco-img.deco-visible .pd-deco-full-img {
+  transform: scale(1);
+}
+
+/* 方法论楼层压在装饰图上方滑入 */
+.pd-over {
+  position: relative;
+  z-index: 1;
 }
 
 /* ─── 方法论 ─── */
@@ -970,7 +1152,7 @@ import CtaButton from '../../components/CtaButton.astro';
 }
 
 @media (max-width: 600px) {
-  .pd-hero { padding: 120px 20px 60px; }
+  .pd-hero-scroll { display: none; }
   .pd-section { padding: 80px 0; }
   .pd-inner { padding: 0 20px; }
   .pd-results { padding: 80px 0; }
@@ -982,3 +1164,28 @@ import CtaButton from '../../components/CtaButton.astro';
   .pd-results-grid { grid-template-columns: 1fr 1fr; }
 }
 </style>
+
+<script>
+  // ── 装饰图 scale 入场 ──
+  const decoSection = document.getElementById('pd-deco-img');
+  if (decoSection) {
+    const decoObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          decoSection.classList.add('deco-visible');
+          decoObs.unobserve(decoSection);
+        }
+      });
+    }, { threshold: 0.1 });
+    decoObs.observe(decoSection);
+  }
+
+  const nav  = document.getElementById('main-nav')!;
+  const hero = document.querySelector('.pd-hero') as HTMLElement;
+
+  function updateNav() {
+    nav.classList.toggle('nav-hero', hero.getBoundingClientRect().bottom > 60);
+  }
+  updateNav();
+  window.addEventListener('scroll', updateNav, { passive: true });
+</script>

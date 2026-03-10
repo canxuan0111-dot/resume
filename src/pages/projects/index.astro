@@ -20,6 +20,24 @@ const projects = [
     metrics: ['日均 UV 1712 万', 'UV 同比 +46%', '成本降 30%'],
     accentColor: '#00a854',
   },
+  {
+    slug: 'personal-website',
+    title: '个人网站',
+    subtitle: 'Vibe Coding 实践 · 48 小时从零到上线',
+    desc: '以 AI 协作为核心工作流，从优质 template 改造出发，迁移至 Astro 5，自建 CSS token 设计系统，完成 7 页完整个人网站的端到端交付。',
+    tags: ['Vibe Coding', 'Astro 5', '纯 CSS', '设计系统', '静态部署'],
+    metrics: ['2天上线', '零框架依赖', '6版迭代'],
+    accentColor: '#7c3aed',
+  },
+  {
+    slug: 'agent-architecture',
+    title: 'Agent 架构研究',
+    subtitle: 'FlowEngine · 确定性状态机 · LLM 性能调优',
+    desc: '深入研究 AI 对话产品中 LLM 与确定性状态机的分工边界，设计 FlowEngine 三层架构替代 LLM 状态管理，并针对串行 LLM 调用链路进行性能优化，文案生成耗时降低 67%。',
+    tags: ['架构设计', '状态机', 'TypeScript', 'LLM 优化', 'React Hook'],
+    metrics: ['LLM 调用 3→1', '响应速度 −67%', 'Bug 归零'],
+    accentColor: '#ea580c',
+  },
 ];
 ---
 
@@ -166,9 +184,9 @@ const projects = [
   .pmetric {
     font-size: 12px;
     font-weight: 600;
-    color: var(--green);
-    background: var(--green-bg);
-    border: 1px solid var(--green-border);
+    color: var(--c);
+    background: color-mix(in srgb, var(--c) 7%, transparent);
+    border: 1px solid color-mix(in srgb, var(--c) 20%, transparent);
     border-radius: 8px;
     padding: 5px 10px;
     text-align: center;

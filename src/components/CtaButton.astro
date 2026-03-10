@@ -12,7 +12,7 @@
 interface Props {
   href: string;
   label: string;
-  variant?: 'dark' | 'light';
+  variant?: 'dark' | 'light' | 'ghost-inv';
   size?: 'md' | 'sm';
   class?: string;
 }
@@ -69,6 +69,19 @@ const {
 
 .cta-btn--light:hover {
   background: #fff;
+}
+
+.cta-btn--ghost-inv {
+  background: transparent;
+  color: #fff;
+  padding: 6px 22px 6px 6px;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.cta-btn--ghost-inv:hover {
+  opacity: 1;
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.35);
 }
 
 /* ── Sizes ── */

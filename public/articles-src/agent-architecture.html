@@ -1,210 +1,702 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agent产品架构工程化深度落地指南 - 详实版</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap');
-        :root { --primary: #2563eb; --secondary: #64748b; --success: #10b981; --warning: #f59e0b; --danger: #ef4444; }
-        body { font-family: 'Inter', 'Noto Sans SC', sans-serif; line-height: 1.7; background-color: #f8fafc; color: #1e293b; }
-        .section-card { background: white; border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); padding: 3rem; margin-bottom: 3rem; border: 1px solid #e2e8f0; }
-        .pro-tip { background: #eff6ff; border-left: 5px solid var(--primary); padding: 1.5rem; border-radius: 0 8px 8px 0; margin: 1.5rem 0; }
-        .gold-rule { background: #fffbeb; border: 1px solid #fde68a; padding: 1.5rem; border-radius: 12px; font-weight: 500; }
-        h1, h2, h3 { font-weight: 700; color: #0f172a; }
-        .code-block { font-family: 'Fira Code', monospace; background: #1e293b; color: #f8fafc; padding: 1.25rem; border-radius: 8px; font-size: 0.9rem; overflow-x: auto; }
-        .mermaid { display: flex; justify-content: center; background: #fff; padding: 2rem; border-radius: 12px; margin: 2rem 0; }
-        .step-tag { display: inline-block; background: var(--primary); color: white; padding: 0.2rem 0.8rem; border-radius: 999px; font-size: 0.75rem; margin-bottom: 0.5rem; }
-    </style>
-</head>
-<body class="max-w-5xl mx-auto px-6 py-16">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agent 产品架构工程化深度落地指南</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg-alt: #f0f0f0;
+      --surface: #f7f7f5;
+      --canvas-dark: #0a0a0a;
+      --text: #0a0a0a;
+      --text-inv: #ffffff;
+      --muted: rgba(10,10,10,0.45);
+      --muted-inv: rgba(255,255,255,0.5);
+      --accent: #0062ff;
+      --accent-bg: rgba(0,98,255,0.07);
+      --accent-border: rgba(0,98,255,0.2);
+      --red: #f9442c;
+      --red-bg: rgba(249,68,44,0.06);
+      --red-border: rgba(249,68,44,0.2);
+      --green: #00a854;
+      --green-bg: rgba(0,168,84,0.07);
+      --green-border: rgba(0,168,84,0.2);
+      --amber: #d97706;
+      --amber-bg: rgba(217,119,6,0.07);
+      --amber-border: rgba(217,119,6,0.2);
+      --border: rgba(0,0,0,0.08);
+      --border-mid: rgba(0,0,0,0.13);
+      --font-display: 'Syne', sans-serif;
+      --font-sans: 'Inter', -apple-system, 'PingFang SC', 'Helvetica Neue', sans-serif;
+      --font-mono: 'Fira Code', 'Cascadia Code', 'SF Mono', monospace;
+      --radius: 12px;
+      --radius-lg: 20px;
+      --radius-pill: 100px;
+    }
 
-    <header class="mb-20 text-center">
-        <h1 class="text-5xl font-extrabold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
-            Agent 产品架构工程化深度落地指南
-        </h1>
-        <p class="text-xl text-slate-500 max-w-3xl mx-auto">
-            从“概率性幻觉”到“确定性交付”：一套面向复杂业务流程的智能体设计方法论。
-        </p>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.8;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .article-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 64px 40px 120px;
+    }
+
+    /* ── Header ── */
+    .article-header {
+      margin-bottom: 64px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .article-title {
+      font-family: var(--font-display);
+      font-size: clamp(30px, 5vw, 48px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      color: var(--text);
+    }
+
+    .article-desc {
+      font-size: 18px;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 28px;
+    }
+
+    .article-meta {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+
+    .article-meta .sep {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--muted);
+      flex-shrink: 0;
+    }
+
+    /* ── Back link ── */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      margin-bottom: 48px;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--text); }
+    .back-link svg { flex-shrink: 0; }
+
+    /* ── Section headings ── */
+    h2.sh {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-top: 60px;
+      margin-bottom: 20px;
+      color: var(--text);
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    h2.sh .num {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    h3.sh3 {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin-top: 36px;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+
+    /* ── Prose ── */
+    p {
+      color: rgba(10,10,10,0.72);
+      margin-bottom: 16px;
+      font-size: 16px;
+      line-height: 1.85;
+    }
+
+    strong { color: var(--text); font-weight: 600; }
+
+    code {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2px 6px;
+      color: rgba(10,10,10,0.8);
+    }
+
+    pre {
+      font-family: var(--font-mono);
+      background: var(--canvas-dark);
+      color: rgba(255,255,255,0.82);
+      border-radius: var(--radius);
+      padding: 24px;
+      font-size: 13px;
+      line-height: 1.7;
+      overflow-x: auto;
+      margin: 24px 0;
+    }
+
+    pre code {
+      background: none;
+      border: none;
+      padding: 0;
+      color: inherit;
+      font-size: inherit;
+      border-radius: 0;
+    }
+
+    /* ── Callout ── */
+    .callout {
+      border: 1px solid var(--accent-border);
+      background: var(--accent-bg);
+      border-radius: var(--radius);
+      padding: 18px 22px;
+      margin: 24px 0;
+      font-size: 15px;
+      line-height: 1.75;
+      color: rgba(10,10,10,0.72);
+    }
+
+    .callout strong { color: var(--accent); }
+
+    .callout-amber {
+      border-color: var(--amber-border);
+      background: var(--amber-bg);
+    }
+    .callout-amber strong { color: var(--amber); }
+
+    /* ── Compare grid ── */
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 24px 0;
+    }
+
+    .compare-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+
+    .compare-card.neg {
+      border-color: var(--red-border);
+      background: var(--red-bg);
+    }
+
+    .compare-card.pos {
+      border-color: var(--green-border);
+      background: var(--green-bg);
+    }
+
+    .compare-card .ct {
+      font-family: var(--font-display);
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .compare-card.neg .ct { color: var(--red); }
+    .compare-card.pos .ct { color: var(--green); }
+
+    .compare-card ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .compare-card ul li {
+      font-size: 13.5px;
+      line-height: 1.65;
+      margin-bottom: 7px;
+      padding-left: 14px;
+      position: relative;
+      color: rgba(10,10,10,0.7);
+    }
+
+    .compare-card ul li::before {
+      content: '·';
+      position: absolute;
+      left: 0;
+      font-weight: 700;
+    }
+
+    /* ── Mermaid diagram ── */
+    .diagram-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      margin: 24px 0;
+      overflow: auto;
+    }
+
+    .mermaid {
+      display: flex;
+      justify-content: center;
+    }
+
+    /* ── Ordered steps list ── */
+    ol.steps {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    ol.steps li {
+      padding: 16px 20px;
+      font-size: 15px;
+      color: rgba(10,10,10,0.72);
+      line-height: 1.7;
+      border-bottom: 1px solid var(--border);
+      counter-increment: step;
+    }
+
+    ol.steps li:last-child { border-bottom: none; }
+
+    ol.steps li::before {
+      display: inline-block;
+      content: counter(step, decimal-leading-zero);
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-right: 12px;
+      letter-spacing: 0.04em;
+    }
+
+    ol.steps { counter-reset: step; }
+
+    /* ── Timeline ── */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      margin: 28px 0;
+    }
+
+    .tl-item {
+      display: flex;
+      gap: 20px;
+      padding-bottom: 36px;
+      position: relative;
+    }
+
+    .tl-item:last-child { padding-bottom: 0; }
+
+    .tl-left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+      width: 20px;
+    }
+
+    .tl-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+      margin-top: 5px;
+    }
+
+    .tl-line {
+      width: 1px;
+      flex: 1;
+      background: var(--border);
+      margin-top: 6px;
+    }
+
+    .tl-item:last-child .tl-line { display: none; }
+
+    .tl-content {}
+
+    .phase-label {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+
+    .tl-content h4 {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .tl-content p {
+      font-size: 14.5px;
+      margin-bottom: 0;
+    }
+
+    /* ── Numbered bullet list ── */
+    .num-list {
+      list-style: none;
+      padding: 0;
+      margin: 16px 0;
+    }
+
+    .num-list li {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 14px;
+      font-size: 15px;
+      color: rgba(10,10,10,0.72);
+      line-height: 1.7;
+    }
+
+    .num-list .circle {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--accent-bg);
+      border: 1px solid var(--accent-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-top: 2px;
+    }
+
+    /* ── Dark block ── */
+    .dark-block {
+      background: var(--canvas-dark);
+      color: var(--text-inv);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      margin: 24px 0;
+    }
+
+    .dark-block h3 {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-inv);
+      margin-bottom: 8px;
+      margin-top: 0;
+    }
+
+    .dark-block p {
+      color: var(--muted-inv);
+      font-size: 13.5px;
+      margin-bottom: 0;
+    }
+
+    .dark-block-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    .dark-block-cell {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius);
+      padding: 20px 16px;
+      text-align: center;
+    }
+
+    /* ── Footer ── */
+    .article-footer {
+      margin-top: 80px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .article-wrap { padding: 40px 20px 80px; }
+      .compare-grid { grid-template-columns: 1fr; }
+      .dark-block-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="article-wrap">
+
+    <a href="/articles" class="back-link" target="_top">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      所有文章
+    </a>
+
+    <header class="article-header">
+      <div class="eyebrow">Engineering · AI Product</div>
+      <h1 class="article-title">Agent 产品架构工程化深度落地指南</h1>
+      <p class="article-desc">从「概率性幻觉」到「确定性交付」：一套面向复杂业务流程的智能体设计方法论。</p>
+      <div class="article-meta">
+        <span>2026-03</span>
+        <span class="sep"></span>
+        <span>15 min read</span>
+        <span class="sep"></span>
+        <span>Archie</span>
+      </div>
     </header>
 
-    <section class="section-card">
-        <h2 class="text-3xl mb-8 flex items-center">
-            <span class="mr-3 text-blue-600">01.</span> 架构演进的底层逻辑
-        </h2>
-        <p class="mb-6">在 Agent 开发的初期，开发者往往会陷入“全能智能体”的迷思。通过多次迭代发现，纯 Agent 架构在处理<strong>固定业务流</strong>时存在不可逾越的稳定性红线。</p>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <div class="p-6 border border-red-100 bg-red-50 rounded-xl">
-                <h4 class="font-bold text-red-700 mb-2">❌ 纯 Agent 架构 (Chaos)</h4>
-                <ul class="text-sm space-y-2 text-red-600">
-                    <li>• 逻辑漂移：Agent 随口答应无法实现的跳转</li>
-                    <li>• 幻觉节点：跳过必填表单直接执行结果</li>
-                    <li>• 状态丢失：Context 长度限制导致业务进度重置</li>
-                </ul>
-            </div>
-            <div class="p-6 border border-green-100 bg-green-50 rounded-xl">
-                <h4 class="font-bold text-green-700 mb-2">✅ 分层治理架构 (Governance)</h4>
-                <ul class="text-sm space-y-2 text-green-600">
-                    <li>• 确定性控制：代码控制状态机，Agent 仅执行节点任务</li>
-                    <li>• 数据隔离：Agent 只有建议权，写入逻辑归系统</li>
-                    <li>• 容错性：Agent 崩溃不影响业务状态持久化</li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="gold-rule">
-            核心架构哲学：决策权收归系统（代码控制 Flow），交互权交给 Agent（语义理解 Perception）。不要让 Agent 思考“下一步去哪”，而要告诉它“你现在就在 A 节点，请完成 A 的任务”。
-        </div>
-    </section>
+    <!-- Section 01 -->
+    <h2 class="sh"><span class="num">01</span>架构演进的底层逻辑</h2>
+    <p>在 Agent 开发的初期，开发者往往会陷入「全能智能体」的迷思。通过多次迭代发现，纯 Agent 架构在处理<strong>固定业务流</strong>时存在不可逾越的稳定性红线。</p>
 
-    <section class="section-card">
-        <h2 class="text-3xl mb-8 flex items-center">
-            <span class="mr-3 text-blue-600">02.</span> “铁轨与赛车”架构详解
-        </h2>
-        <p class="mb-6">针对多表单、多固定节点的任务，推荐采用<strong>外部状态机 + 局部 Agent 映射</strong>的架构。这类似于在铁轨上跑赛车，方向由轨道定，速度和推力由 Agent 提供。</p>
-        
-        <div class="mermaid">
-            graph TD
-                User((用户)) -->|自然语言| Perception[Perception Layer: Agent]
-                Perception -->|提取参数/意图| Controller{System Orchestrator}
-                Controller -->|查询状态| DB[(Global State Store)]
-                DB -->|当前节点: 填表单B| Controller
-                Controller -->|校验规则| Logic[Hardcoded Business Logic]
-                Logic -->|通过| Next[跳转至节点C]
-                Logic -->|不通过| Perception
-                Next -->|更新| DB
-                Perception -.->|引导/提示| User
-        </div>
-
-        <h3 class="text-xl font-bold mt-8 mb-4">细节：表单处理的“草稿-确认”模式</h3>
-        <p class="text-slate-600 mb-4">当涉及表单填写节点时，Agent 的职责颗粒度应限制在：</p>
-        <ol class="list-decimal list-inside space-y-3 bg-slate-50 p-6 rounded-lg">
-            <li><strong>Slot Filling：</strong> 从对话中提取 <code>{"name": "张三", "date": "2026-03-08"}</code>。</li>
-            <li><strong>预填 (Pre-fill)：</strong> 将提取的数据注入前端 UI 状态，用户在界面上可见。</li>
-            <li><strong>人工确认 (HITL)：</strong> 只有当用户点击“提交”按钮，系统才真正执行数据写入。</li>
-            <li><strong>校验反馈：</strong> 如果后端返回 <code>error: 余额不足</code>，系统将错误原文传给 Agent，由 Agent 翻译成“人话”引导用户修改。</li>
-        </ol>
-    </section>
-
-    <section class="section-card">
-        <h2 class="text-3xl mb-8 flex items-center">
-            <span class="mr-3 text-blue-600">03.</span> Agent 工程化落地的 6 大阶段
-        </h2>
-        
-        <div class="space-y-12">
-            <div class="relative pl-8 border-l-2 border-blue-200">
-                <div class="absolute -left-[9px] top-0 w-4 h-4 bg-blue-600 rounded-full"></div>
-                <span class="step-tag">Phase 1</span>
-                <h4 class="text-xl font-bold mb-2">业务建模：划清“确定性”红线</h4>
-                <p class="text-slate-600">不要试图用 Prompt 描述所有业务。画出 SOP 流程图，明确哪些节点是 <strong>Stateless（无状态咨询）</strong>，哪些是 <strong>Transactional（事务操作）</strong>。为事务操作定义严格的 JSON Schema。</p>
-            </div>
-
-            <div class="relative pl-8 border-l-2 border-blue-200">
-                <div class="absolute -left-[9px] top-0 w-4 h-4 bg-blue-600 rounded-full"></div>
-                <span class="step-tag">Phase 2</span>
-                <h4 class="text-xl font-bold mb-2">架构设计：建立“无状态”执行员</h4>
-                <p class="text-slate-600">确保 Agent 每次对话不依赖自身的 Context 记忆，而是依赖系统注入的 <code>Current_Global_State</code>。将 Agent 拆解为原子化工具（Atom Tools），每个工具只负责一个极窄的 API 调用。</p>
-            </div>
-
-            <div class="relative pl-8 border-l-2 border-blue-200">
-                <div class="absolute -left-[9px] top-0 w-4 h-4 bg-blue-600 rounded-full"></div>
-                <span class="step-tag">Phase 3</span>
-                <h4 class="text-xl font-bold mb-2">Prompt 协议化：解耦职责</h4>
-                <p class="text-slate-600">拒绝“上帝 Prompt”。采用 <strong>Micro-Prompting</strong> 策略，为每个表单节点配置独立的 Prompt 模板。通过 Few-shot 样本强制 Agent 遵守该节点的“对话边界”。</p>
-            </div>
-
-            <div class="relative pl-8 border-l-2 border-blue-200">
-                <div class="absolute -left-[9px] top-0 w-4 h-4 bg-blue-600 rounded-full"></div>
-                <span class="step-tag">Phase 4</span>
-                <h4 class="text-xl font-bold mb-2">护栏设计：防范逃逸</h4>
-                <div class="pro-tip">
-                    <strong>工程细节：</strong> 使用模型原生支持的 <code>Structured Output (Strict Mode)</code>。在代码层设置拦截器，如果 Agent 试图跳转至非法状态，直接熔断并触发重试。
-                </div>
-            </div>
-
-            <div class="relative pl-8 border-l-2 border-blue-200">
-                <div class="absolute -left-[9px] top-0 w-4 h-4 bg-blue-600 rounded-full"></div>
-                <span class="step-tag">Phase 5</span>
-                <h4 class="text-xl font-bold mb-2">评估测试：黄金数据集</h4>
-                <p class="text-slate-600">告别“体感测试”。建立由 100+ 极端 Case 组成的 <strong>Golden Dataset</strong>。引入 <strong>LLM-as-a-Judge</strong>（如使用 GPT-4o 评测业务模型），量化各节点的召回率与准确率。</p>
-            </div>
-
-            <div class="relative pl-8 border-l-2 border-blue-200">
-                <div class="absolute -left-[9px] top-0 w-4 h-4 bg-blue-600 rounded-full"></div>
-                <span class="step-tag">Phase 6</span>
-                <h4 class="text-xl font-bold mb-2">观测迭代：链路追踪 (Tracing)</h4>
-                <p class="text-slate-600">部署 LangSmith 或 Phoenix 进行全链路追踪。当 Bug 发生时，PM 需通过 Trace 分析：是模型理解偏了？还是 Tool Call 的参数传错了？还是后端业务报错了？</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="section-card">
-        <h2 class="text-3xl mb-8 flex items-center">
-            <span class="mr-3 text-blue-600">04.</span> Multi-Agent 的组织与协同规范
-        </h2>
-        <p class="mb-6">当单智能体承载信息过多时，必须将其拆分为“专家组”。</p>
-        
-        <div class="code-block mb-8">
-            // 建议的 Agent 间通信协议 (Structured Communication)
-            {
-                "sender": "Orchestrator",
-                "receiver": "Form_Expert",
-                "action": "REQUEST_FILL",
-                "payload": {
-                    "form_id": "002",
-                    "missing_fields": ["phone_number"],
-                    "context": "User just mentioned their phone is 138..."
-                },
-                "max_retries": 2
-            }
-        </div>
-
-        <h3 class="text-lg font-bold mb-4">多智能体协同的三大防线：</h3>
-        <ul class="space-y-4 text-slate-700">
-            <li class="flex items-start">
-                <span class="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs font-bold mt-1 mr-3">1</span>
-                <div><strong>信令机制：</strong> Agent 之间不进行自由闲聊，只发送结构化信令。</div>
-            </li>
-            <li class="flex items-start">
-                <span class="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs font-bold mt-1 mr-3">2</span>
-                <div><strong>防推诿逻辑：</strong> 显式定义 <code>Fallback_Agent</code>，当两个 Worker Agent 逻辑冲突时，强制上报给 Orchestrator。</div>
-            </li>
-            <li class="flex items-start">
-                <span class="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs font-bold mt-1 mr-3">3</span>
-                <div><strong>死循环阻断：</strong> 在 Orchestrator 记录消息传递深度，超过 5 轮协同未达成结果则强制输出当前最优解或转人工。</div>
-            </li>
+    <div class="compare-grid">
+      <div class="compare-card neg">
+        <div class="ct">纯 Agent 架构</div>
+        <ul>
+          <li>逻辑漂移：Agent 随口答应无法实现的跳转</li>
+          <li>幻觉节点：跳过必填表单直接执行结果</li>
+          <li>状态丢失：Context 长度限制导致业务进度重置</li>
         </ul>
-    </section>
+      </div>
+      <div class="compare-card pos">
+        <div class="ct">分层治理架构</div>
+        <ul>
+          <li>确定性控制：代码控制状态机，Agent 仅执行节点任务</li>
+          <li>数据隔离：Agent 只有建议权，写入逻辑归系统</li>
+          <li>容错性：Agent 崩溃不影响业务状态持久化</li>
+        </ul>
+      </div>
+    </div>
 
-    <section class="section-card bg-slate-900 text-white">
-        <h2 class="text-3xl mb-8 text-white">05. PM 的新维度：AI Native 系统设计</h2>
-        <p class="text-slate-400 mb-8">作为 AI PM，你需要完成从“页面设计者”到“系统调度者”的转变。</p>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            <div class="p-4 border border-slate-700 rounded-lg">
-                <div class="text-2xl font-bold mb-2">系统思维</div>
-                <p class="text-xs text-slate-500">理解状态机、解耦逻辑、数据流转闭环。</p>
-            </div>
-            <div class="p-4 border border-slate-700 rounded-lg">
-                <div class="text-2xl font-bold mb-2">边界意识</div>
-                <p class="text-xs text-slate-500">识别 LLM 的局限性，设计优雅的 Fail-safe 机制。</p>
-            </div>
-            <div class="p-4 border border-slate-700 rounded-lg">
-                <div class="text-2xl font-bold mb-2">数据工程</div>
-                <p class="text-xs text-slate-500">设计评测体系，从 Bad Case 中提取产品迭代规律。</p>
-            </div>
+    <div class="callout">
+      <strong>核心架构哲学：</strong>决策权收归系统（代码控制 Flow），交互权交给 Agent（语义理解 Perception）。不要让 Agent 思考「下一步去哪」，而要告诉它「你现在就在 A 节点，请完成 A 的任务」。
+    </div>
+
+    <!-- Section 02 -->
+    <h2 class="sh"><span class="num">02</span>「铁轨与赛车」架构详解</h2>
+    <p>针对多表单、多固定节点的任务，推荐采用<strong>外部状态机 + 局部 Agent 映射</strong>的架构。这类似于在铁轨上跑赛车——方向由轨道定，速度和推力由 Agent 提供。</p>
+
+    <div class="diagram-wrap">
+      <div class="mermaid">
+        graph TD
+          User((用户)) -->|自然语言| Perception[Perception Layer: Agent]
+          Perception -->|提取参数/意图| Controller{System Orchestrator}
+          Controller -->|查询状态| DB[(Global State Store)]
+          DB -->|当前节点: 填表单B| Controller
+          Controller -->|校验规则| Logic[Hardcoded Business Logic]
+          Logic -->|通过| Next[跳转至节点C]
+          Logic -->|不通过| Perception
+          Next -->|更新| DB
+          Perception -.->|引导/提示| User
+      </div>
+    </div>
+
+    <h3 class="sh3">表单处理的「草稿-确认」模式</h3>
+    <p>当涉及表单填写节点时，Agent 的职责颗粒度应限制在：</p>
+
+    <ol class="steps">
+      <li><strong>Slot Filling：</strong>从对话中提取 <code>{"name": "张三", "date": "2026-03-08"}</code>。</li>
+      <li><strong>预填 (Pre-fill)：</strong>将提取的数据注入前端 UI 状态，用户在界面上可见。</li>
+      <li><strong>人工确认 (HITL)：</strong>只有当用户点击「提交」按钮，系统才真正执行数据写入。</li>
+      <li><strong>校验反馈：</strong>如果后端返回 <code>error: 余额不足</code>，系统将错误原文传给 Agent，由 Agent 翻译成「人话」引导用户修改。</li>
+    </ol>
+
+    <!-- Section 03 -->
+    <h2 class="sh"><span class="num">03</span>工程化落地的 6 大阶段</h2>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div class="tl-content">
+          <div class="phase-label">Phase 1</div>
+          <h4>业务建模：划清「确定性」红线</h4>
+          <p>不要试图用 Prompt 描述所有业务。画出 SOP 流程图，明确哪些节点是 <strong>Stateless（无状态咨询）</strong>，哪些是 <strong>Transactional（事务操作）</strong>。为事务操作定义严格的 JSON Schema。</p>
         </div>
-    </section>
+      </div>
 
-    <footer class="text-center py-12 text-slate-400">
-        <p class="text-sm">基于 Anthropic (Building Effective Agents) & LangChain (LangGraph) 技术共识整理</p>
-        <p class="text-xs mt-2 italic">© 2026 AI Product Methodology. Granularity Level: High (Engineering-Ready).</p>
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div class="tl-content">
+          <div class="phase-label">Phase 2</div>
+          <h4>架构设计：建立「无状态」执行员</h4>
+          <p>确保 Agent 每次对话不依赖自身的 Context 记忆，而是依赖系统注入的 <code>Current_Global_State</code>。将 Agent 拆解为原子化工具（Atom Tools），每个工具只负责一个极窄的 API 调用。</p>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div class="tl-content">
+          <div class="phase-label">Phase 3</div>
+          <h4>Prompt 协议化：解耦职责</h4>
+          <p>拒绝「上帝 Prompt」。采用 <strong>Micro-Prompting</strong> 策略，为每个表单节点配置独立的 Prompt 模板。通过 Few-shot 样本强制 Agent 遵守该节点的「对话边界」。</p>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div class="tl-content">
+          <div class="phase-label">Phase 4</div>
+          <h4>护栏设计：防范逃逸</h4>
+          <div class="callout" style="margin-top: 10px;">
+            <strong>工程细节：</strong>使用模型原生支持的 <code>Structured Output (Strict Mode)</code>。在代码层设置拦截器，如果 Agent 试图跳转至非法状态，直接熔断并触发重试。
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div class="tl-content">
+          <div class="phase-label">Phase 5</div>
+          <h4>评估测试：黄金数据集</h4>
+          <p>告别「体感测试」。建立由 100+ 极端 Case 组成的 <strong>Golden Dataset</strong>。引入 <strong>LLM-as-a-Judge</strong>（如使用 GPT-4o 评测业务模型），量化各节点的召回率与准确率。</p>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div class="tl-content">
+          <div class="phase-label">Phase 6</div>
+          <h4>观测迭代：链路追踪 (Tracing)</h4>
+          <p>部署 LangSmith 或 Phoenix 进行全链路追踪。当 Bug 发生时，PM 需通过 Trace 分析：是模型理解偏了？还是 Tool Call 的参数传错了？还是后端业务报错了？</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 04 -->
+    <h2 class="sh"><span class="num">04</span>Multi-Agent 的组织与协同规范</h2>
+    <p>当单智能体承载信息过多时，必须将其拆分为「专家组」。</p>
+
+    <pre><code>// 建议的 Agent 间通信协议 (Structured Communication)
+{
+  "sender": "Orchestrator",
+  "receiver": "Form_Expert",
+  "action": "REQUEST_FILL",
+  "payload": {
+    "form_id": "002",
+    "missing_fields": ["phone_number"],
+    "context": "User just mentioned their phone is 138..."
+  },
+  "max_retries": 2
+}</code></pre>
+
+    <p>多智能体协同的三大防线：</p>
+    <ul class="num-list">
+      <li>
+        <span class="circle">1</span>
+        <div><strong>信令机制：</strong>Agent 之间不进行自由闲聊，只发送结构化信令。</div>
+      </li>
+      <li>
+        <span class="circle">2</span>
+        <div><strong>防推诿逻辑：</strong>显式定义 <code>Fallback_Agent</code>，当两个 Worker Agent 逻辑冲突时，强制上报给 Orchestrator。</div>
+      </li>
+      <li>
+        <span class="circle">3</span>
+        <div><strong>死循环阻断：</strong>在 Orchestrator 记录消息传递深度，超过 5 轮协同未达成结果则强制输出当前最优解或转人工。</div>
+      </li>
+    </ul>
+
+    <!-- Section 05 -->
+    <h2 class="sh"><span class="num">05</span>PM 的新维度：AI Native 系统设计</h2>
+    <p>作为 AI PM，你需要完成从「页面设计者」到「系统调度者」的转变。</p>
+
+    <div class="dark-block">
+      <div class="dark-block-grid">
+        <div class="dark-block-cell">
+          <h3>系统思维</h3>
+          <p>理解状态机、解耦逻辑、数据流转闭环。</p>
+        </div>
+        <div class="dark-block-cell">
+          <h3>边界意识</h3>
+          <p>识别 LLM 的局限性，设计优雅的 Fail-safe 机制。</p>
+        </div>
+        <div class="dark-block-cell">
+          <h3>数据工程</h3>
+          <p>设计评测体系，从 Bad Case 中提取产品迭代规律。</p>
+        </div>
+      </div>
+    </div>
+
+    <footer class="article-footer">
+      <p>基于 Anthropic (Building Effective Agents) &amp; LangChain (LangGraph) 技术共识整理。</p>
+      <p style="margin-top: 6px;">© 2026 Archie &middot; Granularity Level: High (Engineering-Ready)</p>
     </footer>
 
-    <script>
-        mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
-    </script>
+  </div>
+
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'neutral',
+      themeVariables: {
+        primaryColor: 'rgba(0,98,255,0.1)',
+        primaryTextColor: '#0a0a0a',
+        primaryBorderColor: 'rgba(0,98,255,0.3)',
+        lineColor: 'rgba(0,0,0,0.25)',
+        secondaryColor: '#f7f7f5',
+        tertiaryColor: '#f0f0f0',
+        fontFamily: 'Inter, sans-serif',
+        fontSize: '13px'
+      }
+    });
+  </script>
 </body>
 </html>

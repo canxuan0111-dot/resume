@@ -3,173 +3,492 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OpenClaw vs ReAct vs 多 Agent 编排 | 图文总结</title>
+  <title>OpenClaw vs ReAct vs 多 Agent 编排</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #ffffff;
+      --bg-alt: #f0f0f0;
+      --surface: #f7f7f5;
+      --canvas-dark: #0a0a0a;
+      --text: #0a0a0a;
+      --text-inv: #ffffff;
+      --muted: rgba(10,10,10,0.45);
+      --muted-inv: rgba(255,255,255,0.5);
+      --accent: #0062ff;
+      --accent-bg: rgba(0,98,255,0.07);
+      --accent-border: rgba(0,98,255,0.2);
+      --red: #f9442c;
+      --green: #00a854;
+      --green-bg: rgba(0,168,84,0.07);
+      --green-border: rgba(0,168,84,0.2);
+      --amber: #d97706;
+      --amber-bg: rgba(217,119,6,0.07);
+      --amber-border: rgba(217,119,6,0.2);
+      --border: rgba(0,0,0,0.08);
+      --border-mid: rgba(0,0,0,0.13);
+      --font-display: 'Syne', sans-serif;
+      --font-sans: 'Inter', -apple-system, 'PingFang SC', 'Helvetica Neue', sans-serif;
+      --font-mono: 'Fira Code', 'Cascadia Code', 'SF Mono', monospace;
+      --radius: 12px;
+      --radius-lg: 20px;
+      --radius-pill: 100px;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      line-height: 1.75;
-      color: #243447;
-      background: linear-gradient(135deg, #0f172a 0%, #1d4ed8 100%);
-      min-height: 100vh;
-      padding: 32px 16px;
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.8;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
     }
-    .wrap {
-      max-width: 920px;
+
+    .article-wrap {
+      max-width: 760px;
       margin: 0 auto;
-      background: #fff;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0,0,0,.28);
+      padding: 64px 40px 120px;
     }
-    .hero {
-      background: linear-gradient(135deg, #111827 0%, #1e3a8a 100%);
-      color: #fff;
-      padding: 52px 36px;
-      text-align: center;
+
+    /* ── Back link ── */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      margin-bottom: 48px;
+      transition: color 0.2s;
     }
-    .hero .emoji { font-size: 52px; margin-bottom: 14px; }
-    .hero h1 { font-size: 2rem; margin-bottom: 10px; }
-    .hero p { opacity: .92; }
-    .content { padding: 42px 32px; }
-    h2 {
-      font-size: 1.45rem;
-      color: #0f172a;
-      margin: 34px 0 18px;
-      border-left: 5px solid #2563eb;
-      padding-left: 12px;
+    .back-link:hover { color: var(--text); }
+
+    /* ── Header ── */
+    .article-header {
+      margin-bottom: 64px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--border);
     }
-    h3 { font-size: 1.15rem; margin: 22px 0 10px; color: #1e293b; }
-    p { margin-bottom: 12px; color: #334155; }
-    .card {
-      background: linear-gradient(135deg, #eff6ff 0%, #e0e7ff 100%);
-      border: 1px solid #bfdbfe;
-      border-radius: 14px;
-      padding: 18px 18px;
-      margin: 14px 0;
+
+    .eyebrow {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
     }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 14px;
-      margin: 16px 0;
+
+    .article-title {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 4.5vw, 44px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      color: var(--text);
     }
-    .mini {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 16px;
+
+    .article-desc {
+      font-size: 18px;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 28px;
     }
-    .mini .title { font-weight: 700; margin-bottom: 8px; color: #0f172a; }
+
+    .article-meta {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+
+    .article-meta .sep {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--muted);
+      flex-shrink: 0;
+    }
+
+    /* ── Section headings ── */
+    h2.sh {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-top: 60px;
+      margin-bottom: 20px;
+      color: var(--text);
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    h2.sh .num {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    h3.sh3 {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin-top: 36px;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+
+    /* ── Prose ── */
+    p {
+      color: rgba(10,10,10,0.72);
+      margin-bottom: 16px;
+      font-size: 16px;
+      line-height: 1.85;
+    }
+
+    strong { color: var(--text); font-weight: 600; }
+
+    code {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2px 6px;
+      color: rgba(10,10,10,0.8);
+    }
+
+    /* ── ASCII / code blocks ── */
     pre {
-      background: #0b1020;
-      color: #dbeafe;
-      border-radius: 12px;
-      padding: 16px;
-      overflow: auto;
-      font-size: .9rem;
-      line-height: 1.55;
-      margin: 14px 0;
+      font-family: var(--font-mono);
+      background: var(--canvas-dark);
+      color: rgba(255,255,255,0.82);
+      border-radius: var(--radius);
+      padding: 24px;
+      font-size: 12.5px;
+      line-height: 1.7;
+      overflow-x: auto;
+      margin: 24px 0;
     }
-    .table {
+
+    /* ── Callout ── */
+    .callout {
+      border: 1px solid var(--accent-border);
+      background: var(--accent-bg);
+      border-radius: var(--radius);
+      padding: 18px 22px;
+      margin: 24px 0;
+      font-size: 15px;
+      line-height: 1.75;
+      color: rgba(10,10,10,0.72);
+    }
+
+    .callout strong { color: var(--accent); }
+
+    /* ── Mini cards grid ── */
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 12px;
+      margin: 24px 0;
+    }
+
+    .mini-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+    }
+
+    .mini-card .mc-title {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .mini-card .mc-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* ── Comparison table ── */
+    .compare-table {
       width: 100%;
       border-collapse: collapse;
-      margin: 14px 0;
-      font-size: .95rem;
+      margin: 24px 0;
+      font-size: 14px;
     }
-    .table th, .table td {
-      border: 1px solid #e2e8f0;
-      padding: 10px;
+
+    .compare-table th,
+    .compare-table td {
+      border: 1px solid var(--border);
+      padding: 11px 16px;
       text-align: left;
       vertical-align: top;
     }
-    .table th { background: #eff6ff; color: #1e3a8a; }
-    .quote {
-      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-      color: #f8fafc;
-      border-radius: 14px;
-      padding: 22px;
-      margin-top: 22px;
-      font-size: 1rem;
+
+    .compare-table th {
+      background: var(--surface);
+      font-family: var(--font-display);
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text);
     }
-    .footer {
-      background: #f8fafc;
-      text-align: center;
-      color: #64748b;
-      font-size: .9rem;
-      padding: 24px;
+
+    .compare-table tr:nth-child(even) td {
+      background: rgba(247,247,245,0.6);
     }
-    @media (max-width: 640px) {
-      .hero { padding: 38px 20px; }
-      .hero h1 { font-size: 1.5rem; }
-      .content { padding: 30px 18px; }
+
+    .compare-table td:first-child {
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+    }
+
+    .compare-table td:nth-child(2) {
+      color: rgba(10,10,10,0.65);
+    }
+
+    .compare-table td:nth-child(3) {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    /* ── Dark quote block ── */
+    .dark-quote {
+      background: var(--canvas-dark);
+      color: var(--text-inv);
+      border-radius: var(--radius-lg);
+      padding: 32px 36px;
+      margin: 40px 0;
+    }
+
+    .dark-quote .dq-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .dark-quote p {
+      font-size: 16px;
+      color: rgba(255,255,255,0.82);
+      line-height: 1.8;
+      margin-bottom: 12px;
+    }
+
+    .dark-quote p:last-child { margin-bottom: 0; }
+    .dark-quote strong { color: #ffffff; }
+
+    /* ── Example card ── */
+    .example-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      margin: 20px 0;
+      background: var(--surface);
+    }
+
+    .example-card .ec-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .example-card p {
+      font-size: 15px;
+      margin-bottom: 8px;
+      color: rgba(10,10,10,0.72);
+    }
+
+    .example-card p:last-child { margin-bottom: 0; }
+
+    /* ── Footer ── */
+    .article-footer {
+      margin-top: 80px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .article-wrap { padding: 40px 20px 80px; }
+      .mini-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .mini-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header class="hero">
-      <div class="emoji">🧭</div>
-      <h1>OpenClaw vs ReAct vs 多 Agent 编排</h1>
-      <p>一页搞懂：思维范式、工程系统、协作模式的边界与关系</p>
+  <div class="article-wrap">
+
+    <a href="/articles" class="back-link" target="_top" >
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      所有文章
+    </a>
+
+    <header class="article-header">
+      <div class="eyebrow">Engineering Notes · Agent Architecture</div>
+      <h1 class="article-title">OpenClaw vs ReAct vs 多 Agent 编排</h1>
+      <p class="article-desc">一页搞懂：思维范式、工程系统、协作模式的边界与关系。</p>
+      <div class="article-meta">
+        <span>2026-03</span>
+        <span class="sep"></span>
+        <span>6 min read</span>
+        <span class="sep"></span>
+        <span>整理 by Archie</span>
+      </div>
     </header>
 
-    <main class="content">
-      <h2>① 三层架构图（先建立全局视角）</h2>
-      <pre>┌──────────────────────────────────────────────────────────────┐
-│                    业务目标层（要完成什么）                   │
-│   求职信息追踪 / 学习提醒 / 自动总结 / 客服流程 / 数据处理      │
-└──────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌──────────────────────────────────────────────────────────────┐
-│                Agent 决策层（怎么想、怎么决定）               │
-│                      ReAct / Plan-Act / CoT                  │
-│   Thought → Action(tool) → Observation → Thought ...         │
-└──────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌──────────────────────────────────────────────────────────────┐
-│           Agent 运行系统层（OpenClaw 工程底座）               │
-│ Sessions | Tools | Cron | Messaging | Subagents | Memory     │
-│ Gateway  | Channel Routing | Background Jobs | Isolation      │
-└──────────────────────────────────────────────────────────────┘</pre>
+    <!-- Section 01 -->
+    <h2 class="sh"><span class="num">01</span>三层架构图：先建立全局视角</h2>
 
-      <div class="card"><strong>一句话：</strong>ReAct 是“怎么思考”，OpenClaw 是“怎么长期稳定运行并协作”。</div>
+    <p>理解 ReAct 和 OpenClaw 之前，先建立一个三层的心智模型——它们分别在不同层级发挥作用。</p>
 
-      <h2>② 组件拆解：OpenClaw 到底包含什么？</h2>
-      <div class="grid">
-        <div class="mini"><div class="title">🧠 会话与模型层</div>Session 上下文、模型选择、推理强度、主会话与隔离会话。</div>
-        <div class="mini"><div class="title">🛠️ 工具执行层</div>文件读写、Shell、浏览器自动化、消息、系统控制等。</div>
-        <div class="mini"><div class="title">🧩 编排层</div>子 Agent 调度、跨会话通信、后台任务、状态回传。</div>
-        <div class="mini"><div class="title">⏰ 调度层</div>Cron 定时触发 + Heartbeat 周期检查。</div>
-        <div class="mini"><div class="title">📬 渠道路由层</div>Telegram / WhatsApp / Discord 等统一消息入口出口。</div>
-        <div class="mini"><div class="title">📚 记忆层</div>短期上下文 + 文件化长期记忆（可持续迭代）。</div>
+<pre>┌────────────────────────────────────────────────────────────┐
+│              业务目标层（要完成什么）                        │
+│  求职信息追踪 / 学习提醒 / 自动总结 / 客服流程 / 数据处理   │
+└────────────────────────────────────────────────────────────┘
+                            │
+                            ▼
+┌────────────────────────────────────────────────────────────┐
+│             Agent 决策层（怎么想、怎么决定）                 │
+│                  ReAct / Plan-Act / CoT                    │
+│     Thought → Action(tool) → Observation → Thought ...    │
+└────────────────────────────────────────────────────────────┘
+                            │
+                            ▼
+┌────────────────────────────────────────────────────────────┐
+│         Agent 运行系统层（OpenClaw 工程底座）                │
+│  Sessions | Tools | Cron | Messaging | Subagents | Memory  │
+│  Gateway  | Channel Routing | Background Jobs | Isolation  │
+└────────────────────────────────────────────────────────────┘</pre>
+
+    <div class="callout">
+      <strong>一句话总结：</strong>ReAct 是「怎么思考」，OpenClaw 是「怎么长期稳定运行并协作」。两者不在同一个抽象层级，不存在替代关系。
+    </div>
+
+    <!-- Section 02 -->
+    <h2 class="sh"><span class="num">02</span>OpenClaw 包含什么？</h2>
+
+    <p>OpenClaw 是一个 Agent 工程化运行系统，提供决策层以下的所有基础设施：</p>
+
+    <div class="mini-grid">
+      <div class="mini-card">
+        <div class="mc-title">🧠 会话与模型层</div>
+        <div class="mc-desc">Session 上下文、模型选择、推理强度、主会话与隔离会话。</div>
       </div>
+      <div class="mini-card">
+        <div class="mc-title">🛠️ 工具执行层</div>
+        <div class="mc-desc">文件读写、Shell、浏览器自动化、消息、系统控制等。</div>
+      </div>
+      <div class="mini-card">
+        <div class="mc-title">🧩 编排层</div>
+        <div class="mc-desc">子 Agent 调度、跨会话通信、后台任务、状态回传。</div>
+      </div>
+      <div class="mini-card">
+        <div class="mc-title">⏰ 调度层</div>
+        <div class="mc-desc">Cron 定时触发 + Heartbeat 周期检查。</div>
+      </div>
+      <div class="mini-card">
+        <div class="mc-title">📬 渠道路由层</div>
+        <div class="mc-desc">Telegram / WhatsApp / Discord 等统一消息入口出口。</div>
+      </div>
+      <div class="mini-card">
+        <div class="mc-title">📚 记忆层</div>
+        <div class="mc-desc">短期上下文 + 文件化长期记忆（可持续迭代）。</div>
+      </div>
+    </div>
 
-      <h2>③ ReAct 和 OpenClaw 的核心区别</h2>
-      <table class="table">
+    <!-- Section 03 -->
+    <h2 class="sh"><span class="num">03</span>ReAct 与 OpenClaw 的核心区别</h2>
+
+    <table class="compare-table">
         <thead>
-          <tr><th>维度</th><th>ReAct</th><th>OpenClaw</th></tr>
+        <tr>
+          <th>维度</th>
+          <th>ReAct</th>
+          <th>OpenClaw</th>
+        </tr>
         </thead>
         <tbody>
-          <tr><td>定位</td><td>推理/行动范式</td><td>Agent 工程化运行系统</td></tr>
-          <tr><td>关注点</td><td>单轮决策质量</td><td>全链路稳定执行与协作</td></tr>
-          <tr><td>时间尺度</td><td>短链路、当前任务</td><td>长期运行、异步回传</td></tr>
-          <tr><td>多 Agent</td><td>不定义</td><td>原生支持子 Agent 编排</td></tr>
-          <tr><td>定时任务</td><td>不自带</td><td>Cron/Heartbeat 原生</td></tr>
-          <tr><td>消息路由</td><td>不定义</td><td>多渠道统一路由</td></tr>
+        <tr>
+          <td>定位</td>
+          <td>推理/行动范式</td>
+          <td>Agent 工程化运行系统</td>
+        </tr>
+        <tr>
+          <td>关注点</td>
+          <td>单轮决策质量</td>
+          <td>全链路稳定执行与协作</td>
+        </tr>
+        <tr>
+          <td>时间尺度</td>
+          <td>短链路、当前任务</td>
+          <td>长期运行、异步回传</td>
+        </tr>
+        <tr>
+          <td>多 Agent</td>
+          <td>不定义</td>
+          <td>原生支持子 Agent 编排</td>
+        </tr>
+        <tr>
+          <td>定时任务</td>
+          <td>不自带</td>
+          <td>Cron/Heartbeat 原生</td>
+        </tr>
+        <tr>
+          <td>消息路由</td>
+          <td>不定义</td>
+          <td>多渠道统一路由</td>
+        </tr>
         </tbody>
       </table>
 
-      <h2>④ 二者关系：不是替代，而是嵌套</h2>
+    <!-- Section 04 -->
+    <h2 class="sh"><span class="num">04</span>二者关系：不是替代，而是嵌套</h2>
+
+    <p>在一次完整的任务执行中，两者分层协同：</p>
+
       <pre>用户提出任务
   ↓
 OpenClaw Session 接收并维护上下文
   ↓
 当前轮由 LLM 采用 ReAct 进行决策
   ↓
-Action: 调用工具（读文件/浏览器/执行命令）
+Action: 调用工具（读文件 / 浏览器 / 执行命令）
   ↓
 Observation: 获取结果并继续推理
   ↓
@@ -179,24 +498,27 @@ Observation: 获取结果并继续推理
   ↓
 关键信息写入长期记忆</pre>
 
-      <h2>⑤ 场景例子（面试高频）</h2>
-      <div class="card">
-        <strong>场景：</strong>“每天 9:00 提醒学习 + 自动总结昨天进度”<br/>
-        - 仅 ReAct：只能帮助决定“下一步调用哪个工具”。<br/>
-        - 用 OpenClaw：可定时触发、读取进度、总结、发送消息、写回记忆，形成完整自动化闭环。
+    <!-- Section 05 -->
+    <h2 class="sh"><span class="num">05</span>场景例子</h2>
+
+    <div class="example-card">
+      <div class="ec-label">场景</div>
+      <p><strong>「每天 9:00 提醒学习 + 自动总结昨天进度」</strong></p>
+      <p>仅使用 ReAct：只能帮助决定「下一步调用哪个工具」，无法自主触发或持久运行。</p>
+      <p>使用 OpenClaw：可定时触发、读取进度、总结、发送消息、写回记忆，形成完整自动化闭环。</p>
       </div>
 
-      <div class="quote">
-        <strong>30 秒面试答法：</strong><br/>
-        ReAct 是 Agent 的决策范式，强调 Thought-Action-Observation 循环；
-        OpenClaw 是工程化运行平台，提供会话、工具、调度、子 Agent 协作与消息路由。
-        两者不是替代关系，而是分层协同：ReAct 负责“智能决策”，OpenClaw 负责“生产落地”。
+    <div class="dark-quote">
+      <div class="dq-label">30 秒面试答法</div>
+      <p>ReAct 是 Agent 的决策范式，强调 <strong>Thought-Action-Observation</strong> 循环；</p>
+      <p>OpenClaw 是工程化运行平台，提供会话、工具、调度、子 Agent 协作与消息路由。</p>
+      <p>两者不是替代关系，而是分层协同：<strong>ReAct 负责「智能决策」</strong>，<strong>OpenClaw 负责「生产落地」</strong>。</p>
       </div>
-    </main>
 
-    <footer class="footer">
-      由 Archie 整理 · 适合直接用于学习笔记 / 面试表达 / 项目文档
+    <footer class="article-footer">
+      <p>整理 by Archie &middot; 适合直接用于学习笔记 / 面试表达 / 项目文档</p>
     </footer>
+
   </div>
 </body>
 </html>

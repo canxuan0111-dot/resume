@@ -1,0 +1,1862 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import Tag from '../../components/Tag.astro';
+import CtaButton from '../../components/CtaButton.astro';
+
+const CODE_FLOW_STEPS = `FLOW_STEPS = {
+  generate_copy: [
+    'sku_select',           // 卡片：选择 SKU
+    'template_select',      // 卡片：选择文案模板
+    'agent_generate_copy',  // Agent：调用 generate_copy 工具
+  ],
+  image_from_new_copy: [
+    'sku_select',
+    'template_select',
+    'agent_generate_copy',
+    'copy_version_select',      // 卡片：选择文案版本
+    'image_template_select',    // 卡片：选择图片模板（可跳过）
+    'agent_generate_image',     // Agent：调用 generate_images 工具
+  ],
+  image_from_existing: [
+    'copy_version_select',
+    'image_template_select',
+    'agent_generate_image',
+  ],
+  image_direct: [
+    'sku_select',
+    'image_template_select',
+    'agent_generate_image',
+  ],
+}`;
+
+const CODE_BUG2_PAGE = `setMessages((prev) =>
+  prev.map((m) =>
+    m.id === assistantMessage.id
+      ? { ...m, metadata: { ...genData, hide_image_gen_button: true } }
+      : m,
+  ),
+);`;
+
+const CODE_BUG2_MSG = `onImageGen={data?.hide_image_gen_button ? undefined : onImageGen}`;
+
+const CODE_GENERATE_COPY = `// 直接调用工具，绕过 Agent 的意图识别层
+export async function POST(req: Request) {
+  const { skuId, templateId } = await req.json();
+  return executeTool('generate_copy', { skuId, templateId });
+}`;
+
+const CODE_GUIDANCE_MAP = `const TOOL_GUIDANCE_MAP = {
+  generated_content: '选好版本后，点击「生成配图」可继续制作图片素材。',
+  diagnosis_card:    '诊断完成！可以说「帮我生成优化方案」继续查看推荐方案。',
+  daily_summary:     '可以继续查看诊断分析，或告诉我想调整的方向。',
+  // ...
+};
+
+// 工具执行完成后，若返回卡片类型则提前返回，跳过第 3 次 LLM 调用
+if (lastToolResult.message_type !== 'chat') {
+  return assemblePayload(lastToolResult, TOOL_GUIDANCE_MAP);
+}`;
+
+const CODE_ELAPSED = `function useElapsedSeconds() {
+  const [elapsed, setElapsed] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setElapsed((s) => s + 1), 1000);
+    return () => clearInterval(t);
+  }, []);
+  return elapsed;
+}`;
+---
+
+<Layout title="Agent 架构研究 · FlowEngine" navPill={true}>
+  <main class="pd">
+
+    <!-- ① Hero -->
+    <section class="pd-hero">
+      <img src="/Agent-Hero.jpg" alt="" class="pd-hero-bg-img" aria-hidden="true" />
+      <div class="pd-hero-overlay"></div>
+      <div class="pd-hero-content">
+        <div class="pd-hero-bl pd-ha pd-ha-bl">
+          <div class="pd-hero-tags">
+            <Tag label="AI 工程" variant="hero" />
+            <Tag label="2026.03" variant="hero" />
+            <Tag label="架构设计 · 状态机 · 性能优化" variant="hero" />
+          </div>
+          <h1 class="pd-hero-title">FlowEngine<br>架构研究</h1>
+          <p class="pd-hero-sub">从 LLM 状态依赖到确定性状态机<br>AI 对话流程编排的架构迁移与性能调优</p>
+          <div class="pd-hero-rule"></div>
+          <div class="pd-hero-stats">
+            <div class="pd-stat"><div class="pd-stat-val">−67%</div><div class="pd-stat-lbl">文案生成耗时</div></div>
+            <div class="pd-stat"><div class="pd-stat-val">3 → 1</div><div class="pd-stat-lbl">LLM 调用次数</div></div>
+            <div class="pd-stat"><div class="pd-stat-val">4 Bugs</div><div class="pd-stat-lbl">架构重构后归零</div></div>
+            <div class="pd-stat"><div class="pd-stat-val">3 层</div><div class="pd-stat-lbl">分治架构</div></div>
+          </div>
+        </div>
+        <div class="pd-hero-scroll pd-ha pd-ha-scroll" aria-hidden="true">
+          <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+          <div class="scroll-arrows"><span></span><span></span></div>
+          <span class="scroll-label">SCROLL</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ② 问题背景 -->
+    <section class="pd-section">
+      <div class="pd-inner">
+        <SectionHeader
+          eyebrow="问题背景"
+          title="4 个 Bug，<br>1 个架构级矛盾。"
+        />
+        <p class="arch-lead reveal reveal-delay-2">
+          在"对话卡片化"重构上线后，配图生成流程出现了 4 个 Bug。表面看是 4 个独立问题，但深层只有 1 个根因。
+        </p>
+
+        <div class="arch-table-wrap reveal reveal-delay-3">
+          <table class="arch-table">
+            <thead>
+              <tr>
+                <th>Bug</th>
+                <th>场景</th>
+                <th>现象</th>
+                <th>根因</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="arch-td-num">01</td>
+                <td>选择"重新生成文案，再生成配图"</td>
+                <td>SKU 卡片中有图片的商品显示占位符</td>
+                <td>构造 <code>sku_select_card</code> 时使用了不存在的 <code>image_url</code> 字段，而不是 <code>images</code> 数组</td>
+              </tr>
+              <tr>
+                <td class="arch-td-num">02</td>
+                <td>文案生成完成后</td>
+                <td>文案结果卡片有"生成配图"按钮，与下方选择卡功能重叠</td>
+                <td>复用了独立文案生成的结果卡片，该卡片默认带配图按钮</td>
+              </tr>
+              <tr class="arch-tr-critical">
+                <td class="arch-td-num">03</td>
+                <td>选择文案版本后</td>
+                <td>没有弹出图片模板选择卡，而是回复了一句无关文字</td>
+                <td><code>handleCopyVersionSelect</code> 把消息发给 Agent，Agent 无法从上下文可靠推断下一步应调用哪个工具</td>
+              </tr>
+              <tr class="arch-tr-critical">
+                <td class="arch-td-num">04</td>
+                <td>Bug 3 后用户手动输入</td>
+                <td>系统回复了投放报告卡片</td>
+                <td>Agent 完全误判意图——Bug 3 的直接后果</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="arch-insight reveal reveal-delay-4">
+          <div class="arch-insight-icon">!</div>
+          <div>
+            <div class="arch-insight-label">深层根因</div>
+            <p>Bug 3 和 Bug 4 不是个别 Bug，而是<strong>架构级问题</strong>——LLM 天然不擅长维护有序状态。当固定流程的步骤推进依赖 Agent 从对话历史推断「当前处于第几步」时，步骤数越多，出错概率越高。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ③ 架构方案 -->
+    <section class="pd-section pd-alt">
+      <div class="pd-inner">
+        <SectionHeader
+          eyebrow="架构方案"
+          title="FlowEngine，<br>三层分治。"
+        />
+
+        <div class="arch-layers reveal reveal-delay-2">
+          <div class="arch-layer arch-layer--1">
+            <div class="arch-layer-top">
+              <div class="arch-layer-badge">第一层</div>
+              <div class="arch-layer-file">lib/flow-engine.ts</div>
+            </div>
+            <div class="arch-layer-name">Workflow Controller</div>
+            <p class="arch-layer-desc">确定性状态机，硬编码步骤顺序，<strong>完全不经过 LLM</strong></p>
+          </div>
+          <div class="arch-layer-conn">
+            <div class="arch-layer-conn-line"></div>
+            <div class="arch-layer-conn-dot"></div>
+          </div>
+          <div class="arch-layer arch-layer--2">
+            <div class="arch-layer-top">
+              <div class="arch-layer-badge">第二层</div>
+              <div class="arch-layer-file">chat/route.ts</div>
+            </div>
+            <div class="arch-layer-name">Agent Guide</div>
+            <p class="arch-layer-desc">只在 agent 节点工作，负责内容生成（generate_copy 等）</p>
+          </div>
+          <div class="arch-layer-conn">
+            <div class="arch-layer-conn-line"></div>
+            <div class="arch-layer-conn-dot"></div>
+          </div>
+          <div class="arch-layer arch-layer--3">
+            <div class="arch-layer-top">
+              <div class="arch-layer-badge">第三层</div>
+              <div class="arch-layer-file">FlowContext</div>
+            </div>
+            <div class="arch-layer-name">Shared Task Context</div>
+            <p class="arch-layer-desc">跨步骤数据共享（选中的 SKU、模板、文案版本等）</p>
+          </div>
+        </div>
+
+        <div class="arch-resp reveal reveal-delay-3">
+          <div class="arch-resp-eyebrow">职责边界</div>
+          <div class="arch-resp-grid">
+            <div class="arch-resp-col">
+              <div class="arch-resp-title">FlowEngine</div>
+              <div class="arch-resp-items">
+                <div class="arch-resp-item arch-resp-item--do">✓ 定义步骤顺序</div>
+                <div class="arch-resp-item arch-resp-item--do">✓ 推进步骤</div>
+                <div class="arch-resp-item arch-resp-item--do">✓ 管理上下文</div>
+                <div class="arch-resp-item arch-resp-item--dont">✗ 不生成内容</div>
+                <div class="arch-resp-item arch-resp-item--dont">✗ 不调用 API</div>
+              </div>
+            </div>
+            <div class="arch-resp-divider"></div>
+            <div class="arch-resp-col">
+              <div class="arch-resp-title">Agent</div>
+              <div class="arch-resp-items">
+                <div class="arch-resp-item arch-resp-item--do">✓ 识别开放对话意图</div>
+                <div class="arch-resp-item arch-resp-item--do">✓ 在 agent 节点执行工具</div>
+                <div class="arch-resp-item arch-resp-item--dont">✗ 不推进流程步骤</div>
+                <div class="arch-resp-item arch-resp-item--dont">✗ 不维护流程状态</div>
+              </div>
+            </div>
+            <div class="arch-resp-divider"></div>
+            <div class="arch-resp-col">
+              <div class="arch-resp-title">page.tsx</div>
+              <div class="arch-resp-items">
+                <div class="arch-resp-item arch-resp-item--do">✓ 执行 FlowEngine 返回的步骤指令</div>
+                <div class="arch-resp-item arch-resp-item--do">✓ 注入卡片 / 调用 Agent</div>
+                <div class="arch-resp-item arch-resp-item--dont">✗ 不硬编码流程顺序</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ④ 流程定义 -->
+    <section class="pd-section">
+      <div class="pd-inner">
+        <SectionHeader
+          eyebrow="流程定义"
+          title="4 个固定流程，<br>声明式步骤表。"
+        />
+
+        <div class="arch-code-block reveal reveal-delay-2">
+          <div class="arch-code-header">
+            <div class="arch-code-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <span class="arch-code-filename">lib/flow-engine.ts</span>
+            <span class="arch-code-lang">TypeScript</span>
+          </div>
+          <pre class="arch-code"><code set:text={CODE_FLOW_STEPS} /></pre>
+        </div>
+
+        <div class="arch-flows reveal reveal-delay-3">
+          <div class="arch-flow">
+            <div class="arch-flow-name">generate_copy</div>
+            <div class="arch-flow-steps">
+              <div class="arch-step arch-step--card">sku_select</div>
+              <div class="arch-step-arrow">→</div>
+              <div class="arch-step arch-step--card">template_select</div>
+              <div class="arch-step-arrow">→</div>
+              <div class="arch-step arch-step--agent">agent_generate_copy</div>
+            </div>
+          </div>
+          <div class="arch-flow">
+            <div class="arch-flow-name">image_from_new_copy</div>
+            <div class="arch-flow-steps">
+              <div class="arch-step arch-step--card">sku_select</div>
+              <div class="arch-step-arrow">→</div>
+              <div class="arch-step arch-step--card">template_select</div>
+              <div class="arch-step-arrow">→</div>
+              <div class="arch-step arch-step--agent">agent_generate_copy</div>
+              <div class="arch-step-arrow">→</div>
+              <div class="arch-step arch-step--card">copy_version_select</div>
+              <div class="arch-step-arrow">→</div>
+              <div class="arch-step arch-step--card">image_template_select</div>
+              <div class="arch-step-arrow">→</div>
+              <div class="arch-step arch-step--agent">agent_generate_image</div>
+            </div>
+          </div>
+          <div class="arch-flow">
+            <div class="arch-flow-name">image_from_existing</div>
+            <div class="arch-flow-steps">
+              <div class="arch-step arch-step--card">copy_version_select</div>
+              <div class="arch-step-arrow">→</div>
+              <div class="arch-step arch-step--card">image_template_select</div>
+              <div class="arch-step-arrow">→</div>
+              <div class="arch-step arch-step--agent">agent_generate_image</div>
+            </div>
+          </div>
+          <div class="arch-flow">
+            <div class="arch-flow-name">image_direct</div>
+            <div class="arch-flow-steps">
+              <div class="arch-step arch-step--card">sku_select</div>
+              <div class="arch-step-arrow">→</div>
+              <div class="arch-step arch-step--card">image_template_select</div>
+              <div class="arch-step-arrow">→</div>
+              <div class="arch-step arch-step--agent">agent_generate_image</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="arch-step-legend reveal reveal-delay-4">
+          <div class="arch-legend-item">
+            <div class="arch-step arch-step--card arch-step--sm">card 步骤</div>
+            <p>客户端从本地数据构造卡片，直接注入消息列表，不调用 LLM</p>
+          </div>
+          <div class="arch-legend-item">
+            <div class="arch-step arch-step--agent arch-step--sm">agent 步骤</div>
+            <p>客户端发送消息给 Agent，Agent 调用工具生成内容</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑤ Bug 修复对照 -->
+    <section class="pd-section pd-alt">
+      <div class="pd-inner">
+        <SectionHeader
+          eyebrow="Bug 修复"
+          title="每个 Bug，<br>架构层面的解法。"
+        />
+
+        <div class="arch-bugfixes">
+
+          <!-- Bug 01 -->
+          <div class="arch-bugfix reveal reveal-delay-2">
+            <div class="arch-bugfix-head">
+              <span class="arch-bugfix-num">Bug 01</span>
+              <span class="arch-bugfix-title">SKU 图片字段名错误</span>
+            </div>
+            <div class="arch-bugfix-body">
+              <div class="arch-code-block">
+                <div class="arch-code-header">
+                  <div class="arch-code-dots"><span></span><span></span><span></span></div>
+                  <span class="arch-code-filename">构造 sku_select_card</span>
+                  <span class="arch-code-lang">Diff</span>
+                </div>
+                <pre class="arch-code arch-code--diff"><code><span class="code-del">- image_url: s.image_url ?? null,   // SkuRow 没有 image_url 字段</span>
+<span class="code-add">+ promotion_info: s.promotion_info ?? null,</span>
+<span class="code-add">+ images: s.images ?? null,          // 使用正确的 images 字段</span></code></pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bug 02 -->
+          <div class="arch-bugfix reveal reveal-delay-2">
+            <div class="arch-bugfix-head">
+              <span class="arch-bugfix-num">Bug 02</span>
+              <span class="arch-bugfix-title">配图按钮与文案选择卡功能重叠</span>
+            </div>
+            <div class="arch-bugfix-body">
+              <p class="arch-bugfix-desc">当流程在 <code>agent_generate_copy</code> 步骤完成时，给 <code>generated_content</code> 消息加上 <code>hide_image_gen_button: true</code> 标记，<code>ChatMessage.tsx</code> 据此隐藏按钮。</p>
+              <div class="arch-code-grid">
+                <div class="arch-code-block">
+                  <div class="arch-code-header">
+                    <div class="arch-code-dots"><span></span><span></span><span></span></div>
+                    <span class="arch-code-filename">page.tsx</span>
+                    <span class="arch-code-lang">TypeScript</span>
+                  </div>
+                  <pre class="arch-code"><code set:text={CODE_BUG2_PAGE} /></pre>
+                </div>
+                <div class="arch-code-block">
+                  <div class="arch-code-header">
+                    <div class="arch-code-dots"><span></span><span></span><span></span></div>
+                    <span class="arch-code-filename">ChatMessage.tsx</span>
+                    <span class="arch-code-lang">TypeScript</span>
+                  </div>
+                  <pre class="arch-code"><code set:text={CODE_BUG2_MSG} /></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bug 03 & 04 -->
+          <div class="arch-bugfix arch-bugfix--critical reveal reveal-delay-3">
+            <div class="arch-bugfix-head">
+              <span class="arch-bugfix-num">Bug 03 & 04</span>
+              <span class="arch-bugfix-title">选择文案版本后流程完全断裂（架构级）</span>
+            </div>
+            <div class="arch-bugfix-body">
+              <div class="arch-evolution">
+                <div class="arch-evo-step arch-evo-step--bad">
+                  <div class="arch-evo-label">旧行为</div>
+                  <p><code>handleCopyVersionSelect</code> → 把消息发给 Agent → Agent 需从对话历史推断「应调用什么工具」→ 推断失败，回复无关内容</p>
+                </div>
+                <div class="arch-evo-arrow">→</div>
+                <div class="arch-evo-step arch-evo-step--good">
+                  <div class="arch-evo-label">FlowEngine 解法</div>
+                  <p>检测到 <code>isInFlow</code> → 调用 <code>advance()</code> → FlowEngine 自动推进到 <code>image_template_select</code> → 注入卡片。<strong>不再依赖 Agent 推断下一步。</strong></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑥ 设计决策 -->
+    <section class="pd-section">
+      <div class="pd-inner">
+        <SectionHeader
+          eyebrow="设计决策"
+          title="为什么这样设计，<br>而不是那样。"
+        />
+
+        <div class="arch-decisions">
+
+          <div class="arch-decision reveal reveal-delay-2">
+            <div class="arch-decision-q">为什么选择客户端状态机，而非服务端编排？</div>
+            <div class="arch-decision-reasons">
+              <div class="arch-reason">
+                <span class="arch-reason-num">01</span>
+                <span>所有固定流程都是单用户单会话内的，不需要持久化</span>
+              </div>
+              <div class="arch-reason">
+                <span class="arch-reason-num">02</span>
+                <span>步骤间的数据传递（SKU → 模板 → 文案版本）只在前端 UI 上有意义</span>
+              </div>
+              <div class="arch-reason">
+                <span class="arch-reason-num">03</span>
+                <span>客户端执行延迟更低，无需网络往返</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="arch-decision reveal reveal-delay-3">
+            <div class="arch-decision-q">为什么 <code>advance()</code> 返回步骤信息而非自动执行？</div>
+            <div class="arch-decision-reasons">
+              <div class="arch-reason">
+                <span class="arch-reason-num">01</span>
+                <span><code>advance()</code> 是纯状态变更函数，<code>executeStep()</code> 是有副作用的执行函数。分离两者，让调用方决定执行时机（如加 <code>setTimeout</code> 控制卡片出现节奏）</span>
+              </div>
+              <div class="arch-reason">
+                <span class="arch-reason-num">02</span>
+                <span>避免 hook 内部依赖 <code>setMessages</code>、<code>sendMessage</code> 等外部状态，保持 hook 纯净可测</span>
+              </div>
+              <div class="arch-reason">
+                <span class="arch-reason-num">03</span>
+                <span>状态变更和副作用的边界清晰，错误来源更易定位</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="arch-decision reveal reveal-delay-4">
+            <div class="arch-decision-q">哪些功能不纳入 FlowEngine？</div>
+            <div class="arch-excl-table">
+              <div class="arch-excl-row">
+                <div class="arch-excl-feat">SKU / 模板 / 效果回填录入</div>
+                <div class="arch-excl-reason">单步触发（Agent 识别 → 弹表单 → 提交），无多步依赖</div>
+              </div>
+              <div class="arch-excl-row">
+                <div class="arch-excl-feat">看投放报告 / 优化方案</div>
+                <div class="arch-excl-reason">开放对话（Agent 调一个工具返回一张卡），无固定步骤</div>
+              </div>
+              <div class="arch-excl-row">
+                <div class="arch-excl-feat">护栏配置</div>
+                <div class="arch-excl-reason">Agent 主导的多轮对话，步骤不固定</div>
+              </div>
+            </div>
+            <div class="arch-decision-rule">
+              <div class="arch-decision-rule-label">判断准则</div>
+              <p>只有「步骤顺序固定、步骤间有数据依赖」的流程才纳入 FlowEngine。开放对话和单步任务交由 Agent 处理。</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑦ 性能优化 -->
+    <section class="pd-section pd-alt">
+      <div class="pd-inner">
+        <SectionHeader
+          eyebrow="性能优化"
+          title="3 次 LLM，<br>变成 1 次。"
+        />
+        <p class="arch-lead reveal reveal-delay-2">
+          架构重构稳定后，发现另一个问题：文案生成需要 3 次串行 LLM 调用，总耗时 15–20 秒，而等待期间只有一个静态的「AI 正在处理」动效，用户完全是黑盒。
+        </p>
+
+        <div class="arch-chain reveal reveal-delay-2">
+          <div class="arch-chain-title">原始调用链路（~12–22s）</div>
+          <div class="arch-chain-track">
+            <div class="arch-chain-node arch-chain-node--neutral">
+              <div class="arch-chain-node-label">用户消息</div>
+            </div>
+            <div class="arch-chain-edge">→</div>
+            <div class="arch-chain-node arch-chain-node--llm">
+              <div class="arch-chain-node-badge">LLM Call 1</div>
+              <div class="arch-chain-node-label">Agent 理解意图<br>决定调用工具</div>
+              <div class="arch-chain-node-time">~3–6s</div>
+            </div>
+            <div class="arch-chain-edge">→</div>
+            <div class="arch-chain-node arch-chain-node--tool">
+              <div class="arch-chain-node-badge">Tool</div>
+              <div class="arch-chain-node-label">handleGenerateCopy<br>内部再次调用 LLM</div>
+              <div class="arch-chain-node-time">~6–10s</div>
+            </div>
+            <div class="arch-chain-edge">→</div>
+            <div class="arch-chain-node arch-chain-node--llm">
+              <div class="arch-chain-node-badge">LLM Call 3</div>
+              <div class="arch-chain-node-label">生成<br>guidance_text</div>
+              <div class="arch-chain-node-time">~3–6s</div>
+            </div>
+            <div class="arch-chain-edge">→</div>
+            <div class="arch-chain-node arch-chain-node--neutral">
+              <div class="arch-chain-node-label">结果返回</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="arch-opts reveal reveal-delay-3">
+
+          <div class="arch-opt">
+            <div class="arch-opt-header">
+              <span class="arch-opt-badge">方案 A</span>
+              <span class="arch-opt-title">直连工具，跳过 Agent ReAct 循环</span>
+            </div>
+            <p class="arch-opt-desc">FlowEngine 触发的 <code>agent_generate_copy</code> 步骤意图已完全确定（SKU + 模板都已选定），不需要再让 Agent「猜」一遍应该调用什么工具。新建一个轻量路由，直接调用工具函数。</p>
+            <div class="arch-code-block">
+              <div class="arch-code-header">
+                <div class="arch-code-dots"><span></span><span></span><span></span></div>
+                <span class="arch-code-filename">新建：app/api/generate-copy/route.ts</span>
+                <span class="arch-code-lang">TypeScript</span>
+              </div>
+              <pre class="arch-code"><code set:text={CODE_GENERATE_COPY} /></pre>
+            </div>
+            <div class="arch-opt-result">
+              <span class="arch-opt-result-before">3 次 LLM，~15–20s</span>
+              <span class="arch-opt-result-arrow">→</span>
+              <span class="arch-opt-result-after">1 次 LLM，~5–8s</span>
+              <span class="arch-opt-result-save">节省 ~10–12s</span>
+            </div>
+          </div>
+
+          <div class="arch-opt">
+            <div class="arch-opt-header">
+              <span class="arch-opt-badge">方案 B</span>
+              <span class="arch-opt-title">工具返回卡片类结果后提前终止 ReAct 循环</span>
+            </div>
+            <p class="arch-opt-desc">当工具返回结构化卡片（<code>diagnosis_card</code>、<code>generated_content</code> 等）时，原代码会 <code>continue</code> 进入下一次循环，再让 Agent 调用一次 LLM 来生成引导语。用硬编码引导语替代这次 LLM 调用。</p>
+            <div class="arch-code-block">
+              <div class="arch-code-header">
+                <div class="arch-code-dots"><span></span><span></span><span></span></div>
+                <span class="arch-code-filename">app/api/chat/route.ts</span>
+                <span class="arch-code-lang">TypeScript</span>
+              </div>
+              <pre class="arch-code"><code set:text={CODE_GUIDANCE_MAP} /></pre>
+            </div>
+            <div class="arch-opt-result">
+              <span class="arch-opt-result-before">所有工具类操作 2–3 次 LLM</span>
+              <span class="arch-opt-result-arrow">→</span>
+              <span class="arch-opt-result-after">1–2 次 LLM</span>
+              <span class="arch-opt-result-save">节省 ~3–8s</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑧ 体验优化 -->
+    <section class="pd-section">
+      <div class="pd-inner">
+        <SectionHeader
+          eyebrow="体验优化"
+          title="等待是必要的，<br>焦虑不是。"
+        />
+        <p class="arch-lead reveal reveal-delay-2">
+          速度优化之外，等待期的体验同样重要。提取公共 Hook 统一计时逻辑，并把所有 Loading 卡片的静态占位文案升级为描述实际处理过程的动态短语。
+        </p>
+
+        <div class="arch-code-block reveal reveal-delay-2">
+          <div class="arch-code-header">
+            <div class="arch-code-dots"><span></span><span></span><span></span></div>
+            <span class="arch-code-filename">公共 Hook：useElapsedSeconds</span>
+            <span class="arch-code-lang">TypeScript</span>
+          </div>
+          <pre class="arch-code"><code set:text={CODE_ELAPSED} /></pre>
+        </div>
+
+        <div class="arch-phase-table reveal reveal-delay-3">
+          <div class="arch-phase-head">
+            <span>卡片</span>
+            <span>优化前</span>
+            <span>优化后</span>
+          </div>
+          <div class="arch-phase-row">
+            <span class="arch-phase-card">StreamingLoadingCard</span>
+            <span class="arch-phase-old">正在分析商品信息...</span>
+            <span class="arch-phase-new">正在读取商品核心卖点...</span>
+          </div>
+          <div class="arch-phase-row">
+            <span class="arch-phase-card">StreamingLoadingCard</span>
+            <span class="arch-phase-old">AI 正在构建文案结构...</span>
+            <span class="arch-phase-new">AI 正在套用模板构建文案骨架...</span>
+          </div>
+          <div class="arch-phase-row">
+            <span class="arch-phase-card">StreamingLoadingCard</span>
+            <span class="arch-phase-old">正在生成 3 个版本...</span>
+            <span class="arch-phase-new">正在生成情感共鸣 / 理性说服 / 场景带入 3 版...</span>
+          </div>
+          <div class="arch-phase-row">
+            <span class="arch-phase-card">DiagnosisLoadingCard</span>
+            <span class="arch-phase-old">读取投放数据...</span>
+            <span class="arch-phase-new">正在拉取各计划的小时级数据...</span>
+          </div>
+          <div class="arch-phase-row">
+            <span class="arch-phase-card">DiagnosisLoadingCard</span>
+            <span class="arch-phase-old">分析计划表现...</span>
+            <span class="arch-phase-new">交叉分析 ROI / CPC / 消耗趋势...</span>
+          </div>
+          <div class="arch-phase-row">
+            <span class="arch-phase-card">ImageGenLoadingCard</span>
+            <span class="arch-phase-old">正在生成配图...</span>
+            <span class="arch-phase-new">AI 作图模型正在渲染画面...</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑨ 成果 -->
+    <section class="pd-results">
+      <div class="pd-inner">
+        <SectionHeader
+          eyebrow="工程成果"
+          title="可量化的收益。"
+          theme="dark"
+        />
+        <div class="pd-results-grid reveal reveal-delay-2">
+          <div class="pd-result">
+            <div class="pd-result-val">−67%</div>
+            <div class="pd-result-lbl">文案生成耗时<br>15–20s → 5–8s</div>
+          </div>
+          <div class="pd-result">
+            <div class="pd-result-val">3 → 1</div>
+            <div class="pd-result-lbl">LLM 调用次数<br>每次文案生成</div>
+          </div>
+          <div class="pd-result">
+            <div class="pd-result-val">−3–8s</div>
+            <div class="pd-result-lbl">诊断 / 推荐耗时<br>每次工具调用</div>
+          </div>
+          <div class="pd-result">
+            <div class="pd-result-val">0</div>
+            <div class="pd-result-lbl">流程类 Bug<br>架构重构后</div>
+          </div>
+        </div>
+        <div class="pd-results-cta reveal reveal-delay-3">
+          <CtaButton href="/projects/ai-ad-assistant" variant="ghost-inv" label="← 返回 AI 轻松投" />
+          <CtaButton href="/projects" variant="ghost-inv" label="所有项目" />
+        </div>
+      </div>
+    </section>
+
+    <!-- 项目导航 -->
+    <nav class="pd-proj-nav">
+      <a href="/projects" class="pd-nav-back">← 所有项目</a>
+      <a href="/projects/ai-ad-assistant" class="pd-nav-next">
+        <span class="pd-nav-next-hint">相关项目</span>
+        <span class="pd-nav-next-name">AI 轻松投 →</span>
+      </a>
+    </nav>
+
+  </main>
+</Layout>
+
+<script>
+  const nav  = document.getElementById('main-nav')!;
+  const hero = document.querySelector('.pd-hero') as HTMLElement;
+  function updateNav() {
+    nav.classList.toggle('nav-hero', hero.getBoundingClientRect().bottom > 60);
+  }
+  updateNav();
+  window.addEventListener('scroll', updateNav, { passive: true });
+</script>
+
+<style>
+/* ── 页面级 accent 覆盖 ── */
+.pd {
+  --accent: #ea580c;
+  --accent-bg: rgba(234, 88, 12, 0.07);
+  --accent-border: rgba(234, 88, 12, 0.22);
+}
+
+/* ── 布局基础（复用）── */
+.pd-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+.pd-section { padding: 120px 0; background: var(--bg); }
+.pd-alt     { background: var(--bg-alt); }
+
+/* ── Hero ── */
+.pd-hero {
+  position: relative;
+  background: var(--canvas-dark);
+  height: 100vh;
+  min-height: 640px;
+  overflow: hidden;
+}
+
+.pd-hero-bg-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  opacity: .5;
+  pointer-events: none;
+  user-select: none;
+}
+
+.pd-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to right, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0) 100%),
+    linear-gradient(to top,   rgba(0,0,0,0.75) 0%, rgba(0,0,0,0)   55%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.pd-hero-content {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 40px 0;
+}
+
+@keyframes pdHeroFadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pdHeroFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.pd-ha { animation-fill-mode: both; animation-timing-function: cubic-bezier(0.22, 0.8, 0.44, 1); animation-duration: 0.8s; }
+.pd-ha-bl     { animation-name: pdHeroFadeUp; animation-delay: 0.1s; }
+.pd-ha-scroll { animation-name: pdHeroFadeIn; animation-delay: 0.75s; }
+
+.pd-hero-bl {
+  text-align: center;
+  max-width: 780px;
+  width: 100%;
+}
+.pd-hero-bl .pd-hero-tags  { justify-content: center; }
+.pd-hero-bl .pd-hero-stats { justify-content: center; }
+.pd-hero-bl .pd-hero-rule  { max-width: 480px; margin: 0 auto; }
+
+.pd-hero-tags  { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+
+.pd-hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(56px, 9vw, 112px);
+  font-weight: 800;
+  letter-spacing: -.04em;
+  line-height: .96;
+  color: var(--text-inv);
+  margin-bottom: 24px;
+}
+
+.pd-hero-sub {
+  font-size: 20px;
+  color: var(--muted-inv);
+  line-height: 1.6;
+  margin-bottom: 56px;
+}
+
+.pd-hero-rule {
+  height: 1px;
+  background: var(--border-inv);
+  margin-bottom: 40px;
+}
+
+.pd-hero-stats { display: flex; gap: 48px; flex-wrap: wrap; }
+
+.pd-stat-val {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--text-inv);
+  letter-spacing: -.02em;
+  margin-bottom: 4px;
+}
+.pd-stat-lbl { font-size: 12px; color: var(--muted-inv); }
+
+.pd-hero-scroll {
+  position: absolute;
+  right: 36px;
+  bottom: 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.scroll-mouse {
+  width: 24px; height: 38px;
+  border: 2px solid rgba(255,255,255,0.75);
+  border-radius: 12px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 0 12px rgba(255,255,255,0.15);
+}
+.scroll-wheel {
+  width: 4px; height: 7px;
+  background: #fff;
+  border-radius: 2px;
+  position: absolute;
+  top: 6px;
+  animation: pdWheelBounce 1.6s cubic-bezier(.45,0,.55,1) infinite;
+}
+@keyframes pdWheelBounce {
+  0%   { top: 6px;  opacity: 1; }
+  60%  { top: 18px; opacity: 0.2; }
+  100% { top: 6px;  opacity: 1; }
+}
+.scroll-arrows { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.scroll-arrows span {
+  display: block; width: 10px; height: 10px;
+  border-right: 2px solid rgba(255,255,255,0.75);
+  border-bottom: 2px solid rgba(255,255,255,0.75);
+  transform: rotate(45deg);
+  animation: pdArrowFade 1.6s ease-in-out infinite;
+}
+.scroll-arrows span:nth-child(2) { animation-delay: .18s; opacity: 0.5; }
+@keyframes pdArrowFade {
+  0%, 100% { opacity: 0.2; transform: rotate(45deg) translateY(-3px); }
+  50%       { opacity: 1;   transform: rotate(45deg) translateY(2px); }
+}
+.scroll-label { font-size: 10px; letter-spacing: 3px; color: rgba(255,255,255,0.6); font-weight: 600; }
+
+/* ── 导语文字 ── */
+.arch-lead {
+  font-size: 16px;
+  color: var(--muted);
+  line-height: 1.8;
+  max-width: 720px;
+  margin-bottom: 48px;
+}
+
+/* ── Bug 表格 ── */
+.arch-table-wrap {
+  overflow-x: auto;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+
+.arch-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.arch-table thead tr {
+  background: var(--surface);
+}
+
+.arch-table th {
+  padding: 14px 20px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+}
+
+.arch-table td {
+  padding: 16px 20px;
+  color: var(--muted);
+  line-height: 1.6;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.arch-table tbody tr:last-child td { border-bottom: none; }
+
+.arch-table td code {
+  font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+  font-size: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 5px;
+  color: var(--text);
+}
+
+.arch-td-num {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+  white-space: nowrap;
+  width: 60px;
+}
+
+.arch-tr-critical td { background: rgba(234, 88, 12, 0.03); }
+.arch-tr-critical .arch-td-num { color: var(--accent); }
+
+/* ── 根因洞察 ── */
+.arch-insight {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  border-radius: var(--radius-lg);
+  padding: 28px 32px;
+}
+
+.arch-insight-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.arch-insight-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+
+.arch-insight p {
+  font-size: 14.5px;
+  color: var(--text);
+  line-height: 1.75;
+}
+
+.arch-insight strong {
+  color: var(--text);
+  font-weight: 700;
+}
+
+/* ── 三层架构 ── */
+.arch-layers {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 56px;
+  max-width: 720px;
+}
+
+.arch-layer {
+  padding: 28px 32px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.arch-layer--1 {
+  background: var(--canvas-dark);
+  border-color: rgba(234,88,12,0.4);
+}
+
+.arch-layer--2 {
+  background: var(--surface);
+  border-color: var(--border-mid);
+}
+
+.arch-layer--3 {
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+.arch-layer-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.arch-layer-badge {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  border-radius: var(--radius-pill);
+  padding: 3px 10px;
+}
+
+.arch-layer--1 .arch-layer-badge {
+  background: rgba(234,88,12,0.15);
+  border-color: rgba(234,88,12,0.35);
+}
+
+.arch-layer-file {
+  font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+  font-size: 12px;
+  color: var(--muted);
+}
+.arch-layer--1 .arch-layer-file { color: rgba(255,255,255,0.4); }
+
+.arch-layer-name {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  margin-bottom: 8px;
+}
+.arch-layer--1 .arch-layer-name { color: var(--text-inv); }
+.arch-layer--2 .arch-layer-name,
+.arch-layer--3 .arch-layer-name { color: var(--text); }
+
+.arch-layer-desc {
+  font-size: 13.5px;
+  line-height: 1.7;
+}
+.arch-layer--1 .arch-layer-desc { color: rgba(255,255,255,0.55); }
+.arch-layer--2 .arch-layer-desc,
+.arch-layer--3 .arch-layer-desc { color: var(--muted); }
+
+.arch-layer-desc strong {
+  color: var(--accent);
+}
+.arch-layer--1 .arch-layer-desc strong { color: #fb923c; }
+
+.arch-layer-conn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-left: 40px;
+  gap: 0;
+}
+.arch-layer-conn-line {
+  width: 2px;
+  height: 20px;
+  background: var(--border-mid);
+}
+.arch-layer-conn-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 2px solid var(--border-mid);
+  background: var(--bg-alt);
+  margin-left: -3px;
+}
+
+/* ── 职责边界 ── */
+.arch-resp {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.arch-resp-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 20px 28px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.arch-resp-grid {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr 1px 1fr;
+}
+
+.arch-resp-divider {
+  background: var(--border);
+}
+
+.arch-resp-col {
+  padding: 24px 28px;
+}
+
+.arch-resp-title {
+  font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+
+.arch-resp-items { display: flex; flex-direction: column; gap: 8px; }
+
+.arch-resp-item {
+  font-size: 12.5px;
+  line-height: 1.5;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.arch-resp-item--do {
+  color: #15803d;
+  background: rgba(21,128,61,0.07);
+}
+
+.arch-resp-item--dont {
+  color: var(--muted);
+  text-decoration-line: none;
+}
+
+/* ── 流程可视化 ── */
+.arch-flows {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.arch-flow {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+}
+
+.arch-flow-name {
+  font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+
+.arch-flow-steps {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.arch-step {
+  font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.arch-step--card {
+  background: var(--bg);
+  border: 1px solid var(--border-mid);
+  color: var(--text);
+}
+
+.arch-step--agent {
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  color: var(--accent);
+}
+
+.arch-step--sm { padding: 5px 10px; font-size: 11.5px; }
+
+.arch-step-arrow {
+  color: var(--border-mid);
+  font-size: 14px;
+}
+
+/* ── 步骤类型图例 ── */
+.arch-step-legend {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.arch-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.arch-legend-item p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ── 代码块 ── */
+.arch-code-block {
+  background: #0d1117;
+  border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,0.07);
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.arch-code-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  background: rgba(255,255,255,0.03);
+}
+
+.arch-code-dots {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.arch-code-dots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+}
+.arch-code-dots span:nth-child(1) { background: #ff5f57; }
+.arch-code-dots span:nth-child(2) { background: #febc2e; }
+.arch-code-dots span:nth-child(3) { background: #28c840; }
+
+.arch-code-filename {
+  font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+  font-size: 11.5px;
+  color: rgba(255,255,255,0.4);
+  flex: 1;
+}
+
+.arch-code-lang {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  opacity: .8;
+}
+
+.arch-code {
+  margin: 0;
+  padding: 20px 24px;
+  overflow-x: auto;
+}
+
+.arch-code code {
+  font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+  font-size: 13px;
+  line-height: 1.75;
+  color: rgba(255,255,255,0.78);
+  white-space: pre;
+}
+
+/* Diff 样式 */
+.arch-code--diff code { color: rgba(255,255,255,0.45); }
+.code-del { color: #ff7b72; display: block; }
+.code-add { color: #3fb950; display: block; }
+
+/* ── Bug 修复 ── */
+.arch-bugfixes { display: flex; flex-direction: column; gap: 32px; }
+
+.arch-bugfix {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.arch-bugfix--critical { border-color: var(--accent-border); }
+
+.arch-bugfix-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 28px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.arch-bugfix--critical .arch-bugfix-head {
+  background: var(--accent-bg);
+  border-bottom-color: var(--accent-border);
+}
+
+.arch-bugfix-num {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.arch-bugfix-title {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.arch-bugfix-body { padding: 24px 28px; }
+
+.arch-bugfix-desc {
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.75;
+  margin-bottom: 16px;
+}
+
+.arch-bugfix-desc code,
+.arch-bugfix-body code {
+  font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+  font-size: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  color: var(--text);
+}
+
+.arch-code-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* ── Evolution（Bug 3&4）── */
+.arch-evolution {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0;
+  align-items: stretch;
+}
+
+.arch-evo-step {
+  padding: 20px 24px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.arch-evo-step--bad {
+  background: var(--surface);
+  border-color: var(--border-mid);
+}
+
+.arch-evo-step--good {
+  background: var(--accent-bg);
+  border-color: var(--accent-border);
+}
+
+.arch-evo-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  color: var(--border-mid);
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.arch-evo-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.arch-evo-step--bad  .arch-evo-label { color: var(--muted); }
+.arch-evo-step--good .arch-evo-label { color: var(--accent); }
+
+.arch-evo-step p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.arch-evo-step p code {
+  font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+  font-size: 12px;
+  background: rgba(0,0,0,0.05);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 5px;
+  color: var(--text);
+}
+
+.arch-evo-step--good p strong { color: var(--accent); font-weight: 600; }
+
+/* ── 设计决策 ── */
+.arch-decisions { display: flex; flex-direction: column; gap: 0; }
+
+.arch-decision {
+  padding: 40px 0;
+  border-top: 1px solid var(--border);
+}
+.arch-decision:last-child { border-bottom: 1px solid var(--border); }
+
+.arch-decision-q {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -.02em;
+  margin-bottom: 24px;
+}
+
+.arch-decision-q code {
+  font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+  font-size: 17px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 2px 8px;
+  color: var(--accent);
+}
+
+.arch-decision-reasons { display: flex; flex-direction: column; gap: 12px; }
+
+.arch-reason {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+}
+
+.arch-reason-num {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--accent);
+  flex-shrink: 0;
+  width: 28px;
+}
+
+.arch-reason span:last-child {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.arch-reason span:last-child code {
+  font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+  font-size: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  color: var(--text);
+}
+
+/* 不纳入表格 */
+.arch-excl-table {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.arch-excl-row {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  border-bottom: 1px solid var(--border);
+}
+.arch-excl-row:last-child { border-bottom: none; }
+
+.arch-excl-feat {
+  padding: 14px 20px;
+  font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+  font-size: 12.5px;
+  color: var(--text);
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+}
+
+.arch-excl-reason {
+  padding: 14px 20px;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.arch-decision-rule {
+  background: var(--canvas-dark);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+}
+
+.arch-decision-rule-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.35);
+  margin-bottom: 8px;
+}
+
+.arch-decision-rule p {
+  font-size: 13.5px;
+  color: rgba(255,255,255,.65);
+  line-height: 1.7;
+}
+
+/* ── 调用链路图 ── */
+.arch-chain {
+  background: var(--canvas-dark);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  margin-bottom: 48px;
+  overflow-x: auto;
+}
+
+.arch-chain-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.35);
+  margin-bottom: 28px;
+}
+
+.arch-chain-track {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  min-width: max-content;
+}
+
+.arch-chain-node {
+  padding: 16px 20px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,0.1);
+  text-align: center;
+  min-width: 120px;
+}
+
+.arch-chain-node--neutral {
+  background: rgba(255,255,255,0.05);
+}
+
+.arch-chain-node--llm {
+  background: rgba(234, 88, 12, 0.15);
+  border-color: rgba(234, 88, 12, 0.35);
+}
+
+.arch-chain-node--tool {
+  background: rgba(59, 130, 246, 0.15);
+  border-color: rgba(59, 130, 246, 0.35);
+}
+
+.arch-chain-node-badge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.arch-chain-node--llm  .arch-chain-node-badge { color: #fb923c; }
+.arch-chain-node--tool .arch-chain-node-badge { color: #60a5fa; }
+.arch-chain-node--neutral .arch-chain-node-badge { display: none; }
+
+.arch-chain-node-label {
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.5;
+}
+
+.arch-chain-node-time {
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 6px;
+}
+.arch-chain-node--llm  .arch-chain-node-time { color: #fb923c; }
+.arch-chain-node--tool .arch-chain-node-time { color: #60a5fa; }
+
+.arch-chain-edge {
+  color: rgba(255,255,255,0.25);
+  font-size: 16px;
+  padding: 0 12px;
+  flex-shrink: 0;
+}
+
+/* ── 优化方案 ── */
+.arch-opts { display: flex; flex-direction: column; gap: 32px; }
+
+.arch-opt {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.arch-opt-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 28px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.arch-opt-badge {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  border-radius: var(--radius-pill);
+  padding: 4px 12px;
+  flex-shrink: 0;
+}
+
+.arch-opt-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.arch-opt-desc {
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.75;
+  padding: 20px 28px 0;
+}
+
+.arch-opt-desc code {
+  font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+  font-size: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  color: var(--text);
+}
+
+.arch-opt .arch-code-block {
+  margin: 16px 28px 0;
+}
+
+.arch-opt-result {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 28px;
+  background: var(--accent-bg);
+  border-top: 1px solid var(--accent-border);
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.arch-opt-result-before {
+  font-size: 13px;
+  color: var(--muted);
+  text-decoration: line-through;
+}
+
+.arch-opt-result-arrow {
+  color: var(--accent);
+  font-size: 16px;
+}
+
+.arch-opt-result-after {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.arch-opt-result-save {
+  margin-left: auto;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent);
+  background: rgba(234,88,12,0.12);
+  border: 1px solid var(--accent-border);
+  border-radius: var(--radius-pill);
+  padding: 4px 12px;
+}
+
+/* ── Phase 文案对比 ── */
+.arch-phase-table {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.arch-phase-head {
+  display: grid;
+  grid-template-columns: 220px 1fr 1fr;
+  padding: 12px 20px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  gap: 20px;
+}
+
+.arch-phase-row {
+  display: grid;
+  grid-template-columns: 220px 1fr 1fr;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  gap: 20px;
+  align-items: baseline;
+}
+.arch-phase-row:last-child { border-bottom: none; }
+.arch-phase-row:nth-child(even) { background: var(--surface); }
+
+.arch-phase-card {
+  font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+.arch-phase-old {
+  font-size: 13px;
+  color: var(--muted);
+  text-decoration: line-through;
+  opacity: .6;
+}
+
+.arch-phase-new {
+  font-size: 13px;
+  color: #15803d;
+  font-weight: 500;
+}
+
+/* ── 成果（复用）── */
+.pd-results {
+  background: var(--canvas-dark);
+  padding: 120px 0;
+}
+
+.pd-results-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border-inv);
+  border: 1px solid var(--border-inv);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 0;
+}
+
+.pd-result {
+  padding: 36px 28px;
+  background: var(--canvas-dark);
+}
+
+.pd-result-val {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 800;
+  color: var(--text-inv);
+  letter-spacing: -.03em;
+  margin-bottom: 8px;
+}
+
+.pd-result-lbl {
+  font-size: 12px;
+  color: var(--muted-inv);
+  line-height: 1.6;
+}
+
+.pd-results-cta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 56px;
+}
+
+/* ── 项目导航（复用）── */
+.pd-proj-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32px 40px;
+  border-top: 1px solid var(--border);
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
+.pd-nav-back {
+  font-size: 13.5px;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color .2s;
+}
+.pd-nav-back:hover { color: var(--text); }
+
+.pd-nav-next {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  text-decoration: none;
+}
+.pd-nav-next-hint { font-size: 11px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+.pd-nav-next-name { font-family: var(--font-display); font-size: 15px; font-weight: 700; color: var(--text); transition: color .2s; }
+.pd-nav-next:hover .pd-nav-next-name { color: var(--accent); }
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .arch-resp-grid { grid-template-columns: 1fr; }
+  .arch-resp-divider { display: none; }
+  .arch-evolution { grid-template-columns: 1fr; }
+  .arch-evo-arrow { transform: rotate(90deg); padding: 8px 0; text-align: center; }
+  .arch-code-grid { grid-template-columns: 1fr; }
+  .arch-chain-track { flex-direction: column; min-width: unset; }
+  .arch-chain-edge { transform: rotate(90deg); padding: 4px 0; }
+  .pd-results-grid { grid-template-columns: repeat(2, 1fr); }
+  .arch-phase-head,
+  .arch-phase-row { grid-template-columns: 180px 1fr 1fr; }
+  .arch-excl-row { grid-template-columns: 1fr; }
+  .arch-excl-reason { border-top: 1px solid var(--border); }
+}
+
+@media (max-width: 640px) {
+  .pd-hero-scroll { display: none; }
+  .pd-section { padding: 80px 0; }
+  .pd-inner { padding: 0 20px; }
+  .pd-results { padding: 80px 0; }
+  .pd-proj-nav { padding: 24px 20px; }
+  .pd-hero-stats { gap: 28px; }
+  .pd-results-grid { grid-template-columns: 1fr 1fr; }
+  .arch-phase-head,
+  .arch-phase-row { grid-template-columns: 1fr; gap: 6px; }
+  .arch-phase-head span:first-child,
+  .arch-phase-row span:first-child { display: none; }
+  .arch-layers { max-width: 100%; }
+  .arch-chain { padding: 20px; }
+  .arch-opt-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .arch-opt .arch-code-block { margin: 16px 16px 0; }
+  .arch-opt-result { padding: 16px; }
+  .arch-bugfix-head,
+  .arch-bugfix-body { padding: 16px; }
+  .arch-resp-col { padding: 16px 20px; }
+  .arch-decision { padding: 28px 0; }
+  .arch-step-legend { flex-direction: column; gap: 16px; }
+}
+</style>

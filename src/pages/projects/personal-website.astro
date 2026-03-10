@@ -1,0 +1,1434 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import Tag from '../../components/Tag.astro';
+import CtaButton from '../../components/CtaButton.astro';
+---
+
+<Layout title="个人网站 · Vibe Coding 实践" navPill={true}>
+  <main class="pd">
+
+    <!-- ① Hero -->
+    <section class="pd-hero">
+      <img src="/personal-website.jpg" alt="" class="pd-hero-bg-img" aria-hidden="true" />
+      <div class="pd-hero-overlay"></div>
+      <div class="pd-hero-content">
+        <div class="pd-hero-bl pd-ha pd-ha-bl">
+          <div class="pd-hero-tags">
+            <Tag label="Vibe Coding" variant="hero" />
+            <Tag label="2025" variant="hero" />
+            <Tag label="Astro 5 · 纯 CSS · 零框架" variant="hero" />
+          </div>
+          <h1 class="pd-hero-title">个人网站</h1>
+          <p class="pd-hero-sub">用 AI 协作，48 小时构建专业级个人网站</p>
+          <div class="pd-hero-rule"></div>
+          <div class="pd-hero-stats">
+            <div class="pd-stat"><div class="pd-stat-val">2天</div><div class="pd-stat-lbl">从零到上线</div></div>
+            <div class="pd-stat"><div class="pd-stat-val">6版</div><div class="pd-stat-lbl">迭代里程碑</div></div>
+            <div class="pd-stat"><div class="pd-stat-val">7页</div><div class="pd-stat-lbl">完整内容页</div></div>
+            <div class="pd-stat"><div class="pd-stat-val">0</div><div class="pd-stat-lbl">UI 框架依赖</div></div>
+          </div>
+        </div>
+        <div class="pd-hero-scroll pd-ha pd-ha-scroll" aria-hidden="true">
+          <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+          <div class="scroll-arrows"><span></span><span></span></div>
+          <span class="scroll-label">SCROLL</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ② 核心命题 -->
+    <section class="pd-section">
+      <div class="pd-inner">
+        <SectionHeader
+          eyebrow="核心命题"
+          title="AI 负责执行，<br>我负责判断。"
+        />
+        <div class="pd-premise-grid reveal reveal-delay-2">
+          <div class="pd-premise-card">
+            <div class="pd-premise-label">项目上下文</div>
+            <div class="pd-premise-item">
+              <span class="pd-premise-key">类型</span>
+              <span class="pd-premise-val">个人作品 · Vibe Coding 实践</span>
+            </div>
+            <div class="pd-premise-item">
+              <span class="pd-premise-key">技术栈</span>
+              <span class="pd-premise-val">Astro 5 · 纯 CSS · TypeScript</span>
+            </div>
+            <div class="pd-premise-item">
+              <span class="pd-premise-key">起点</span>
+              <span class="pd-premise-val">散落的 HTML 原型 + 参考设计</span>
+            </div>
+            <div class="pd-premise-item">
+              <span class="pd-premise-key">终点</span>
+              <span class="pd-premise-val">生产级静态站点，Vercel 部署</span>
+            </div>
+          </div>
+          <div class="pd-premise-body">
+            <div class="pd-premise-point reveal reveal-delay-2">
+              <div class="pd-premise-num">01</div>
+              <div>
+                <div class="pd-premise-title">这个网站本身就是方法论的证明</div>
+                <p class="pd-premise-desc">大多数设计师的个人网站是"结果展示"。这个网站同时也是"过程证明"——它记录了一套 AI 协作的工作方式，如何在没有工程师参与的情况下，完成从架构设计到生产上线的完整交付。</p>
+              </div>
+            </div>
+            <div class="pd-premise-point reveal reveal-delay-3">
+              <div class="pd-premise-num">02</div>
+              <div>
+                <div class="pd-premise-title">优势不在于 Prompt，在于判断力</div>
+                <p class="pd-premise-desc">当前 AI 工具对 Prompt 本身的优化已经足够成熟。真正的差异来自上层的决策：选什么技术栈、如何定义设计系统、用什么粒度拆解任务。AI 是执行引擎，判断力才是核心变量。</p>
+              </div>
+            </div>
+            <div class="pd-premise-point reveal reveal-delay-4">
+              <div class="pd-premise-num">03</div>
+              <div>
+                <div class="pd-premise-title">结构化思维让 AI 产出可预期</div>
+                <p class="pd-premise-desc">将 DESIGN_SYSTEM.md 作为每次会话的 context 锚点，将页面拆解为明确的 section 容器，将技术选型约束在 AI 熟悉的边界内——这些前期决策直接决定了 AI 生成代码的质量上限。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ③ 决策链 -->
+    <section class="pd-section pd-alt">
+      <div class="pd-inner">
+        <SectionHeader
+          eyebrow="关键决策"
+          title="三个选择，<br>决定了最终质量。"
+        />
+        <div class="pd-decisions">
+
+          <div class="pd-decision-card reveal">
+            <div class="pd-dc-num">01</div>
+            <div class="pd-dc-body">
+              <h3 class="pd-dc-title">从优秀 Template 改造，而非从零开始</h3>
+              <div class="pd-dc-compare">
+                <div class="pd-dc-option pd-dc-option--skip">
+                  <div class="pd-dc-opt-label">放弃方案</div>
+                  <p>从空白文件出发，让 AI 从零生成全部布局代码。每次会话要同时处理"布局决策"和"内容填充"，认知成本高，输出质量不稳定。</p>
+                </div>
+                <div class="pd-dc-arrow">→</div>
+                <div class="pd-dc-option pd-dc-option--pick">
+                  <div class="pd-dc-opt-label">实际决策</div>
+                  <p>找到设计语言对齐的优质 template 作为改造基础。布局骨架已确立，AI 的生成能量集中在内容质量、交互细节和定制化改造上，产出质量显著提升。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pd-decision-card reveal reveal-delay-1">
+            <div class="pd-dc-num">02</div>
+            <div class="pd-dc-body">
+              <h3 class="pd-dc-title">迁移到 Astro 5，散落 HTML 变成可维护的系统</h3>
+              <div class="pd-dc-compare">
+                <div class="pd-dc-option pd-dc-option--skip">
+                  <div class="pd-dc-opt-label">原有状态</div>
+                  <p>多个独立 HTML 文件，样式无法复用，无路由系统，每次修改导航/头部都要逐文件手动同步，维护成本随页数线性增长。</p>
+                </div>
+                <div class="pd-dc-arrow">→</div>
+                <div class="pd-dc-option pd-dc-option--pick">
+                  <div class="pd-dc-opt-label">实际决策</div>
+                  <p>迁移到 Astro 5：pages 目录即路由，Layout 组件统一管理全局 shell，scoped style 隔离各页面样式。AI 生成的 .astro 文件结构可预期，context 窗口利用率高。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pd-decision-card reveal reveal-delay-2">
+            <div class="pd-dc-num">03</div>
+            <div class="pd-dc-body">
+              <h3 class="pd-dc-title">零 UI 框架，自建 CSS Token 系统</h3>
+              <div class="pd-dc-compare">
+                <div class="pd-dc-option pd-dc-option--skip">
+                  <div class="pd-dc-opt-label">考虑方案</div>
+                  <p>引入 Tailwind CSS 或 shadcn/ui。AI 熟悉这些工具，生成速度快——但输出会依赖 class 查找表，设计定制空间受限，最终视觉会趋向模板化。</p>
+                </div>
+                <div class="pd-dc-arrow">→</div>
+                <div class="pd-dc-option pd-dc-option--pick">
+                  <div class="pd-dc-opt-label">实际决策</div>
+                  <p>全部使用 scoped CSS + CSS 变量 token。纯 CSS 让 AI 直接理解设计意图而非查找 class 名；自建 token 系统让每次会话都基于同一份"规格书"，保证全站一致性。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ④ 迭代时间线 -->
+    <section class="pd-section">
+      <div class="pd-inner">
+        <SectionHeader
+          eyebrow="迭代过程"
+          title="48 小时，<br>6 个里程碑。"
+        />
+        <div class="pd-timeline reveal reveal-delay-2">
+          <div class="pd-tl-item">
+            <div class="pd-tl-dot pd-tl-dot--done"></div>
+            <div class="pd-tl-content">
+              <div class="pd-tl-version">v1</div>
+              <div class="pd-tl-name">网站架构</div>
+              <p class="pd-tl-desc">确定页面结构（index / resume / contact / projects / articles），技术栈选型，Vercel 部署接入，建立开发环境。</p>
+              <div class="pd-tl-key">关键决策：技术栈 + 路由结构</div>
+            </div>
+          </div>
+          <div class="pd-tl-line pd-tl-line--done"></div>
+
+          <div class="pd-tl-item">
+            <div class="pd-tl-dot pd-tl-dot--done"></div>
+            <div class="pd-tl-content">
+              <div class="pd-tl-version">v2</div>
+              <div class="pd-tl-name">内容规划与容器</div>
+              <p class="pd-tl-desc">定义每个页面的 section 层级，信息架构与导航逻辑，建立页面容器占位，完成整体信息流的验证。</p>
+              <div class="pd-tl-key">关键决策：信息架构 + 内容优先级</div>
+            </div>
+          </div>
+          <div class="pd-tl-line pd-tl-line--done"></div>
+
+          <div class="pd-tl-item">
+            <div class="pd-tl-dot pd-tl-dot--done"></div>
+            <div class="pd-tl-content">
+              <div class="pd-tl-version">v3</div>
+              <div class="pd-tl-name">设计里程碑（首页）</div>
+              <p class="pd-tl-desc">首页完整视觉方案落地：深色 Hero + 视差滚动、白色交替楼层、Syne 字体大字排版、红色 CTA 圆圈。确立全站视觉基调。</p>
+              <div class="pd-tl-key">关键决策：视觉语言 + 交互风格</div>
+            </div>
+          </div>
+          <div class="pd-tl-line pd-tl-line--done"></div>
+
+          <div class="pd-tl-item">
+            <div class="pd-tl-dot pd-tl-dot--done"></div>
+            <div class="pd-tl-content">
+              <div class="pd-tl-version">v4</div>
+              <div class="pd-tl-name">设计系统提炼与全站应用</div>
+              <p class="pd-tl-desc">从首页提炼 CSS token，整理 DESIGN_SYSTEM.md 文档，封装 SectionHeader / CtaButton / Tag 等复用组件，在所有页面统一应用。</p>
+              <div class="pd-tl-key">关键决策：设计 token 化 + 组件边界</div>
+            </div>
+          </div>
+          <div class="pd-tl-line pd-tl-line--done"></div>
+
+          <div class="pd-tl-item">
+            <div class="pd-tl-dot pd-tl-dot--done"></div>
+            <div class="pd-tl-content">
+              <div class="pd-tl-version">v5</div>
+              <div class="pd-tl-name">真实内容填充</div>
+              <p class="pd-tl-desc">项目详情页 × 3、技术文章 × 3、简历页、联系页全部完成。每个页面遵循设计系统，复用已有组件和 CSS 模式。</p>
+              <div class="pd-tl-key">关键决策：内容深度 + 展示粒度</div>
+            </div>
+          </div>
+          <div class="pd-tl-line pd-tl-line--done"></div>
+
+          <div class="pd-tl-item">
+            <div class="pd-tl-dot pd-tl-dot--done"></div>
+            <div class="pd-tl-content">
+              <div class="pd-tl-version">v6</div>
+              <div class="pd-tl-name">检查与修复</div>
+              <p class="pd-tl-desc">跨页面一致性走查，动效细节优化（scroll reveal 时机、parallax 速度），响应式断点修复，Lighthouse 性能检测与优化。</p>
+              <div class="pd-tl-key">关键决策：质量标准 + 发布时机</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 装饰图 + 设计系统 -->
+    <div class="pd-deco-wrapper">
+      <section class="pd-deco-img" id="pd-deco-img">
+        <div class="pd-deco-code">
+          <div class="pd-code-block">
+            <div class="pd-code-line"><span class="tok-comment">/* DESIGN_SYSTEM.md → CSS tokens */</span></div>
+            <div class="pd-code-line"><span class="tok-selector">:root</span> <span class="tok-punct">{</span></div>
+            <div class="pd-code-line pd-code-indent"><span class="tok-prop">--bg</span><span class="tok-punct">:</span> <span class="tok-val">#ffffff</span><span class="tok-punct">;</span></div>
+            <div class="pd-code-line pd-code-indent"><span class="tok-prop">--bg-alt</span><span class="tok-punct">:</span> <span class="tok-val">#f0f0f0</span><span class="tok-punct">;</span></div>
+            <div class="pd-code-line pd-code-indent"><span class="tok-prop">--canvas-dark</span><span class="tok-punct">:</span> <span class="tok-val">#0a0a0a</span><span class="tok-punct">;</span></div>
+            <div class="pd-code-line pd-code-indent"><span class="tok-prop">--accent</span><span class="tok-punct">:</span> <span class="tok-val">#0062ff</span><span class="tok-punct">;</span></div>
+            <div class="pd-code-line pd-code-indent"><span class="tok-prop">--red</span><span class="tok-punct">:</span> <span class="tok-val">#f9442c</span><span class="tok-punct">;</span></div>
+            <div class="pd-code-line pd-code-indent"><span class="tok-prop">--font-display</span><span class="tok-punct">:</span> <span class="tok-str">'Syne'</span><span class="tok-punct">, sans-serif;</span></div>
+            <div class="pd-code-line pd-code-indent"><span class="tok-prop">--radius-lg</span><span class="tok-punct">:</span> <span class="tok-val">16px</span><span class="tok-punct">;</span></div>
+            <div class="pd-code-line"><span class="tok-punct">}</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ⑤ 设计系统 -->
+      <section class="pd-section pd-alt pd-over">
+        <div class="pd-inner">
+          <SectionHeader
+            eyebrow="设计系统"
+            title="规格书即<br>AI 的记忆。"
+          />
+
+          <div class="pd-ds-grid reveal reveal-delay-2">
+            <!-- 颜色 token -->
+            <div class="pd-ds-card">
+              <div class="pd-card-eyebrow">颜色 Token</div>
+              <div class="pd-color-swatches">
+                <div class="pd-swatch">
+                  <div class="pd-swatch-color" style="background:#0a0a0a; border:1px solid #333;"></div>
+                  <div class="pd-swatch-name">canvas-dark</div>
+                  <div class="pd-swatch-use">Hero · 深色楼层</div>
+                </div>
+                <div class="pd-swatch">
+                  <div class="pd-swatch-color" style="background:#ffffff; border:1px solid #e0e0e0;"></div>
+                  <div class="pd-swatch-name">bg</div>
+                  <div class="pd-swatch-use">正文楼层底色</div>
+                </div>
+                <div class="pd-swatch">
+                  <div class="pd-swatch-color" style="background:#f0f0f0; border:1px solid #e0e0e0;"></div>
+                  <div class="pd-swatch-name">bg-alt</div>
+                  <div class="pd-swatch-use">交替楼层底色</div>
+                </div>
+                <div class="pd-swatch">
+                  <div class="pd-swatch-color" style="background:#0062ff;"></div>
+                  <div class="pd-swatch-name">accent</div>
+                  <div class="pd-swatch-use">眉标 · 链接 · 指示器</div>
+                </div>
+                <div class="pd-swatch">
+                  <div class="pd-swatch-color" style="background:#f9442c;"></div>
+                  <div class="pd-swatch-name">red</div>
+                  <div class="pd-swatch-use">CTA 圆圈</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 字体系统 -->
+            <div class="pd-ds-card">
+              <div class="pd-card-eyebrow">字体系统</div>
+              <div class="pd-type-demo">
+                <div class="pd-type-row">
+                  <div class="pd-type-sample pd-type-display">Syne</div>
+                  <div class="pd-type-meta">
+                    <div class="pd-type-name">Display Font</div>
+                    <div class="pd-type-use">标题 · 大数字 · 名字 · 导航</div>
+                    <div class="pd-type-weight">400 · 600 · 700 · 800</div>
+                  </div>
+                </div>
+                <div class="pd-type-divider"></div>
+                <div class="pd-type-row">
+                  <div class="pd-type-sample pd-type-body">Inter</div>
+                  <div class="pd-type-meta">
+                    <div class="pd-type-name">Body Font</div>
+                    <div class="pd-type-use">正文 · 描述 · 标签 · 中文内容</div>
+                    <div class="pd-type-weight">400 · 500 · 600 · 700</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 组件 -->
+          <div class="pd-ds-components reveal reveal-delay-3">
+            <div class="pd-card-eyebrow" style="margin-bottom:24px;">复用组件</div>
+            <div class="pd-comp-list">
+              <div class="pd-comp-item">
+                <div class="pd-comp-name">SectionHeader</div>
+                <p class="pd-comp-desc">眉标 + 标题 + 副标题三层结构，支持 editorial / bold 字重变体，light / dark 主题，内置 scroll reveal 动效。</p>
+              </div>
+              <div class="pd-comp-item">
+                <div class="pd-comp-name">CtaButton</div>
+                <p class="pd-comp-desc">胶囊按钮 + 红色旋转箭头圆圈，hover 时箭头旋转动效，支持 dark / light 变体。</p>
+              </div>
+              <div class="pd-comp-item">
+                <div class="pd-comp-name">Tag</div>
+                <p class="pd-comp-desc">4 种变体：skill（白色胶囊）· hero（深色背景玻璃态）· tech（灰色）· metric（绿色）。</p>
+              </div>
+              <div class="pd-comp-item">
+                <div class="pd-comp-name">ArticleCard</div>
+                <p class="pd-comp-desc">封面渐变 + meta 信息 + 标题卡片，支持 soon 标记即将发布的内容。</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- DESIGN_SYSTEM.md 的价值 -->
+          <div class="pd-ds-insight reveal reveal-delay-4">
+            <div class="pd-insight-label">核心洞察</div>
+            <p>DESIGN_SYSTEM.md 不只是文档，它是 AI 的"外部记忆"。每次开启新会话时将其注入 context，AI 就能在不了解之前对话的情况下，生成与全站视觉语言一致的代码。<strong>设计系统文档化的本质，是让 AI 协作可以跨会话延续。</strong></p>
+          </div>
+        </div>
+      </section>
+    </div><!-- /pd-deco-wrapper -->
+
+    <!-- ⑥ 核心挑战 -->
+    <section class="pd-section">
+      <div class="pd-inner">
+        <SectionHeader
+          eyebrow="核心挑战"
+          title="三个难题，<br>三种应对方式。"
+        />
+
+        <!-- 挑战 1 -->
+        <div class="pd-challenge reveal">
+          <div class="pd-ch-head">
+            <span class="pd-ch-num">01</span>
+            <h3 class="pd-ch-title">多会话一致性：AI 怎么记住上次的决定？</h3>
+          </div>
+          <div class="pd-evolution pd-evolution--2col">
+            <div class="pd-evo-step pd-evo-step--bad">
+              <div class="pd-evo-label">问题</div>
+              <p>AI 无法跨会话记忆。每次新对话，它对之前的颜色系统、间距规范、组件结构一无所知，容易生成"风格漂移"的代码，需要大量手工修正。</p>
+            </div>
+            <div class="pd-evo-arrow">→</div>
+            <div class="pd-evo-step pd-evo-step--good">
+              <div class="pd-evo-label">应对方式</div>
+              <p>将 DESIGN_SYSTEM.md 作为每次会话的必读 context，配合现有页面代码片段作为风格参考。AI 有了"规格书"，生成代码自然对齐全站风格，无需逐条纠正。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 挑战 2 -->
+        <div class="pd-challenge reveal reveal-delay-1">
+          <div class="pd-ch-head">
+            <span class="pd-ch-num">02</span>
+            <h3 class="pd-ch-title">复杂动效实现：有状态的交互 AI 能处理吗？</h3>
+          </div>
+          <div class="pd-evolution pd-evolution--2col">
+            <div class="pd-evo-step pd-evo-step--bad">
+              <div class="pd-evo-label">问题</div>
+              <p>parallax 视差、sticky 压叠滑入、IntersectionObserver scroll reveal、导航 pill 收缩/展开——这些动效涉及 DOM 状态管理和 CSS 层叠关系，直接让 AI "写一个 parallax" 容易出现层级混乱。</p>
+            </div>
+            <div class="pd-evo-arrow">→</div>
+            <div class="pd-evo-step pd-evo-step--good">
+              <div class="pd-evo-label">应对方式</div>
+              <p>先讨论 HTML 结构和 CSS position 方案，再生成 script。将"结构"与"行为"分两步处理，每步 diff 范围小且可审查。复杂的 sticky 压叠问题通过 isolation: isolate 包裹 wrapper 解决，AI 理解后一次生成正确代码。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 挑战 3 -->
+        <div class="pd-challenge reveal reveal-delay-2">
+          <div class="pd-ch-head">
+            <span class="pd-ch-num">03</span>
+            <h3 class="pd-ch-title">内容与代码的边界：如何控制 AI 的改动范围？</h3>
+          </div>
+          <div class="pd-debate">
+            <div class="pd-debate-sides">
+              <div class="pd-debate-side pd-debate-side--for">
+                <div class="pd-debate-label">AI 的倾向</div>
+                <p>在修改内容时顺手调整样式，在修改样式时重构 HTML 结构。每次 diff 范围过大，导致难以审查，且容易引入非预期的视觉变化。</p>
+              </div>
+              <div class="pd-debate-vs">VS</div>
+              <div class="pd-debate-side pd-debate-side--against">
+                <div class="pd-debate-label">应对方式</div>
+                <p>在指令中明确边界："只修改 HTML 结构，不动 style block"、"只更新文案，保持所有 class 名不变"。将一次大改拆解为多次小改，每次 diff 可控，审查成本低。</p>
+              </div>
+            </div>
+            <div class="pd-debate-result">
+              <div class="pd-debate-result-label">核心原则</div>
+              <p>Vibe coding 的质量控制不在于 AI 的能力边界，而在于任务拆解的粒度。粒度越小，AI 的输出越精准，人工审查越高效。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑦ 结果 -->
+    <section class="pd-results">
+      <div class="pd-inner">
+        <SectionHeader
+          eyebrow="项目成果"
+          title="数字说话。"
+          weight="editorial"
+          theme="dark"
+        />
+        <div class="pd-results-grid">
+          <div class="pd-result reveal reveal-delay-1"><div class="pd-result-val">2天</div><div class="pd-result-lbl">从零到生产上线</div></div>
+          <div class="pd-result reveal reveal-delay-2"><div class="pd-result-val">6版</div><div class="pd-result-lbl">完整迭代里程碑</div></div>
+          <div class="pd-result reveal reveal-delay-3"><div class="pd-result-val">7页</div><div class="pd-result-lbl">完整内容页面</div></div>
+          <div class="pd-result reveal reveal-delay-4"><div class="pd-result-val">0</div><div class="pd-result-lbl">UI 框架依赖</div></div>
+          <div class="pd-result reveal reveal-delay-1"><div class="pd-result-val">4件</div><div class="pd-result-lbl">复用组件</div></div>
+          <div class="pd-result reveal reveal-delay-2"><div class="pd-result-val">1份</div><div class="pd-result-lbl">设计系统文档</div></div>
+          <div class="pd-result reveal reveal-delay-3"><div class="pd-result-val">纯 CSS</div><div class="pd-result-lbl">无 Tailwind 无 SCSS</div></div>
+          <div class="pd-result reveal reveal-delay-4"><div class="pd-result-val">Astro 5</div><div class="pd-result-lbl">静态输出 · 极速加载</div></div>
+        </div>
+        <div class="pd-results-cta">
+          <CtaButton href="/contact" label="联系我" variant="light" />
+          <CtaButton href="/resume" label="查看完整简历" variant="light" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑧ 项目导航 -->
+    <div class="pd-proj-nav">
+      <a class="pd-nav-back" href="/projects">← 所有项目</a>
+      <a class="pd-nav-prev" href="/projects/jd-promo">
+        <span class="pd-nav-prev-hint">上一个项目</span>
+        <span class="pd-nav-prev-name">← 京东大促互动产品</span>
+      </a>
+    </div>
+
+  </main>
+</Layout>
+
+<script>
+  const decoSection = document.getElementById('pd-deco-img');
+  if (decoSection) {
+    const decoObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          decoSection.classList.add('deco-visible');
+          decoObs.unobserve(decoSection);
+        }
+      });
+    }, { threshold: 0.1 });
+    decoObs.observe(decoSection);
+  }
+
+  const nav  = document.getElementById('main-nav')!;
+  const hero = document.querySelector('.pd-hero') as HTMLElement;
+
+  function updateNav() {
+    nav.classList.toggle('nav-hero', hero.getBoundingClientRect().bottom > 60);
+  }
+  updateNav();
+  window.addEventListener('scroll', updateNav, { passive: true });
+</script>
+
+<style>
+/* ─── 布局基础 ─── */
+.pd-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.pd-section {
+  padding: 120px 0;
+  background: var(--bg);
+}
+
+.pd-alt {
+  background: var(--bg-alt);
+}
+
+/* ─── Hero ─── */
+.pd-hero {
+  position: relative;
+  background: var(--canvas-dark);
+  height: 100vh;
+  min-height: 640px;
+  overflow: hidden;
+}
+
+.pd-hero-bg-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  opacity: .22;
+  pointer-events: none;
+  user-select: none;
+}
+
+.pd-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.2) 50%, rgba(10,10,10,0.5) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.pd-hero-content {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 40px 0;
+}
+
+@keyframes pdHeroFadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pdHeroFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.pd-ha {
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.22, 0.8, 0.44, 1);
+  animation-duration: 0.8s;
+}
+.pd-ha-bl     { animation-name: pdHeroFadeUp; animation-delay: 0.1s; }
+.pd-ha-scroll { animation-name: pdHeroFadeIn; animation-delay: 0.75s; }
+
+.pd-hero-bl {
+  text-align: center;
+  max-width: 760px;
+  width: 100%;
+}
+
+.pd-hero-bl .pd-hero-tags { justify-content: center; }
+.pd-hero-bl .pd-hero-stats { justify-content: center; }
+.pd-hero-bl .pd-hero-rule { max-width: 480px; margin-left: auto; margin-right: auto; }
+
+.pd-hero-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
+}
+
+.pd-hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(56px, 9vw, 112px);
+  font-weight: 800;
+  letter-spacing: -.04em;
+  line-height: .96;
+  color: var(--text-inv);
+  margin-bottom: 24px;
+}
+
+.pd-hero-sub {
+  font-size: 20px;
+  color: var(--muted-inv);
+  line-height: 1.6;
+  margin-bottom: 56px;
+}
+
+.pd-hero-rule {
+  height: 1px;
+  background: var(--border-inv);
+  margin-bottom: 40px;
+}
+
+.pd-hero-stats {
+  display: flex;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+
+.pd-stat-val {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--text-inv);
+  letter-spacing: -.02em;
+  margin-bottom: 4px;
+}
+
+.pd-stat-lbl {
+  font-size: 12px;
+  color: var(--muted-inv);
+}
+
+.pd-hero-scroll {
+  position: absolute;
+  right: 36px;
+  bottom: 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.scroll-mouse {
+  width: 24px;
+  height: 38px;
+  border: 2px solid rgba(255,255,255,0.75);
+  border-radius: 12px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 0 12px rgba(255,255,255,0.15);
+}
+
+.scroll-wheel {
+  width: 4px;
+  height: 7px;
+  background: #fff;
+  border-radius: 2px;
+  position: absolute;
+  top: 6px;
+  animation: pdWheelBounce 1.6s cubic-bezier(.45,0,.55,1) infinite;
+}
+
+@keyframes pdWheelBounce {
+  0%   { top: 6px;  opacity: 1; }
+  60%  { top: 18px; opacity: 0.2; }
+  100% { top: 6px;  opacity: 1; }
+}
+
+.scroll-arrows {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.scroll-arrows span {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid rgba(255,255,255,0.75);
+  border-bottom: 2px solid rgba(255,255,255,0.75);
+  transform: rotate(45deg);
+  animation: pdArrowFade 1.6s ease-in-out infinite;
+}
+
+.scroll-arrows span:nth-child(2) { animation-delay: .18s; opacity: 0.5; }
+
+@keyframes pdArrowFade {
+  0%, 100% { opacity: 0.2; transform: rotate(45deg) translateY(-3px); }
+  50%       { opacity: 1;   transform: rotate(45deg) translateY(2px);  }
+}
+
+.scroll-label {
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: rgba(255,255,255,0.6);
+  font-weight: 600;
+}
+
+/* ─── 核心命题 ─── */
+.pd-premise-grid {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.pd-premise-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  position: sticky;
+  top: 80px;
+}
+
+.pd-premise-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+
+.pd-premise-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.pd-premise-item:last-child { border-bottom: none; }
+
+.pd-premise-key {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.pd-premise-val {
+  font-size: 13.5px;
+  color: var(--text);
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.pd-premise-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.pd-premise-point {
+  display: flex;
+  gap: 20px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.pd-premise-point:first-child { border-top: 1px solid var(--border); }
+
+.pd-premise-num {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  flex-shrink: 0;
+  padding-top: 2px;
+  min-width: 24px;
+}
+
+.pd-premise-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 10px;
+  letter-spacing: -.01em;
+}
+
+.pd-premise-desc {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+/* ─── 决策链 ─── */
+.pd-decisions {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.pd-decision-card {
+  display: flex;
+  gap: 28px;
+  padding: 40px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: flex-start;
+}
+
+.pd-decision-card:first-child { border-top: 1px solid var(--border); }
+
+.pd-dc-num {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--accent);
+  flex-shrink: 0;
+  padding-top: 4px;
+  min-width: 28px;
+}
+
+.pd-dc-body { flex: 1; min-width: 0; }
+
+.pd-dc-title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -.02em;
+  margin-bottom: 20px;
+}
+
+.pd-dc-compare {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0;
+  align-items: stretch;
+}
+
+.pd-dc-option {
+  padding: 18px 20px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.pd-dc-option--skip {
+  background: var(--surface);
+  border-color: var(--border-mid);
+}
+
+.pd-dc-option--pick {
+  background: var(--accent-bg);
+  border-color: var(--accent-border);
+}
+
+.pd-dc-opt-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.pd-dc-option--skip .pd-dc-opt-label { color: var(--muted); }
+.pd-dc-option--pick .pd-dc-opt-label { color: var(--accent); }
+
+.pd-dc-option p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.pd-dc-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  color: var(--border-mid);
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+/* ─── 迭代时间线 ─── */
+.pd-timeline {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.pd-tl-item {
+  flex: 1;
+  min-width: 148px;
+  display: flex;
+  flex-direction: column;
+}
+
+.pd-tl-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-bottom: 16px;
+  flex-shrink: 0;
+}
+
+.pd-tl-dot--done { background: var(--accent); }
+
+.pd-tl-content {
+  flex: 1;
+  padding: 0 20px 0 0;
+}
+
+.pd-tl-line {
+  width: 24px;
+  flex-shrink: 0;
+  height: 2px;
+  background: var(--border-mid);
+  align-self: flex-start;
+  margin-top: 4px;
+}
+
+.pd-tl-line--done { background: var(--accent); }
+
+.pd-tl-version {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+.pd-tl-name {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+
+.pd-tl-desc {
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.65;
+  margin-bottom: 12px;
+}
+
+.pd-tl-key {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  border-radius: 6px;
+  padding: 4px 8px;
+  line-height: 1.4;
+  display: inline-block;
+}
+
+/* ─── 装饰 Code Block ─── */
+.pd-deco-wrapper {
+  position: relative;
+  isolation: isolate;
+}
+
+.pd-deco-img {
+  position: sticky;
+  top: 0;
+  z-index: 0;
+  width: 100%;
+  background: #0d1117;
+  overflow: hidden;
+  min-height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pd-deco-img.deco-visible .pd-code-block {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.pd-deco-code {
+  width: 100%;
+  max-width: 640px;
+  padding: 48px 40px;
+}
+
+.pd-code-block {
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: clamp(13px, 1.6vw, 16px);
+  line-height: 1.9;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.pd-code-line { white-space: nowrap; }
+.pd-code-indent { padding-left: 2em; }
+
+.tok-comment { color: #6e7681; }
+.tok-selector { color: #79c0ff; }
+.tok-punct { color: #c9d1d9; }
+.tok-prop { color: #ff7b72; }
+.tok-val { color: #79c0ff; }
+.tok-str { color: #a5d6ff; }
+
+.pd-over {
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── 设计系统 ─── */
+.pd-card-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+
+.pd-ds-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.pd-ds-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  background: var(--bg);
+}
+
+.pd-color-swatches {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.pd-swatch { display: flex; flex-direction: column; gap: 6px; min-width: 80px; }
+
+.pd-swatch-color {
+  width: 100%;
+  height: 40px;
+  border-radius: 8px;
+}
+
+.pd-swatch-name {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 11px;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.pd-swatch-use {
+  font-size: 10.5px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.pd-type-demo { display: flex; flex-direction: column; }
+
+.pd-type-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 16px 0;
+}
+
+.pd-type-divider {
+  height: 1px;
+  background: var(--border);
+}
+
+.pd-type-sample {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -.03em;
+  min-width: 100px;
+  flex-shrink: 0;
+  color: var(--text);
+}
+
+.pd-type-display { font-family: var(--font-display); }
+.pd-type-body { font-family: var(--font-body, Inter, sans-serif); }
+
+.pd-type-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.pd-type-use {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.pd-type-weight {
+  font-family: 'SF Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+}
+
+.pd-ds-components {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  background: var(--bg);
+  margin-bottom: 16px;
+}
+
+.pd-comp-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.pd-comp-item {
+  padding: 16px 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.pd-comp-name {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.pd-comp-desc {
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.pd-ds-insight {
+  padding: 24px 28px;
+  background: var(--canvas-dark);
+  border-radius: var(--radius-lg);
+}
+
+.pd-insight-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.35);
+  margin-bottom: 10px;
+}
+
+.pd-ds-insight p {
+  font-size: 14px;
+  color: rgba(255,255,255,.65);
+  line-height: 1.75;
+}
+
+.pd-ds-insight strong {
+  color: rgba(255,255,255,.9);
+  font-weight: 600;
+}
+
+/* ─── 关键挑战 ─── */
+.pd-challenge {
+  border-top: 1px solid var(--border);
+  padding: 40px 0;
+}
+
+.pd-challenge:last-child { border-bottom: 1px solid var(--border); }
+
+.pd-ch-head {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.pd-ch-num {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.pd-ch-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -.02em;
+}
+
+.pd-evolution {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  align-items: stretch;
+}
+
+.pd-evolution--2col { grid-template-columns: 1fr auto 1fr; }
+
+.pd-evo-step {
+  padding: 20px 22px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.pd-evo-step--bad {
+  background: var(--surface);
+  border-color: var(--border-mid);
+}
+
+.pd-evo-step--good {
+  background: var(--accent-bg);
+  border-color: var(--accent-border);
+}
+
+.pd-evo-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.pd-evo-step--bad  .pd-evo-label { color: var(--muted); }
+.pd-evo-step--good .pd-evo-label { color: var(--accent); }
+
+.pd-evo-step p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.pd-evo-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  color: var(--border-mid);
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.pd-debate-sides {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 16px;
+}
+
+.pd-debate-side {
+  padding: 20px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.pd-debate-side--for {
+  background: var(--surface);
+  border-color: var(--border-mid);
+}
+
+.pd-debate-side--against {
+  background: var(--accent-bg);
+  border-color: var(--accent-border);
+}
+
+.pd-debate-vs {
+  text-align: center;
+  padding: 0 20px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 1px;
+  flex-shrink: 0;
+}
+
+.pd-debate-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.pd-debate-side--for    .pd-debate-label { color: var(--muted); }
+.pd-debate-side--against .pd-debate-label { color: var(--accent); }
+
+.pd-debate-side p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.pd-debate-result {
+  padding: 18px 22px;
+  background: var(--canvas-dark);
+  border-radius: var(--radius);
+}
+
+.pd-debate-result-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.35);
+  margin-bottom: 6px;
+}
+
+.pd-debate-result p {
+  font-size: 13.5px;
+  color: rgba(255,255,255,.7);
+  line-height: 1.7;
+}
+
+/* ─── 结果 ─── */
+.pd-results {
+  background: var(--canvas-dark);
+  padding: 120px 0;
+}
+
+.pd-results-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border-inv);
+  border: 1px solid var(--border-inv);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.pd-result {
+  padding: 36px 28px;
+  background: var(--canvas-dark);
+}
+
+.pd-result-val {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 3vw, 38px);
+  font-weight: 800;
+  color: var(--text-inv);
+  letter-spacing: -.03em;
+  margin-bottom: 8px;
+}
+
+.pd-result-lbl {
+  font-size: 12px;
+  color: var(--muted-inv);
+}
+
+.pd-results-cta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 56px;
+}
+
+/* ─── 项目导航 ─── */
+.pd-proj-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32px 40px;
+  border-top: 1px solid var(--border);
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
+.pd-nav-back {
+  font-size: 13.5px;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color .2s;
+}
+
+.pd-nav-back:hover { color: var(--text); }
+
+.pd-nav-prev {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  text-decoration: none;
+}
+
+.pd-nav-prev-hint {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.pd-nav-prev-name {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  transition: color .2s;
+}
+
+.pd-nav-prev:hover .pd-nav-prev-name { color: var(--accent); }
+
+/* ─── Responsive ─── */
+@media (max-width: 900px) {
+  .pd-premise-grid { grid-template-columns: 1fr; }
+  .pd-premise-card { position: static; }
+  .pd-dc-compare { grid-template-columns: 1fr; }
+  .pd-dc-arrow { transform: rotate(90deg); padding: 8px 0; display: flex; justify-content: flex-start; }
+  .pd-evolution { grid-template-columns: 1fr; }
+  .pd-evo-arrow { transform: rotate(90deg); padding: 8px 0; justify-content: flex-start; }
+  .pd-debate-sides { grid-template-columns: 1fr; }
+  .pd-debate-vs { padding: 8px 0; text-align: left; }
+  .pd-results-grid { grid-template-columns: repeat(2, 1fr); }
+  .pd-ds-grid { grid-template-columns: 1fr; }
+  .pd-comp-list { grid-template-columns: 1fr; }
+  .pd-timeline { flex-direction: column; }
+  .pd-tl-line { width: 2px; height: 16px; align-self: flex-start; margin-left: 4px; }
+  .pd-tl-item { padding-bottom: 8px; }
+}
+
+@media (max-width: 600px) {
+  .pd-hero-scroll { display: none; }
+  .pd-section { padding: 80px 0; }
+  .pd-inner { padding: 0 20px; }
+  .pd-results { padding: 80px 0; }
+  .pd-proj-nav { padding: 24px 20px; flex-direction: column; align-items: flex-start; gap: 16px; }
+  .pd-nav-prev { align-items: flex-start; }
+  .pd-hero-stats { gap: 28px; }
+  .pd-results-grid { grid-template-columns: 1fr 1fr; }
+  .pd-decision-card { flex-direction: column; gap: 12px; }
+  .pd-color-swatches { gap: 8px; }
+  .pd-swatch { min-width: 64px; }
+}
+</style>
