@@ -29,21 +29,44 @@ function isActive(href: string) {
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
+      /* ── Color tokens ── */
       --bg: #ffffff;
       --bg-alt: #f0f0f0;
       --surface: #f7f7f5;
+      --canvas-dark: #0a0a0a;
       --text: #0a0a0a;
+      --text-inv: #ffffff;
       --muted: rgba(10,10,10,0.45);
+      --muted-inv: rgba(255,255,255,0.45);
       --border: rgba(0,0,0,0.08);
       --border-mid: rgba(0,0,0,0.13);
+      --border-inv: rgba(255,255,255,0.1);
       --accent: #0062ff;
       --accent-bg: rgba(0,98,255,0.07);
       --accent-border: rgba(0,98,255,0.2);
+      --red: #f9442c;
       --green: #00a854;
       --green-bg: rgba(0,168,84,0.07);
       --green-border: rgba(0,168,84,0.2);
+      --amber: #d97706;
+      --amber-bg: rgba(217,119,6,0.07);
+      --amber-border: rgba(217,119,6,0.2);
+
+      /* ── Radius ── */
       --radius: 12px;
       --radius-lg: 20px;
+      --radius-pill: 100px;
+
+      /* ── Spacing scale ── */
+      --sp-xs: 8px;
+      --sp-sm: 16px;
+      --sp-md: 32px;
+      --sp-lg: 64px;
+      --sp-xl: 120px;
+
+      /* ── Typography ── */
+      --font-sans: 'Inter', -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
+      --font-display: 'Syne', sans-serif;
     }
 
     html { scroll-behavior: smooth; }

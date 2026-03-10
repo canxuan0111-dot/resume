@@ -1,0 +1,71 @@
+---
+/**
+ * Tag — 标签/徽章
+ *
+ * Props:
+ *   label    — 标签文字
+ *   variant  — 显示风格：
+ *     'skill'   — 胶囊，白底，边框（首页技能标签，wm-tag 风格）
+ *     'hero'    — 胶囊，暗底，白色半透明边框（项目 Hero 区标签）
+ *     'tech'    — 小方圆角，浅灰底，无边框（技术栈标签）
+ *     'metric'  — 绿色高亮，用于指标展示（pmetric 风格）
+ */
+interface Props {
+  label: string;
+  variant?: 'skill' | 'hero' | 'tech' | 'metric';
+}
+
+const { label, variant = 'skill' } = Astro.props;
+---
+
+<span class:list={['tag', `tag--${variant}`]}>{label}</span>
+
+<style>
+.tag {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+/* ── skill: 首页技能标签 ── */
+.tag--skill {
+  padding: 8px 18px;
+  border-radius: var(--radius-pill);
+  background: var(--bg);
+  font-size: 13px;
+  color: rgba(10,10,10,0.7);
+  border: 1px solid var(--border-mid);
+}
+
+/* ── hero: 项目 Hero 区深色标签 ── */
+.tag--hero {
+  padding: 4px 14px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255,255,255,0.15);
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: .3px;
+}
+
+/* ── tech: 技术栈小标签 ── */
+.tag--tech {
+  padding: 3px 10px;
+  border-radius: 6px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ── metric: 指标绿色标签 ── */
+.tag--metric {
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--green);
+  background: var(--green-bg);
+  border: 1px solid var(--green-border);
+}
+</style>

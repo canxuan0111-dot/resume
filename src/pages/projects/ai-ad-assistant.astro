@@ -1,5 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import Tag from '../../components/Tag.astro';
 ---
 
 <Layout title="AI 轻松投">
@@ -7,69 +9,67 @@ import Layout from '../../layouts/Layout.astro';
 
     <!-- ① Hero -->
     <section class="pd-hero">
-      <div class="pd-hero-inner">
+      <div class="pd-inner">
         <div class="pd-hero-tags">
-          <span class="pd-htag">AI 产品经理</span>
-          <span class="pd-htag">2024.06 – 2025.11</span>
-          <span class="pd-htag">Multi-Agent · RAG · 多模态</span>
+          <Tag label="AI 产品经理" variant="hero" />
+          <Tag label="2024.06 – 2025.11" variant="hero" />
+          <Tag label="Multi-Agent · RAG · 多模态" variant="hero" />
         </div>
         <h1 class="pd-hero-title">AI 轻松投</h1>
         <p class="pd-hero-sub">小红书电商腰部商家的<br>AI 投放全流程助手</p>
-        <div class="pd-hero-metrics">
-          <div class="pd-hm"><div class="pd-hm-val">3×</div><div class="pd-hm-lbl">效率提升</div></div>
-          <div class="pd-hm-div"></div>
-          <div class="pd-hm"><div class="pd-hm-val">98.6%</div><div class="pd-hm-lbl">素材准确率</div></div>
-          <div class="pd-hm-div"></div>
-          <div class="pd-hm"><div class="pd-hm-val">252万</div><div class="pd-hm-lbl">年收入</div></div>
-          <div class="pd-hm-div"></div>
-          <div class="pd-hm"><div class="pd-hm-val">20家</div><div class="pd-hm-lbl">付费客户</div></div>
-          <div class="pd-hm-div"></div>
-          <div class="pd-hm"><div class="pd-hm-val">85%+</div><div class="pd-hm-lbl">客户留存</div></div>
-          <div class="pd-hm-div"></div>
-          <div class="pd-hm"><div class="pd-hm-val">-95%</div><div class="pd-hm-lbl">模型成本</div></div>
+        <div class="pd-hero-rule"></div>
+        <div class="pd-hero-stats">
+          <div class="pd-stat"><div class="pd-stat-val">3×</div><div class="pd-stat-lbl">效率提升</div></div>
+          <div class="pd-stat"><div class="pd-stat-val">98.6%</div><div class="pd-stat-lbl">素材准确率</div></div>
+          <div class="pd-stat"><div class="pd-stat-val">252万</div><div class="pd-stat-lbl">年收入</div></div>
+          <div class="pd-stat"><div class="pd-stat-val">20家</div><div class="pd-stat-lbl">付费客户</div></div>
+          <div class="pd-stat"><div class="pd-stat-val">85%+</div><div class="pd-stat-lbl">客户留存</div></div>
+          <div class="pd-stat"><div class="pd-stat-val">−95%</div><div class="pd-stat-lbl">模型成本</div></div>
         </div>
       </div>
     </section>
 
     <!-- ② 背景与问题 -->
     <section class="pd-section">
-      <div class="section-inner">
-        <p class="section-label reveal">背景与问题</p>
-        <h2 class="section-headline reveal reveal-delay-1">谁在用，<br>为什么需要它？</h2>
+      <div class="pd-inner">
+        <SectionHeader
+          eyebrow="背景与问题"
+          title="谁在用，<br>为什么需要它？"
+        />
         <div class="pd-problem-grid reveal reveal-delay-2">
           <div class="pd-user-card">
-            <div class="pd-user-icon">👤</div>
-            <div class="pd-user-title">目标用户</div>
-            <div class="pd-user-desc">小红书电商腰部商家<br>年销 500万 – 5000万</div>
-            <div class="pd-market">
-              <div class="pd-market-item">
+            <div class="pd-user-label">目标用户</div>
+            <div class="pd-user-name">小红书电商腰部商家<br>年销 500万 – 5000万</div>
+            <div class="pd-user-rule"></div>
+            <div class="pd-user-market">
+              <div>
                 <div class="pd-market-val">150–200亿</div>
                 <div class="pd-market-lbl">GMV/年·市场规模</div>
               </div>
-              <div class="pd-market-item">
+              <div>
                 <div class="pd-market-val">20–50亿</div>
                 <div class="pd-market-lbl">服务市场空间</div>
               </div>
             </div>
           </div>
           <div class="pd-pains">
-            <div class="pd-pain">
+            <div class="pd-pain reveal reveal-delay-2">
               <div class="pd-pain-num">01</div>
-              <div class="pd-pain-body">
+              <div>
                 <div class="pd-pain-title">内容生产低效</div>
                 <p class="pd-pain-desc">一条合格素材需策划、设计、文案多轮协作，周产出仅 50 条，无法覆盖投放消耗。</p>
               </div>
             </div>
-            <div class="pd-pain">
+            <div class="pd-pain reveal reveal-delay-3">
               <div class="pd-pain-num">02</div>
-              <div class="pd-pain-body">
+              <div>
                 <div class="pd-pain-title">投放决策碎片化</div>
                 <p class="pd-pain-desc">预算分配、受众定位、出价策略依赖经验判断，缺乏数据支撑，ROI 波动大。</p>
               </div>
             </div>
-            <div class="pd-pain">
+            <div class="pd-pain reveal reveal-delay-4">
               <div class="pd-pain-num">03</div>
-              <div class="pd-pain-body">
+              <div>
                 <div class="pd-pain-title">数据资产未利用</div>
                 <p class="pd-pain-desc">历史投放数据、优质素材模板、成功策略均沉淀在本地文件中，无法复用和积累。</p>
               </div>
@@ -81,46 +81,48 @@ import Layout from '../../layouts/Layout.astro';
 
     <!-- ③ 产品策略 -->
     <section class="pd-section pd-alt">
-      <div class="section-inner">
-        <p class="section-label reveal">产品策略</p>
-        <h2 class="section-headline reveal reveal-delay-1">四期路线，<br>从工具到平台。</h2>
+      <div class="pd-inner">
+        <SectionHeader
+          eyebrow="产品策略"
+          title="四期路线，<br>从工具到平台。"
+        />
         <div class="pd-roadmap reveal reveal-delay-2">
-          <div class="pd-rphase pd-rphase-done">
-            <div class="pd-rphase-dot"></div>
-            <div class="pd-rphase-tag">Phase 1 · 已上线</div>
-            <div class="pd-rphase-name">内容资产化</div>
-            <p class="pd-rphase-desc">SKU 录入、模板管理、文案 + 配图生成、效果回填</p>
+          <div class="pd-phase pd-phase--done">
+            <div class="pd-phase-dot"></div>
+            <div class="pd-phase-tag">Phase 1 · 已上线</div>
+            <div class="pd-phase-name">内容资产化</div>
+            <p class="pd-phase-desc">SKU 录入、模板管理、文案 + 配图生成、效果回填</p>
           </div>
-          <div class="pd-rline pd-rline-done"></div>
-          <div class="pd-rphase pd-rphase-done">
-            <div class="pd-rphase-dot"></div>
-            <div class="pd-rphase-tag">Phase 2 · 已上线</div>
-            <div class="pd-rphase-name">投放可控化</div>
-            <p class="pd-rphase-desc">护栏配置、投放报告、诊断分析、优化方案</p>
+          <div class="pd-roadmap-line pd-roadmap-line--done"></div>
+          <div class="pd-phase pd-phase--done">
+            <div class="pd-phase-dot"></div>
+            <div class="pd-phase-tag">Phase 2 · 已上线</div>
+            <div class="pd-phase-name">投放可控化</div>
+            <p class="pd-phase-desc">护栏配置、投放报告、诊断分析、优化方案</p>
           </div>
-          <div class="pd-rline"></div>
-          <div class="pd-rphase">
-            <div class="pd-rphase-dot pd-rdot-future"></div>
-            <div class="pd-rphase-tag pd-rtag-future">Phase 3 · 规划中</div>
-            <div class="pd-rphase-name">ROI 归因</div>
-            <p class="pd-rphase-desc">AB 实验框架、精准归因、策略沉淀</p>
+          <div class="pd-roadmap-line"></div>
+          <div class="pd-phase">
+            <div class="pd-phase-dot pd-phase-dot--future"></div>
+            <div class="pd-phase-tag pd-phase-tag--future">Phase 3 · 规划中</div>
+            <div class="pd-phase-name">ROI 归因</div>
+            <p class="pd-phase-desc">AB 实验框架、精准归因、策略沉淀</p>
           </div>
-          <div class="pd-rline"></div>
-          <div class="pd-rphase">
-            <div class="pd-rphase-dot pd-rdot-future"></div>
-            <div class="pd-rphase-tag pd-rtag-future">Phase 4 · 规划中</div>
-            <div class="pd-rphase-name">多模态升级</div>
-            <p class="pd-rphase-desc">视频素材生成、跨平台投放、智能选品</p>
+          <div class="pd-roadmap-line"></div>
+          <div class="pd-phase">
+            <div class="pd-phase-dot pd-phase-dot--future"></div>
+            <div class="pd-phase-tag pd-phase-tag--future">Phase 4 · 规划中</div>
+            <div class="pd-phase-name">多模态升级</div>
+            <p class="pd-phase-desc">视频素材生成、跨平台投放、智能选品</p>
           </div>
         </div>
         <div class="pd-bizmodel reveal reveal-delay-3">
-          <div class="pd-biz-label">商业模式</div>
+          <div class="pd-biz-eyebrow">商业模式</div>
           <div class="pd-biz-tiers">
             <div class="pd-biz-tier">
               <div class="pd-biz-name">免费版</div>
               <div class="pd-biz-desc">基础功能限额，获取潜在客户</div>
             </div>
-            <div class="pd-biz-tier pd-biz-hl">
+            <div class="pd-biz-tier pd-biz-tier--hl">
               <div class="pd-biz-name">订阅版</div>
               <div class="pd-biz-desc">完整功能 + 数据沉淀，月付制</div>
             </div>
@@ -135,62 +137,68 @@ import Layout from '../../layouts/Layout.astro';
 
     <!-- ④ 系统设计 -->
     <section class="pd-section">
-      <div class="section-inner">
-        <p class="section-label reveal">系统设计</p>
-        <h2 class="section-headline reveal reveal-delay-1">多 Agent 协同，<br>三层记忆架构。</h2>
+      <div class="pd-inner">
+        <SectionHeader
+          eyebrow="系统设计"
+          title="多 Agent 协同，<br>三层记忆架构。"
+        />
 
-        <!-- Agent 架构 -->
         <div class="pd-arch reveal reveal-delay-2">
-          <div class="pd-arch-caption">Agent 协同架构</div>
+          <div class="pd-card-eyebrow">Agent 协同架构</div>
           <div class="pd-arch-diagram">
+            <!-- 主 Agent -->
             <div class="pd-arch-main-row">
-              <div class="pd-arch-node pd-arch-main">
-                <div class="pd-anode-icon">⚙</div>
-                <div class="pd-anode-name">主 Agent</div>
-                <div class="pd-anode-desc">工作流管理 · 任务分发 · 上下文维护</div>
+              <div class="pd-arch-node pd-arch-node--main">
+                <div class="pd-node-glyph">⚙</div>
+                <div class="pd-node-name">主 Agent</div>
+                <div class="pd-node-desc">工作流管理 · 任务分发 · 上下文维护</div>
               </div>
             </div>
-            <div class="pd-arch-tree">
-              <div class="pd-arch-vline"></div>
-              <div class="pd-arch-hline"></div>
+            <!-- 连线 -->
+            <div class="pd-arch-connector">
+              <div class="pd-conn-vline"></div>
+              <div class="pd-conn-hline"></div>
             </div>
-            <div class="pd-arch-experts-row">
-              <div class="pd-arch-node pd-arch-expert">
-                <div class="pd-anode-icon">✎</div>
-                <div class="pd-anode-name">内容生成 Agent</div>
-                <div class="pd-anode-desc">文案 · 配图 · 素材包</div>
+            <!-- 专家 Agents -->
+            <div class="pd-arch-experts">
+              <div class="pd-arch-node pd-arch-node--expert">
+                <div class="pd-conn-vline-branch"></div>
+                <div class="pd-node-glyph">✎</div>
+                <div class="pd-node-name">内容生成 Agent</div>
+                <div class="pd-node-desc">文案 · 配图 · 素材包</div>
               </div>
-              <div class="pd-arch-node pd-arch-expert">
-                <div class="pd-anode-icon">◎</div>
-                <div class="pd-anode-name">投放决策 Agent</div>
-                <div class="pd-anode-desc">预算分配 · 受众定位 · 出价</div>
+              <div class="pd-arch-node pd-arch-node--expert">
+                <div class="pd-conn-vline-branch"></div>
+                <div class="pd-node-glyph">◎</div>
+                <div class="pd-node-name">投放决策 Agent</div>
+                <div class="pd-node-desc">预算分配 · 受众定位 · 出价</div>
               </div>
-              <div class="pd-arch-node pd-arch-expert">
-                <div class="pd-anode-icon">◈</div>
-                <div class="pd-anode-name">数据分析 Agent</div>
-                <div class="pd-anode-desc">效果监测 · 诊断 · 优化建议</div>
+              <div class="pd-arch-node pd-arch-node--expert">
+                <div class="pd-conn-vline-branch"></div>
+                <div class="pd-node-glyph">◈</div>
+                <div class="pd-node-name">数据分析 Agent</div>
+                <div class="pd-node-desc">效果监测 · 诊断 · 优化建议</div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- 三层记忆 -->
         <div class="pd-memory reveal reveal-delay-3">
-          <div class="pd-arch-caption">三层记忆架构</div>
+          <div class="pd-card-eyebrow">三层记忆架构</div>
           <div class="pd-mem-layers">
-            <div class="pd-mem-layer pd-mem-l1">
+            <div class="pd-mem-layer pd-mem-layer--1">
               <div class="pd-mem-name">Session Memory</div>
               <div class="pd-mem-desc">当前对话上下文 · 任务状态 · 临时变量</div>
             </div>
             <div class="pd-mem-arrow">↓</div>
-            <div class="pd-mem-layer pd-mem-l2">
+            <div class="pd-mem-layer pd-mem-layer--2">
               <div class="pd-mem-name">Merchant Memory</div>
               <div class="pd-mem-desc">商家 SKU 库 · 素材风格偏好 · 历史投放策略</div>
             </div>
             <div class="pd-mem-arrow">↓</div>
-            <div class="pd-mem-layer pd-mem-l3">
+            <div class="pd-mem-layer pd-mem-layer--3">
               <div class="pd-mem-name">Knowledge Base</div>
-              <div class="pd-mem-desc">1万+ 素材库 · 1–2千条策略库 · 敏感词库 · 图片风格库<br>向量 + 混合检索 · AI 初标 + 人工审核</div>
+              <div class="pd-mem-desc">1万+ 素材库 · 1–2千条策略库 · 敏感词库 · 图片风格库 · 向量 + 混合检索 · AI 初标 + 人工审核</div>
             </div>
           </div>
         </div>
@@ -199,78 +207,80 @@ import Layout from '../../layouts/Layout.astro';
 
     <!-- ⑤ 核心功能 -->
     <section class="pd-section pd-alt">
-      <div class="section-inner">
-        <p class="section-label reveal">核心功能</p>
-        <h2 class="section-headline reveal reveal-delay-1">四个模块，<br>覆盖投放全链路。</h2>
+      <div class="pd-inner">
+        <SectionHeader
+          eyebrow="核心功能"
+          title="四个模块，<br>覆盖投放全链路。"
+        />
 
         <div class="pd-features">
           <div class="pd-feature reveal">
-            <div class="pd-feature-img">
-              <div class="pd-img-placeholder">
-                <span class="pd-ph-main">截图待补充</span>
-                <span class="pd-ph-sub">SKU 录入界面</span>
+            <div class="pd-feature-media">
+              <div class="pd-placeholder">
+                <span class="pd-placeholder-main">截图待补充</span>
+                <span class="pd-placeholder-sub">SKU 录入界面</span>
               </div>
             </div>
             <div class="pd-feature-body">
-              <div class="pd-fnum">01</div>
-              <div class="pd-ftitle">SKU 录入</div>
-              <p class="pd-fdesc">商家通过结构化表单录入商品信息，系统自动解析并入库，作为后续素材生成的上下文基础。</p>
-              <div class="pd-fdecision">
-                <div class="pd-fdec-label">设计决策</div>
+              <div class="pd-feature-num">01</div>
+              <h3 class="pd-feature-title">SKU 录入</h3>
+              <p class="pd-feature-desc">商家通过结构化表单录入商品信息，系统自动解析并入库，作为后续素材生成的上下文基础。</p>
+              <div class="pd-decision">
+                <div class="pd-decision-label">设计决策</div>
                 <p>表单优于对话：SKU 信息字段明确、结构固定。用多轮对话收集会产生难以维护的状态机，表单一次性提交反而更可靠、更易校验。</p>
               </div>
             </div>
           </div>
 
-          <div class="pd-feature pd-feature-rev reveal">
-            <div class="pd-feature-img">
-              <div class="pd-img-placeholder">
-                <span class="pd-ph-main">截图待补充</span>
-                <span class="pd-ph-sub">素材生成界面</span>
+          <div class="pd-feature pd-feature--rev reveal">
+            <div class="pd-feature-media">
+              <div class="pd-placeholder">
+                <span class="pd-placeholder-main">截图待补充</span>
+                <span class="pd-placeholder-sub">素材生成界面</span>
               </div>
             </div>
             <div class="pd-feature-body">
-              <div class="pd-fnum">02</div>
-              <div class="pd-ftitle">素材生成（文案 + 配图）</div>
-              <p class="pd-fdesc">选择 SKU + 投放模板，一键生成完整素材包。通义千问生成文案，万象生成配图，端到端 10 分钟内完成，效率提升 5×。</p>
-              <div class="pd-fdecision">
-                <div class="pd-fdec-label">设计决策</div>
+              <div class="pd-feature-num">02</div>
+              <h3 class="pd-feature-title">素材生成（文案 + 配图）</h3>
+              <p class="pd-feature-desc">选择 SKU + 投放模板，一键生成完整素材包。通义千问生成文案，万象生成配图，端到端 10 分钟内完成，效率提升 5×。</p>
+              <div class="pd-decision">
+                <div class="pd-decision-label">设计决策</div>
                 <p>从「完全复刻模板图」到「提取风格 + 重新生成」：前者受扩散模型限制准确率低，后者将风格信息结构化为 prompt，结合 System Prompt 优化，准确率从 70% 提升至 98.6%。</p>
               </div>
             </div>
           </div>
 
           <div class="pd-feature reveal">
-            <div class="pd-feature-img">
-              <div class="pd-img-placeholder">
-                <span class="pd-ph-main">截图待补充</span>
-                <span class="pd-ph-sub">投放报告界面</span>
+            <div class="pd-feature-media">
+              <div class="pd-placeholder">
+                <span class="pd-placeholder-main">截图待补充</span>
+                <span class="pd-placeholder-sub">投放报告界面</span>
               </div>
             </div>
             <div class="pd-feature-body">
-              <div class="pd-fnum">03</div>
-              <div class="pd-ftitle">投放报告</div>
-              <p class="pd-fdesc">汇总投放数据，可视化展示 CTR、CVR、ROI 等核心指标，支持 CSV 批量导入历史数据。</p>
-              <div class="pd-fdecision">
-                <div class="pd-fdec-label">设计决策</div>
+              <div class="pd-feature-num">03</div>
+              <h3 class="pd-feature-title">投放报告</h3>
+              <p class="pd-feature-desc">汇总投放数据，可视化展示 CTR、CVR、ROI 等核心指标，支持 CSV 批量导入历史数据。</p>
+              <div class="pd-decision">
+                <div class="pd-decision-label">设计决策</div>
                 <p>效果数据由商家手动回填而非 API 对接：初期与平台无授权关系，回填成本低、数据可控，且作为 Knowledge Base 的训练素材持续优化模型。</p>
               </div>
             </div>
           </div>
 
-          <div class="pd-feature pd-feature-rev reveal">
-            <div class="pd-feature-img">
-              <div class="pd-img-placeholder">
-                <span class="pd-ph-main">截图待补充</span>
-                <span class="pd-ph-sub">投放诊断界面</span>
+          <div class="pd-feature pd-feature--rev reveal">
+            <div class="pd-feature-media">
+              <div class="pd-placeholder">
+                <span class="pd-placeholder-main">截图待补充</span>
+                <span class="pd-placeholder-sub">投放诊断界面</span>
               </div>
             </div>
             <div class="pd-feature-body">
-              <div class="pd-fnum">04</div>
-              <div class="pd-ftitle">投放诊断</div>
-              <p class="pd-fdesc">AI 分析当前投放效果，输出结构化诊断报告和优化方案，识别预算分配问题、素材疲劳信号、受众偏移等。</p>
-              <div class="pd-fdecision">
-                <div class="pd-fdec-label">设计决策</div>
+              <div class="pd-feature-num">04</div>
+              <h3 class="pd-feature-title">投放诊断</h3>
+              <p class="pd-feature-desc">AI 分析当前投放效果，输出结构化诊断报告和优化方案，识别预算分配问题、素材疲劳信号、受众偏移等。</p>
+              <div class="pd-decision">
+                <div class="pd-decision-label">设计决策</div>
                 <p>诊断采用任务式输出而非开放对话：结构化诊断比一问一答更准确，且可溯源到具体数据，避免 AI 幻觉产生不可信的建议。</p>
               </div>
             </div>
@@ -281,76 +291,76 @@ import Layout from '../../layouts/Layout.astro';
 
     <!-- ⑥ 关键挑战 -->
     <section class="pd-section">
-      <div class="section-inner">
-        <p class="section-label reveal">关键挑战</p>
-        <h2 class="section-headline reveal reveal-delay-1">三个难题，<br>三次范式转换。</h2>
+      <div class="pd-inner">
+        <SectionHeader
+          eyebrow="关键挑战"
+          title="三个难题，<br>三次范式转换。"
+        />
 
-        <div class="pd-challenges">
-          <!-- C1: 架构演进 -->
-          <div class="pd-challenge reveal">
-            <div class="pd-ch-header">
-              <div class="pd-ch-num">01</div>
-              <div class="pd-ch-title">架构演进：从硬编码到 FlowEngine 分层</div>
+        <!-- 挑战 1 -->
+        <div class="pd-challenge reveal">
+          <div class="pd-ch-head">
+            <span class="pd-ch-num">01</span>
+            <h3 class="pd-ch-title">架构演进：从硬编码到 FlowEngine 分层</h3>
+          </div>
+          <div class="pd-evolution">
+            <div class="pd-evo-step pd-evo-step--bad">
+              <div class="pd-evo-label">硬编码阶段</div>
+              <p>工作流写死在代码里，每次新需求都要改底层逻辑，多表单串联导致状态混乱，Bug 频发难以维护。</p>
             </div>
-            <div class="pd-evolution">
-              <div class="pd-evo-step pd-evo-bad">
-                <div class="pd-evo-lbl">硬编码阶段</div>
-                <p>工作流写死在代码里，每次新需求都要改底层逻辑，多表单串联导致状态混乱，Bug 频发难以维护。</p>
-              </div>
-              <div class="pd-evo-arr">→</div>
-              <div class="pd-evo-step pd-evo-mid">
-                <div class="pd-evo-lbl">纯 Agent 阶段</div>
-                <p>将所有流程交给 Agent 自主决策，但复杂表单填写（SKU 录入等）AI 幻觉严重，稳定性差，连续多步骤流程容易中断。</p>
-              </div>
-              <div class="pd-evo-arr">→</div>
-              <div class="pd-evo-step pd-evo-good">
-                <div class="pd-evo-lbl">FlowEngine 分层</div>
-                <p>结构化流程（表单、规则逻辑）由 FlowEngine 确定性执行，开放性分析（诊断、生成建议）交由 Agent 处理，兼顾 AI 灵活性与系统稳定性。</p>
-              </div>
+            <div class="pd-evo-arrow">→</div>
+            <div class="pd-evo-step pd-evo-step--mid">
+              <div class="pd-evo-label">纯 Agent 阶段</div>
+              <p>将所有流程交给 Agent 自主决策，但复杂表单填写（SKU 录入等）AI 幻觉严重，稳定性差，连续多步骤流程容易中断。</p>
+            </div>
+            <div class="pd-evo-arrow">→</div>
+            <div class="pd-evo-step pd-evo-step--good">
+              <div class="pd-evo-label">FlowEngine 分层</div>
+              <p>结构化流程（表单、规则逻辑）由 FlowEngine 确定性执行，开放性分析（诊断、生成建议）交由 Agent 处理，兼顾 AI 灵活性与系统稳定性。</p>
             </div>
           </div>
+        </div>
 
-          <!-- C2: 准确率 -->
-          <div class="pd-challenge reveal reveal-delay-1">
-            <div class="pd-ch-header">
-              <div class="pd-ch-num">02</div>
-              <div class="pd-ch-title">图片生成准确率：从 70% 到 98.6%</div>
+        <!-- 挑战 2 -->
+        <div class="pd-challenge reveal reveal-delay-1">
+          <div class="pd-ch-head">
+            <span class="pd-ch-num">02</span>
+            <h3 class="pd-ch-title">图片生成准确率：从 70% 到 98.6%</h3>
+          </div>
+          <div class="pd-evolution pd-evolution--2col">
+            <div class="pd-evo-step pd-evo-step--bad">
+              <div class="pd-evo-label">初版方案</div>
+              <p>直接让模型「完全复刻参考图」，受扩散模型特性限制，构图漂移严重、细节还原差，准确率仅 70%，质量不可用。</p>
             </div>
-            <div class="pd-evolution pd-evolution-2col">
-              <div class="pd-evo-step pd-evo-bad">
-                <div class="pd-evo-lbl">初版方案</div>
-                <p>直接让模型「完全复刻参考图」，受扩散模型特性限制，构图漂移严重、细节还原差，准确率仅 70%，质量不可用。</p>
-              </div>
-              <div class="pd-evo-arr">→</div>
-              <div class="pd-evo-step pd-evo-good">
-                <div class="pd-evo-lbl">优化方案</div>
-                <p>放弃「复刻」思路，改为：① 从模板提取风格信息（色调、构图、排版规则）结构化为 prompt；② 结合 SKU 素材文案重新生成；③ 优化模型选型 + System Prompt 工程。准确率提升至 98.6%，模型成本同步降低 95%。</p>
-              </div>
+            <div class="pd-evo-arrow">→</div>
+            <div class="pd-evo-step pd-evo-step--good">
+              <div class="pd-evo-label">优化方案</div>
+              <p>放弃「复刻」思路，改为：① 从模板提取风格信息（色调、构图、排版规则）结构化为 prompt；② 结合 SKU 素材文案重新生成；③ 优化模型选型 + System Prompt 工程。准确率提升至 98.6%，模型成本同步降低 95%。</p>
             </div>
           </div>
+        </div>
 
-          <!-- C3: 对话记录 -->
-          <div class="pd-challenge reveal reveal-delay-2">
-            <div class="pd-ch-header">
-              <div class="pd-ch-num">03</div>
-              <div class="pd-ch-title">产品哲学之争：要不要展示对话记录？</div>
+        <!-- 挑战 3 -->
+        <div class="pd-challenge reveal reveal-delay-2">
+          <div class="pd-ch-head">
+            <span class="pd-ch-num">03</span>
+            <h3 class="pd-ch-title">产品哲学之争：要不要展示对话记录？</h3>
+          </div>
+          <div class="pd-debate">
+            <div class="pd-debate-sides">
+              <div class="pd-debate-side pd-debate-side--for">
+                <div class="pd-debate-label">支持展示</div>
+                <p>增强透明感，用户可以了解 AI 推理过程，有助于建立信任感。</p>
+              </div>
+              <div class="pd-debate-vs">VS</div>
+              <div class="pd-debate-side pd-debate-side--against">
+                <div class="pd-debate-label">反对展示</div>
+                <p>产品已有 SKU 库、素材库、策略库作为可溯源的数据基础；系统以任务式主导为核心，原始对话流对用户决策无实质帮助，反而增加认知负担。</p>
+              </div>
             </div>
-            <div class="pd-debate">
-              <div class="pd-debate-sides">
-                <div class="pd-debate-side pd-debate-for">
-                  <div class="pd-db-lbl">支持展示</div>
-                  <p>增强透明感，用户可以了解 AI 推理过程，有助于建立信任感。</p>
-                </div>
-                <div class="pd-debate-vs">VS</div>
-                <div class="pd-debate-side pd-debate-against">
-                  <div class="pd-db-lbl">反对展示</div>
-                  <p>产品已有 SKU 库、素材库、策略库作为可溯源的数据基础；系统以任务式主导为核心，原始对话流对用户决策无实质帮助，反而增加认知负担。</p>
-                </div>
-              </div>
-              <div class="pd-debate-result">
-                <div class="pd-dr-lbl">最终决策</div>
-                <p>不展示对话记录。将 AI 的工作过程转化为结构化的「诊断报告」和「优化建议」，以用户可读的产品形态呈现结果，而非原始对话流。</p>
-              </div>
+            <div class="pd-debate-result">
+              <div class="pd-debate-result-label">最终决策</div>
+              <p>不展示对话记录。将 AI 的工作过程转化为结构化的「诊断报告」和「优化建议」，以用户可读的产品形态呈现结果，而非原始对话流。</p>
             </div>
           </div>
         </div>
@@ -359,27 +369,30 @@ import Layout from '../../layouts/Layout.astro';
 
     <!-- ⑦ 结果 -->
     <section class="pd-results">
-      <div class="pd-results-inner">
-        <p class="section-label reveal" style="color:rgba(255,255,255,0.45)">项目成果</p>
-        <h2 class="section-headline reveal reveal-delay-1" style="color:#fff; margin-bottom:56px">数字说话。</h2>
+      <div class="pd-inner">
+        <SectionHeader
+          eyebrow="项目成果"
+          title="数字说话。"
+          theme="dark"
+        />
         <div class="pd-results-grid">
-          <div class="pd-ri reveal reveal-delay-1"><div class="pd-ri-val">3×</div><div class="pd-ri-lbl">内容生产效率</div></div>
-          <div class="pd-ri reveal reveal-delay-2"><div class="pd-ri-val">50→250</div><div class="pd-ri-lbl">周素材产出（条）</div></div>
-          <div class="pd-ri reveal reveal-delay-3"><div class="pd-ri-val">98.6%</div><div class="pd-ri-lbl">素材生成准确率</div></div>
-          <div class="pd-ri reveal reveal-delay-4"><div class="pd-ri-val">252万</div><div class="pd-ri-lbl">年收入</div></div>
-          <div class="pd-ri reveal reveal-delay-5"><div class="pd-ri-val">20家</div><div class="pd-ri-lbl">付费客户</div></div>
-          <div class="pd-ri reveal reveal-delay-6"><div class="pd-ri-val">85%+</div><div class="pd-ri-lbl">客户留存率</div></div>
-          <div class="pd-ri reveal reveal-delay-1"><div class="pd-ri-val">−95%</div><div class="pd-ri-lbl">模型成本降低</div></div>
+          <div class="pd-result reveal reveal-delay-1"><div class="pd-result-val">3×</div><div class="pd-result-lbl">内容生产效率</div></div>
+          <div class="pd-result reveal reveal-delay-2"><div class="pd-result-val">50→250</div><div class="pd-result-lbl">周素材产出（条）</div></div>
+          <div class="pd-result reveal reveal-delay-3"><div class="pd-result-val">98.6%</div><div class="pd-result-lbl">素材生成准确率</div></div>
+          <div class="pd-result reveal reveal-delay-4"><div class="pd-result-val">252万</div><div class="pd-result-lbl">年收入</div></div>
+          <div class="pd-result reveal reveal-delay-5"><div class="pd-result-val">20家</div><div class="pd-result-lbl">付费客户</div></div>
+          <div class="pd-result reveal reveal-delay-6"><div class="pd-result-val">85%+</div><div class="pd-result-lbl">客户留存率</div></div>
+          <div class="pd-result reveal reveal-delay-1"><div class="pd-result-val">−95%</div><div class="pd-result-lbl">模型成本降低</div></div>
         </div>
       </div>
     </section>
 
     <!-- ⑧ 项目导航 -->
     <div class="pd-proj-nav">
-      <a class="pd-pnav-back" href="/projects">← 所有项目</a>
-      <a class="pd-pnav-next" href="/projects/jd-promo">
-        <span class="pd-pnav-label">下一个项目</span>
-        <span class="pd-pnav-title">京东大促互动产品 →</span>
+      <a class="pd-nav-back" href="/projects">← 所有项目</a>
+      <a class="pd-nav-next" href="/projects/jd-promo">
+        <span class="pd-nav-next-hint">下一个项目</span>
+        <span class="pd-nav-next-name">京东大促互动产品 →</span>
       </a>
     </div>
 
@@ -387,269 +400,303 @@ import Layout from '../../layouts/Layout.astro';
 </Layout>
 
 <style>
-/* ─── 共用 ─── */
-.section-inner {
+/* ─── 布局基础 ─── */
+.pd-inner {
   max-width: 1080px;
   margin: 0 auto;
   padding: 0 40px;
 }
-.pd-section { padding: 120px 0; background: var(--bg); }
-.pd-alt     { background: var(--bg-alt); }
+
+.pd-section {
+  padding: 120px 0;
+  background: var(--bg);
+}
+
+.pd-alt {
+  background: var(--bg-alt);
+}
 
 /* ─── Hero ─── */
 .pd-hero {
-  background: #0a0a0a;
+  background: var(--canvas-dark);
   padding: 160px 40px 100px;
 }
-.pd-hero-inner {
-  max-width: 1080px;
-  margin: 0 auto;
-}
+
 .pd-hero-tags {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
-  margin-bottom: 28px;
+  margin-bottom: 32px;
 }
-.pd-htag {
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 100px;
-  padding: 4px 14px;
-  font-size: 12px;
-  color: rgba(255,255,255,0.5);
-  letter-spacing: .3px;
-}
+
 .pd-hero-title {
-  font-family: 'Syne', sans-serif;
-  font-size: clamp(52px, 8vw, 96px);
+  font-family: var(--font-display);
+  font-size: clamp(56px, 9vw, 112px);
   font-weight: 800;
-  color: #fff;
   letter-spacing: -.04em;
-  line-height: 1;
-  margin-bottom: 20px;
+  line-height: .96;
+  color: var(--text-inv);
+  margin-bottom: 24px;
 }
+
 .pd-hero-sub {
   font-size: 20px;
-  color: rgba(255,255,255,0.45);
+  color: var(--muted-inv);
   line-height: 1.6;
-  margin-bottom: 60px;
+  margin-bottom: 56px;
 }
-.pd-hero-metrics {
+
+.pd-hero-rule {
+  height: 1px;
+  background: var(--border-inv);
+  margin-bottom: 40px;
+}
+
+.pd-hero-stats {
   display: flex;
-  align-items: center;
-  gap: 0;
+  gap: 48px;
   flex-wrap: wrap;
-  border-top: 1px solid rgba(255,255,255,0.1);
-  padding-top: 36px;
 }
-.pd-hm {
-  padding: 0 32px 0 0;
-  flex-shrink: 0;
-}
-.pd-hm:first-child { padding-left: 0; }
-.pd-hm-val {
-  font-family: 'Syne', sans-serif;
-  font-size: 28px;
+
+.pd-stat-val {
+  font-family: var(--font-display);
+  font-size: 30px;
   font-weight: 700;
-  color: #fff;
+  color: var(--text-inv);
   letter-spacing: -.02em;
+  margin-bottom: 4px;
 }
-.pd-hm-lbl {
+
+.pd-stat-lbl {
   font-size: 12px;
-  color: rgba(255,255,255,0.35);
-  margin-top: 4px;
-}
-.pd-hm-div {
-  width: 1px;
-  height: 40px;
-  background: rgba(255,255,255,0.1);
-  margin: 0 32px 0 0;
-  flex-shrink: 0;
+  color: var(--muted-inv);
 }
 
 /* ─── 背景与问题 ─── */
 .pd-problem-grid {
   display: grid;
-  grid-template-columns: 280px 1fr;
+  grid-template-columns: 260px 1fr;
   gap: 24px;
-  margin-top: 48px;
+  align-items: start;
 }
+
 .pd-user-card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: 28px 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  position: sticky;
+  top: 80px;
 }
-.pd-user-icon { font-size: 28px; }
-.pd-user-title {
+
+.pd-user-label {
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--muted);
-  margin-top: 4px;
+  margin-bottom: 10px;
 }
-.pd-user-desc {
-  font-family: 'Syne', sans-serif;
+
+.pd-user-name {
+  font-family: var(--font-display);
   font-size: 18px;
   font-weight: 600;
   line-height: 1.4;
   color: var(--text);
+  margin-bottom: 20px;
 }
-.pd-market {
+
+.pd-user-rule {
+  height: 1px;
+  background: var(--border);
+  margin-bottom: 20px;
+}
+
+.pd-user-market {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-top: 12px;
-  padding-top: 16px;
-  border-top: 1px solid var(--border);
+  gap: 14px;
 }
+
 .pd-market-val {
-  font-family: 'Syne', sans-serif;
-  font-size: 18px;
+  font-family: var(--font-display);
+  font-size: 20px;
   font-weight: 700;
   color: var(--accent);
+  letter-spacing: -.02em;
 }
+
 .pd-market-lbl {
   font-size: 11.5px;
   color: var(--muted);
   margin-top: 2px;
 }
+
 .pd-pains {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 1px;
 }
+
 .pd-pain {
   display: flex;
   gap: 20px;
-  padding: 20px 24px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+  padding: 24px 0;
+  border-bottom: 1px solid var(--border);
 }
+
+.pd-pain:first-child {
+  border-top: 1px solid var(--border);
+}
+
 .pd-pain-num {
-  font-family: 'Syne', sans-serif;
+  font-family: var(--font-display);
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--muted);
   flex-shrink: 0;
-  padding-top: 1px;
+  padding-top: 2px;
+  min-width: 24px;
 }
+
 .pd-pain-title {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--text);
-  margin-bottom: 6px;
+  margin-bottom: 8px;
+  letter-spacing: -.01em;
 }
+
 .pd-pain-desc {
-  font-size: 13.5px;
+  font-size: 14px;
   color: var(--muted);
-  line-height: 1.65;
+  line-height: 1.7;
 }
 
 /* ─── 产品策略 ─── */
 .pd-roadmap {
   display: flex;
-  align-items: flex-start;
+  align-items: stretch;
   gap: 0;
-  margin-top: 48px;
+  margin-bottom: 24px;
   overflow-x: auto;
-  padding-bottom: 8px;
+  padding-bottom: 4px;
 }
-.pd-rphase {
+
+.pd-phase {
   flex: 1;
-  min-width: 180px;
+  min-width: 170px;
   padding: 20px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--bg);
 }
-.pd-rphase-done {
-  background: var(--bg);
+
+.pd-phase--done {
   border-color: var(--accent-border);
+  background: var(--accent-bg);
 }
-.pd-rline {
-  width: 24px;
+
+.pd-roadmap-line {
+  width: 20px;
   flex-shrink: 0;
-  height: 2px;
-  background: var(--accent);
-  align-self: center;
-  margin: 0;
-}
-.pd-rline:not(.pd-rline-done) {
   background: var(--border-mid);
+  height: 2px;
+  align-self: center;
 }
-.pd-rphase-dot {
+
+.pd-roadmap-line--done {
+  background: var(--accent);
+}
+
+.pd-phase-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: var(--accent);
   margin-bottom: 10px;
 }
-.pd-rdot-future { background: var(--border-mid); }
-.pd-rphase-tag {
-  font-size: 11px;
+
+.pd-phase-dot--future {
+  background: var(--border-mid);
+}
+
+.pd-phase-tag {
+  font-size: 10.5px;
   font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
   color: var(--accent);
   margin-bottom: 6px;
 }
-.pd-rtag-future { color: var(--muted); }
-.pd-rphase-name {
-  font-family: 'Syne', sans-serif;
-  font-size: 16px;
+
+.pd-phase-tag--future {
+  color: var(--muted);
+}
+
+.pd-phase-name {
+  font-family: var(--font-display);
+  font-size: 15px;
   font-weight: 700;
   color: var(--text);
   margin-bottom: 8px;
 }
-.pd-rphase-desc {
+
+.pd-phase-desc {
   font-size: 12.5px;
   color: var(--muted);
   line-height: 1.6;
 }
+
 .pd-bizmodel {
-  margin-top: 32px;
-  padding: 24px;
-  background: var(--bg);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
+  padding: 24px;
+  background: var(--bg);
   display: flex;
-  align-items: center;
   gap: 24px;
+  align-items: center;
   flex-wrap: wrap;
 }
-.pd-biz-label {
-  font-size: 11.5px;
+
+.pd-biz-eyebrow {
+  font-size: 11px;
   font-weight: 600;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--muted);
   flex-shrink: 0;
 }
-.pd-biz-tiers { display: flex; gap: 12px; flex: 1; flex-wrap: wrap; }
+
+.pd-biz-tiers {
+  display: flex;
+  gap: 12px;
+  flex: 1;
+  flex-wrap: wrap;
+}
+
 .pd-biz-tier {
   flex: 1;
-  min-width: 140px;
+  min-width: 130px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 14px 16px;
   background: var(--surface);
 }
-.pd-biz-hl {
+
+.pd-biz-tier--hl {
   background: var(--accent-bg);
   border-color: var(--accent-border);
 }
+
 .pd-biz-name {
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 600;
   color: var(--text);
   margin-bottom: 4px;
 }
+
 .pd-biz-desc {
   font-size: 12px;
   color: var(--muted);
@@ -657,33 +704,35 @@ import Layout from '../../layouts/Layout.astro';
 }
 
 /* ─── 系统设计 ─── */
-.pd-arch, .pd-memory {
-  margin-top: 48px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 32px;
-  background: var(--surface);
-}
-.pd-memory { margin-top: 24px; }
-.pd-arch-caption {
-  font-size: 11.5px;
+.pd-card-eyebrow {
+  font-size: 11px;
   font-weight: 600;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--muted);
-  margin-bottom: 28px;
+  margin-bottom: 24px;
 }
+
+.pd-arch {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  background: var(--surface);
+  margin-bottom: 16px;
+}
+
 .pd-arch-diagram {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0;
 }
+
 .pd-arch-main-row {
   width: 100%;
   display: flex;
   justify-content: center;
 }
+
 .pd-arch-node {
   border: 1px solid var(--border-mid);
   border-radius: var(--radius);
@@ -691,112 +740,125 @@ import Layout from '../../layouts/Layout.astro';
   text-align: center;
   background: var(--bg);
 }
-.pd-arch-main {
-  width: 320px;
+
+.pd-arch-node--main {
+  width: 300px;
   border-color: var(--accent-border);
   background: var(--accent-bg);
 }
-.pd-anode-icon {
-  font-size: 20px;
-  margin-bottom: 6px;
-}
-.pd-anode-name {
-  font-family: 'Syne', sans-serif;
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 4px;
-}
-.pd-anode-desc {
-  font-size: 12px;
-  color: var(--muted);
-  line-height: 1.5;
+
+.pd-arch-connector {
+  position: relative;
+  height: 44px;
+  width: 66.6%;
+  flex-shrink: 0;
 }
 
-/* Tree connector */
-.pd-arch-tree {
-  position: relative;
-  height: 48px;
-  width: 80%;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-}
-.pd-arch-vline {
-  width: 2px;
-  height: 24px;
-  background: var(--border-mid);
+.pd-conn-vline {
   position: absolute;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
+  width: 2px;
+  height: 22px;
+  background: var(--border-mid);
 }
-.pd-arch-hline {
+
+.pd-conn-hline {
   position: absolute;
-  top: 24px;
-  left: calc(50% - 33.3%);
-  right: calc(50% - 33.3%);
+  top: 22px;
+  left: 0;
+  right: 0;
   height: 2px;
   background: var(--border-mid);
 }
 
-.pd-arch-experts-row {
+.pd-arch-experts {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
 }
-.pd-arch-expert {
-  position: relative;
-}
-.pd-arch-expert::before {
-  content: '';
-  position: absolute;
-  top: -24px;
-  left: 50%;
+
+.pd-conn-vline-branch {
   width: 2px;
-  height: 24px;
+  height: 22px;
   background: var(--border-mid);
-  transform: translateX(-50%);
+  margin: 0 auto 0;
 }
 
-/* Memory layers */
+.pd-node-glyph {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.pd-node-name {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.pd-node-desc {
+  font-size: 11.5px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* Memory */
+.pd-memory {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  background: var(--surface);
+}
+
 .pd-mem-layers {
   display: flex;
   flex-direction: column;
-  align-items: stretch;
-  gap: 0;
 }
+
 .pd-mem-layer {
+  padding: 16px 20px;
   border: 1px solid var(--border-mid);
   border-radius: var(--radius);
-  padding: 16px 20px;
   background: var(--bg);
   display: flex;
+  gap: 20px;
   align-items: flex-start;
-  gap: 16px;
 }
-.pd-mem-l1 { border-color: rgba(0,98,255,0.3); background: rgba(0,98,255,0.04); }
-.pd-mem-l2 { border-color: rgba(0,98,255,0.2); background: rgba(0,98,255,0.02); }
-.pd-mem-l3 { background: var(--surface); }
+
+.pd-mem-layer--1 {
+  border-color: rgba(0,98,255,.3);
+  background: rgba(0,98,255,.04);
+}
+
+.pd-mem-layer--2 {
+  border-color: rgba(0,98,255,.18);
+  background: rgba(0,98,255,.02);
+}
+
 .pd-mem-name {
-  font-family: 'Syne', sans-serif;
+  font-family: var(--font-display);
   font-size: 14px;
   font-weight: 700;
   color: var(--text);
   min-width: 160px;
   flex-shrink: 0;
 }
+
 .pd-mem-desc {
   font-size: 13px;
   color: var(--muted);
   line-height: 1.65;
 }
+
 .pd-mem-arrow {
   text-align: center;
   color: var(--border-mid);
-  font-size: 18px;
-  padding: 4px 0;
+  font-size: 16px;
+  padding: 6px 0;
 }
 
 /* ─── 核心功能 ─── */
@@ -804,24 +866,30 @@ import Layout from '../../layouts/Layout.astro';
   display: flex;
   flex-direction: column;
   gap: 80px;
-  margin-top: 56px;
 }
+
 .pd-feature {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 48px;
+  gap: 56px;
   align-items: center;
 }
-.pd-feature-rev { direction: rtl; }
-.pd-feature-rev > * { direction: ltr; }
-.pd-feature-img {
+
+.pd-feature--rev {
+  direction: rtl;
+}
+.pd-feature--rev > * {
+  direction: ltr;
+}
+
+.pd-feature-media {
   border-radius: var(--radius-lg);
   overflow: hidden;
   aspect-ratio: 16/10;
-  background: var(--bg);
   border: 1px solid var(--border);
 }
-.pd-img-placeholder {
+
+.pd-placeholder {
   width: 100%;
   height: 100%;
   display: flex;
@@ -830,245 +898,274 @@ import Layout from '../../layouts/Layout.astro';
   justify-content: center;
   gap: 6px;
   background: repeating-linear-gradient(
-    45deg,
+    -45deg,
     transparent,
-    transparent 8px,
-    rgba(0,0,0,0.02) 8px,
-    rgba(0,0,0,0.02) 16px
+    transparent 10px,
+    rgba(0,0,0,0.025) 10px,
+    rgba(0,0,0,0.025) 20px
   );
 }
-.pd-ph-main {
+
+.pd-placeholder-main {
   font-size: 12px;
   font-weight: 600;
   color: var(--muted);
-  opacity: 0.5;
+  opacity: .5;
 }
-.pd-ph-sub {
+
+.pd-placeholder-sub {
   font-size: 11px;
   color: var(--muted);
-  opacity: 0.35;
+  opacity: .3;
 }
-.pd-fnum {
-  font-family: 'Syne', sans-serif;
-  font-size: 12px;
+
+.pd-feature-num {
+  font-size: 11px;
   font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
   color: var(--accent);
-  letter-spacing: 1.5px;
   margin-bottom: 10px;
 }
-.pd-ftitle {
-  font-family: 'Syne', sans-serif;
-  font-size: 24px;
+
+.pd-feature-title {
+  font-family: var(--font-display);
+  font-size: 22px;
   font-weight: 700;
   color: var(--text);
   letter-spacing: -.02em;
   margin-bottom: 14px;
 }
-.pd-fdesc {
+
+.pd-feature-desc {
   font-size: 14.5px;
   color: var(--muted);
   line-height: 1.75;
   margin-bottom: 20px;
 }
-.pd-fdecision {
+
+.pd-decision {
   padding: 16px 18px;
   background: var(--surface);
-  border: 1px solid var(--border);
   border-left: 3px solid var(--accent);
   border-radius: 0 var(--radius) var(--radius) 0;
 }
-.pd-fdec-label {
+
+.pd-decision-label {
   font-size: 10.5px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--accent);
   margin-bottom: 6px;
 }
-.pd-fdecision p {
+
+.pd-decision p {
   font-size: 13px;
   color: var(--muted);
   line-height: 1.7;
 }
 
 /* ─── 关键挑战 ─── */
-.pd-challenges {
-  display: flex;
-  flex-direction: column;
-  gap: 48px;
-  margin-top: 56px;
-}
 .pd-challenge {
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  background: var(--bg);
+  border-top: 1px solid var(--border);
+  padding: 40px 0;
 }
-.pd-ch-header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 20px 28px;
+
+.pd-challenge:last-child {
   border-bottom: 1px solid var(--border);
-  background: var(--surface);
 }
+
+.pd-ch-head {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
 .pd-ch-num {
-  font-family: 'Syne', sans-serif;
+  font-family: var(--font-display);
   font-size: 12px;
   font-weight: 700;
-  color: var(--accent);
   letter-spacing: 1.5px;
+  color: var(--accent);
+  flex-shrink: 0;
 }
+
 .pd-ch-title {
-  font-family: 'Syne', sans-serif;
-  font-size: 17px;
+  font-family: var(--font-display);
+  font-size: 20px;
   font-weight: 700;
   color: var(--text);
+  letter-spacing: -.02em;
 }
+
+/* Evolution */
 .pd-evolution {
   display: grid;
   grid-template-columns: 1fr auto 1fr auto 1fr;
   align-items: stretch;
   gap: 0;
-  padding: 24px;
 }
-.pd-evolution-2col {
+
+.pd-evolution--2col {
   grid-template-columns: 1fr auto 1fr;
 }
+
 .pd-evo-step {
-  padding: 20px;
+  padding: 20px 22px;
   border-radius: var(--radius);
   border: 1px solid var(--border);
 }
-.pd-evo-bad {
-  background: rgba(249,68,44,0.04);
-  border-color: rgba(249,68,44,0.2);
+
+.pd-evo-step--bad {
+  background: rgba(249,68,44,.04);
+  border-color: rgba(249,68,44,.2);
 }
-.pd-evo-mid {
-  background: rgba(255,165,0,0.04);
-  border-color: rgba(255,165,0,0.2);
+
+.pd-evo-step--mid {
+  background: var(--amber-bg);
+  border-color: var(--amber-border);
 }
-.pd-evo-good {
+
+.pd-evo-step--good {
   background: var(--green-bg);
   border-color: var(--green-border);
 }
-.pd-evo-lbl {
+
+.pd-evo-label {
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 1.5px;
   text-transform: uppercase;
   margin-bottom: 10px;
-  color: var(--muted);
 }
-.pd-evo-bad .pd-evo-lbl   { color: #f9442c; }
-.pd-evo-mid .pd-evo-lbl   { color: #d97706; }
-.pd-evo-good .pd-evo-lbl  { color: var(--green); }
+
+.pd-evo-step--bad  .pd-evo-label { color: var(--red); }
+.pd-evo-step--mid  .pd-evo-label { color: var(--amber); }
+.pd-evo-step--good .pd-evo-label { color: var(--green); }
+
 .pd-evo-step p {
   font-size: 13px;
   color: var(--muted);
   line-height: 1.7;
 }
-.pd-evo-arr {
+
+.pd-evo-arrow {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 14px;
+  padding: 0 16px;
   color: var(--border-mid);
-  font-size: 20px;
+  font-size: 18px;
+  flex-shrink: 0;
 }
 
 /* Debate */
-.pd-debate { padding: 24px; }
 .pd-debate-sides {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: 0;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
+
 .pd-debate-side {
-  padding: 18px 20px;
+  padding: 20px;
   border-radius: var(--radius);
   border: 1px solid var(--border);
 }
-.pd-debate-for {
+
+.pd-debate-side--for {
   background: var(--accent-bg);
   border-color: var(--accent-border);
 }
-.pd-debate-against {
+
+.pd-debate-side--against {
   background: var(--surface);
 }
+
 .pd-debate-vs {
   text-align: center;
   padding: 0 20px;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   color: var(--muted);
   letter-spacing: 1px;
+  flex-shrink: 0;
 }
-.pd-db-lbl {
+
+.pd-debate-label {
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: var(--muted);
   margin-bottom: 8px;
+  color: var(--muted);
 }
-.pd-debate-for .pd-db-lbl { color: var(--accent); }
+
+.pd-debate-side--for .pd-debate-label { color: var(--accent); }
+
 .pd-debate-side p {
   font-size: 13px;
   color: var(--muted);
   line-height: 1.65;
 }
+
 .pd-debate-result {
-  padding: 16px 20px;
-  background: #0a0a0a;
+  padding: 18px 22px;
+  background: var(--canvas-dark);
   border-radius: var(--radius);
 }
-.pd-dr-lbl {
+
+.pd-debate-result-label {
   font-size: 10.5px;
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.4);
+  color: rgba(255,255,255,.35);
   margin-bottom: 6px;
 }
+
 .pd-debate-result p {
   font-size: 13.5px;
-  color: rgba(255,255,255,0.75);
+  color: rgba(255,255,255,.7);
   line-height: 1.7;
 }
 
 /* ─── 结果 ─── */
 .pd-results {
-  background: #0a0a0a;
-  padding: 120px 40px;
+  background: var(--canvas-dark);
+  padding: 120px 0;
 }
-.pd-results-inner {
-  max-width: 1080px;
-  margin: 0 auto;
-}
+
 .pd-results-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 2px;
+  gap: 1px;
+  background: var(--border-inv);
+  border: 1px solid var(--border-inv);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
 }
-.pd-ri {
-  padding: 36px 24px;
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: var(--radius);
+
+.pd-result {
+  padding: 36px 28px;
+  background: var(--canvas-dark);
 }
-.pd-ri-val {
-  font-family: 'Syne', sans-serif;
-  font-size: clamp(28px, 3.5vw, 42px);
+
+.pd-result-val {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3.5vw, 44px);
   font-weight: 800;
-  color: #fff;
+  color: var(--text-inv);
   letter-spacing: -.03em;
   margin-bottom: 8px;
 }
-.pd-ri-lbl {
+
+.pd-result-lbl {
   font-size: 12px;
-  color: rgba(255,255,255,0.35);
+  color: var(--muted-inv);
 }
 
 /* ─── 项目导航 ─── */
@@ -1081,59 +1178,64 @@ import Layout from '../../layouts/Layout.astro';
   max-width: 1160px;
   margin: 0 auto;
 }
-.pd-pnav-back {
+
+.pd-nav-back {
   font-size: 13.5px;
   color: var(--muted);
   text-decoration: none;
   transition: color .2s;
 }
-.pd-pnav-back:hover { color: var(--text); }
-.pd-pnav-next {
+
+.pd-nav-back:hover { color: var(--text); }
+
+.pd-nav-next {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  text-decoration: none;
   gap: 2px;
+  text-decoration: none;
 }
-.pd-pnav-label {
+
+.pd-nav-next-hint {
   font-size: 11px;
   color: var(--muted);
   letter-spacing: 1px;
   text-transform: uppercase;
 }
-.pd-pnav-title {
-  font-family: 'Syne', sans-serif;
+
+.pd-nav-next-name {
+  font-family: var(--font-display);
   font-size: 15px;
   font-weight: 700;
   color: var(--text);
   transition: color .2s;
 }
-.pd-pnav-next:hover .pd-pnav-title { color: var(--accent); }
+
+.pd-nav-next:hover .pd-nav-next-name { color: var(--accent); }
 
 /* ─── Responsive ─── */
 @media (max-width: 900px) {
   .pd-problem-grid { grid-template-columns: 1fr; }
-  .pd-feature, .pd-feature-rev { grid-template-columns: 1fr; direction: ltr; }
+  .pd-user-card { position: static; }
+  .pd-feature, .pd-feature--rev { grid-template-columns: 1fr; direction: ltr; }
   .pd-evolution { grid-template-columns: 1fr; }
-  .pd-evo-arr { transform: rotate(90deg); padding: 8px 0; }
+  .pd-evo-arrow { transform: rotate(90deg); padding: 8px 0; justify-content: flex-start; }
   .pd-debate-sides { grid-template-columns: 1fr; }
-  .pd-debate-vs { padding: 8px 0; }
+  .pd-debate-vs { padding: 8px 0; text-align: left; }
   .pd-results-grid { grid-template-columns: repeat(2, 1fr); }
-  .pd-arch-experts-row { grid-template-columns: 1fr; }
-  .pd-arch-tree { display: none; }
-  .pd-arch-expert::before { display: none; }
+  .pd-arch-experts { grid-template-columns: 1fr; }
+  .pd-arch-connector { display: none; }
   .pd-roadmap { flex-direction: column; }
-  .pd-rline { width: 2px; height: 20px; align-self: flex-start; margin-left: 24px; }
+  .pd-roadmap-line { width: 2px; height: 16px; align-self: flex-start; margin-left: 20px; }
 }
+
 @media (max-width: 600px) {
   .pd-hero { padding: 120px 20px 60px; }
   .pd-section { padding: 80px 0; }
-  .section-inner { padding: 0 20px; }
-  .pd-results { padding: 80px 20px; }
+  .pd-inner { padding: 0 20px; }
+  .pd-results { padding: 80px 0; }
   .pd-proj-nav { padding: 24px 20px; }
-  .pd-results-grid { grid-template-columns: repeat(2, 1fr); }
-  .pd-hero-metrics { gap: 16px; }
-  .pd-hm-div { display: none; }
-  .pd-hm { padding: 0; }
+  .pd-hero-stats { gap: 28px; }
+  .pd-results-grid { grid-template-columns: 1fr 1fr; }
 }
 </style>

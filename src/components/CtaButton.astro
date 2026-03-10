@@ -1,0 +1,108 @@
+---
+/**
+ * CtaButton — 胶囊型 CTA 按钮，带红圆圈箭头
+ *
+ * Props:
+ *   href     — 链接地址
+ *   label    — 按钮文字
+ *   variant  — 'dark'（深色底白字，默认）| 'light'（白底深字，适合深色背景上）
+ *   size     — 'md'（默认）| 'sm'（圆圈稍小）
+ *   class    — 额外 class（透传）
+ */
+interface Props {
+  href: string;
+  label: string;
+  variant?: 'dark' | 'light';
+  size?: 'md' | 'sm';
+  class?: string;
+}
+
+const {
+  href,
+  label,
+  variant = 'dark',
+  size = 'md',
+  class: className = '',
+} = Astro.props;
+---
+
+<a
+  class:list={['cta-btn', `cta-btn--${variant}`, `cta-btn--${size}`, className]}
+  href={href}
+>
+  <span class="cta-btn-circle" aria-hidden="true">→</span>
+  {label}
+</a>
+
+<style>
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  border-radius: var(--radius-pill);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  width: fit-content;
+  transition: opacity .2s, transform .25s;
+}
+
+.cta-btn:hover {
+  opacity: 0.85;
+  transform: translateY(-2px);
+}
+
+/* ── Variants ── */
+.cta-btn--dark {
+  background: var(--text);
+  color: var(--text-inv);
+  padding: 6px 22px 6px 6px;
+}
+
+.cta-btn--light {
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--text);
+  padding: 6px 20px 6px 6px;
+}
+
+.cta-btn--light:hover {
+  background: #fff;
+}
+
+/* ── Sizes ── */
+.cta-btn--md .cta-btn-circle {
+  width: 36px;
+  height: 36px;
+  font-size: 16px;
+}
+
+.cta-btn--sm .cta-btn-circle {
+  width: 30px;
+  height: 30px;
+  font-size: 14px;
+}
+
+.cta-btn--sm {
+  font-size: 13px;
+  padding: 5px 18px 5px 5px;
+}
+
+/* ── Circle ── */
+.cta-btn-circle {
+  background: var(--red);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  flex-shrink: 0;
+  line-height: 1;
+  transition: transform .3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cta-btn:hover .cta-btn-circle {
+  transform: rotate(45deg) scale(1.08);
+}
+</style>

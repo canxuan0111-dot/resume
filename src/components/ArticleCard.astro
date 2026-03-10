@@ -1,0 +1,103 @@
+---
+/**
+ * ArticleCard — 文章卡片
+ *
+ * Props:
+ *   href        — 文章链接
+ *   title       — 文章标题
+ *   date        — 日期字符串（如 "2026-03"）
+ *   readTime    — 阅读时长（如 "15 min"）
+ *   coverStyle  — 封面背景 CSS（inline style 字符串，如 "background: linear-gradient(...)"）
+ *   soon        — 是否即将上线（显示降低透明度）
+ */
+interface Props {
+  href: string;
+  title: string;
+  date: string;
+  readTime: string;
+  coverStyle?: string;
+  soon?: boolean;
+}
+
+const {
+  href,
+  title,
+  date,
+  readTime,
+  coverStyle = 'background: #f0f0f0',
+  soon = false,
+} = Astro.props;
+---
+
+<a class:list={['ac', soon && 'ac--soon']} href={href}>
+  <div class="ac-cover" style={coverStyle}></div>
+  <div class="ac-body">
+    <div class="ac-meta">{date} · {readTime}</div>
+    <div class="ac-title">{title}</div>
+    <div class="ac-arrow" aria-hidden="true">↗</div>
+  </div>
+</a>
+
+<style>
+.ac {
+  background: var(--bg);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  transition: transform .28s cubic-bezier(.25,.46,.45,.94), box-shadow .28s;
+}
+
+.ac:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.09);
+}
+
+.ac--soon { opacity: 0.72; }
+
+.ac-cover {
+  width: 100%;
+  aspect-ratio: 16/9;
+}
+
+.ac-body {
+  padding: 20px 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+  position: relative;
+}
+
+.ac-meta {
+  font-size: 11.5px;
+  color: var(--muted);
+  font-weight: 500;
+  letter-spacing: .5px;
+}
+
+.ac-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.45;
+  letter-spacing: -.01em;
+  padding-right: 28px;
+}
+
+.ac-arrow {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  font-size: 16px;
+  color: var(--muted);
+  transition: color .2s, transform .25s;
+}
+
+.ac:hover .ac-arrow {
+  color: var(--text);
+  transform: translate(2px, -2px);
+}
+</style>
